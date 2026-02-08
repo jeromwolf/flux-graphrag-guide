@@ -1,0 +1,36 @@
+{
+  "name": "flux-graphrag-guide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "한국 GraphRAG 가이드 - 커리큘럼 + 도메인 유스케이스",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "build:pptx": "node scripts/build-pptx.js --all",
+    "build:pptx:part1": "node scripts/build-pptx.js --part 1",
+    "build:pptx:part2": "node scripts/build-pptx.js --part 2",
+    "build:pptx:part3": "node scripts/build-pptx.js --part 3",
+    "build:pptx:part4": "node scripts/build-pptx.js --part 4",
+    "build:pptx:part5": "node scripts/build-pptx.js --part 5",
+    "build:pptx:part6": "node scripts/build-pptx.js --part 6",
+    "build:pptx:part7": "node scripts/build-pptx.js --part 7"
+  },
+  "dependencies": {
+    "next": "^16.1.6",
+    "pptxgenjs": "^4.0.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^25.2.1",
+    "@types/react": "^19.2.13",
+    "eslint": "^10.0.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3"
+  }
+}

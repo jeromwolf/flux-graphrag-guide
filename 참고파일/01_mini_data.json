@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "stage": "0단계 미니 데모 (Stage 0 Mini Demo)",
+    "total_nodes": 7,
+    "total_relationships": 8,
+    "node_breakdown": {
+      "Process (공정)": 3,
+      "Equipment (설비)": 1,
+      "Defect (결함)": 1,
+      "Inspection (검사)": 1,
+      "Component (원자재)": 1
+    }
+  },
+
+  "nodes": {
+
+    "processes": [
+      {"process_id": "PRC-001", "name": "혼합 (Mixing)"},
+      {"process_id": "PRC-003", "name": "열압착 (Hot Press)"},
+      {"process_id": "PRC-005", "name": "연마 (Grinding)"}
+    ],
+
+    "equipment": [
+      {"equipment_id": "EQP-003", "name": "열압착 프레스 HP-01 (Hot Press HP-01)"}
+    ],
+
+    "defects": [
+      {
+        "defect_id": "DEF-001",
+        "name": "접착 박리 (Delamination)",
+        "severity": "Critical (치명)"
+      }
+    ],
+
+    "inspections": [
+      {"inspection_id": "INS-001", "name": "전단강도 시험 (Shear Strength Test)"}
+    ],
+
+    "components": [
+      {"component_id": "CMP-001", "name": "마찰재 (Friction Material)"}
+    ]
+  },
+
+  "relationships": [
+    {"type": "NEXT",               "source": "PRC-001", "target": "PRC-003", "_desc": "혼합 → 열압착"},
+    {"type": "NEXT",               "source": "PRC-003", "target": "PRC-005", "_desc": "열압착 → 연마"},
+    {"type": "USES_EQUIPMENT",     "source": "PRC-003", "target": "EQP-003", "_desc": "열압착 공정 → HP-01 사용"},
+    {"type": "USES_MATERIAL",      "source": "PRC-001", "target": "CMP-001", "_desc": "혼합 공정 → 마찰재 투입"},
+    {"type": "DETECTED_AT",        "source": "DEF-001", "target": "INS-001", "_desc": "접착 박리 → 전단강도 시험에서 발견"},
+    {"type": "CAUSED_BY_PROCESS",  "source": "DEF-001", "target": "PRC-003", "_desc": "접착 박리 ← 열압착 공정이 원인"},
+    {"type": "CAUSED_BY_EQUIPMENT","source": "DEF-001", "target": "EQP-003", "_desc": "접착 박리 ← HP-01 설비가 원인"},
+    {"type": "INSPECTS",           "source": "INS-001", "target": "PRC-003", "_desc": "전단강도 시험 → 열압착 공정 검증"}
+  ]
+}

@@ -1,0 +1,90 @@
+# ============================================================
+# 0단계 미니 온톨로지 — 최소 구성
+# Stage 0 Mini Ontology — Minimal Configuration
+# ──────────────────────────────────────────────
+# 노드: 3종 (공정, 설비, 결함) + 보조 2종 (원자재, 검사)
+# 관계: 5종
+# 목표: "결함 → 원인 공정 → 원인 설비" 3-hop 추적 체험
+# ============================================================
+
+metadata:
+  stage: "0단계 - 미니 데모 (Stage 0 - Mini Demo)"
+  total_node_types: 5
+  total_relationship_types: 5
+  target_nodes: "7개 (7 nodes)"
+  target_relationships: "8개 (8 relationships)"
+  design_principle: "프로퍼티는 ID + 이름만. 복잡한 건 1단계에서."
+
+# ────────────────────────────────────────
+# 핵심 질의 (이것 하나만 답하면 성공)
+# ────────────────────────────────────────
+target_query:
+  question_kr: "접착 박리 결함의 원인 공정과 설비는?"
+  question_en: "What process and equipment caused the delamination defect?"
+  type: "다단계 추론 (Multi-hop, 3-hop)"
+  path: "결함(Defect) → 검사(Inspection) → 공정(Process) → 설비(Equipment)"
+
+# ────────────────────────────────────────
+# 엔티티 (5종, 최소 프로퍼티)
+# ────────────────────────────────────────
+entities:
+
+  - label: Process
+    label_kr: 공정
+    properties: [process_id, name]
+
+  - label: Equipment
+    label_kr: 설비
+    properties: [equipment_id, name]
+
+  - label: Defect
+    label_kr: 결함
+    properties: [defect_id, name, severity]
+
+  - label: Inspection
+    label_kr: 검사
+    properties: [inspection_id, name]
+
+  - label: Component
+    label_kr: 원자재
+    properties: [component_id, name]
+
+# ────────────────────────────────────────
+# 관계 (5종, 최소 구성)
+# ────────────────────────────────────────
+relationships:
+
+  - type: NEXT
+    type_kr: "다음 공정"
+    source: "Process (공정)"
+    target: "Process (공정)"
+
+  - type: USES_EQUIPMENT
+    type_kr: "설비 사용"
+    source: "Process (공정)"
+    target: "Equipment (설비)"
+
+  - type: USES_MATERIAL
+    type_kr: "원자재 투입"
+    source: "Process (공정)"
+    target: "Component (원자재)"
+
+  - type: DETECTED_AT
+    type_kr: "~에서 발견됨"
+    source: "Defect (결함)"
+    target: "Inspection (검사)"
+
+  - type: CAUSED_BY_PROCESS
+    type_kr: "원인 공정"
+    source: "Defect (결함)"
+    target: "Process (공정)"
+
+  - type: CAUSED_BY_EQUIPMENT
+    type_kr: "원인 설비"
+    source: "Defect (결함)"
+    target: "Equipment (설비)"
+
+  - type: INSPECTS
+    type_kr: "~를 검사함"
+    source: "Inspection (검사)"
+    target: "Process (공정)"

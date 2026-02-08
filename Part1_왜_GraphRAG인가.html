@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 1: 왜 GraphRAG인가? — Knowledge Graph + GraphRAG 실무 완성 과정</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;600&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-card: #1a2234;
+  --bg-card-hover: #1f2b42;
+  --bg-code: #0d1117;
+  --accent-cyan: #06d6a0;
+  --accent-blue: #118ab2;
+  --accent-orange: #f77f00;
+  --accent-red: #ef476f;
+  --accent-purple: #8338ec;
+  --accent-yellow: #ffd166;
+  --text-primary: #e8edf5;
+  --text-secondary: #8892a4;
+  --text-dim: #4a5568;
+  --border: #1e2d45;
+  --border-glow: rgba(6, 214, 160, 0.15);
+  --gradient-hero: linear-gradient(135deg, #06d6a0 0%, #118ab2 50%, #8338ec 100%);
+  --gradient-section: linear-gradient(135deg, rgba(6,214,160,0.08) 0%, rgba(17,138,178,0.04) 100%);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 400;
+  line-height: 1.8;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 3px; }
+
+/* ─── SELECTION ─── */
+::selection { background: rgba(6, 214, 160, 0.3); color: #fff; }
+
+/* ─── LAYOUT ─── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  padding: 6rem 0 4rem;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 30% 50%, rgba(6,214,160,0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 30%, rgba(17,138,178,0.05) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(131,56,236,0.04) 0%, transparent 50%);
+  animation: heroFloat 20s ease-in-out infinite;
+}
+@keyframes heroFloat {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(2%, -1%) rotate(1deg); }
+  66% { transform: translate(-1%, 2%) rotate(-1deg); }
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: rgba(6,214,160,0.1);
+  border: 1px solid rgba(6,214,160,0.25);
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--accent-cyan);
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  background: var(--accent-cyan);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 0.3rem;
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero .subtitle {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 300;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.hero-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.hero-meta-item .icon {
+  font-size: 1.1rem;
+}
+.hero-meta-item strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.hero-goal {
+  padding: 1.5rem 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: 0 12px 12px 0;
+  font-size: 1.05rem;
+  line-height: 1.9;
+}
+.hero-goal strong { color: var(--accent-cyan); }
+
+/* ─── TIMELINE NAV ─── */
+.timeline-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,14,23,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+  overflow-x: auto;
+}
+.timeline-nav::-webkit-scrollbar { height: 0; }
+.timeline-track {
+  display: flex;
+  align-items: stretch;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.timeline-item {
+  flex: 1;
+  min-width: 120px;
+  padding: 0.8rem 0.6rem;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.timeline-item:hover {
+  color: var(--text-secondary);
+  border-bottom-color: var(--accent-blue);
+}
+.timeline-item.active {
+  color: var(--accent-cyan);
+  border-bottom-color: var(--accent-cyan);
+}
+.timeline-item .time {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  margin-top: 2px;
+}
+
+/* ─── SECTIONS ─── */
+.section {
+  padding: 4rem 0 3rem;
+  border-bottom: 1px solid var(--border);
+  animation: fadeInUp 0.5s ease-out both;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+.section-number {
+  flex-shrink: 0;
+  width: 48px; height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  color: #fff;
+}
+.section-number.s1 { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)); }
+.section-number.s2 { background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); }
+.section-number.s3 { background: linear-gradient(135deg, var(--accent-purple), var(--accent-red)); }
+.section-number.s4 { background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow)); }
+.section-number.s5 { background: linear-gradient(135deg, var(--accent-cyan), #06d6a0); }
+.section-number.s6 { background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan)); }
+.section-title-group h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.section-title-group .section-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-top: 0.3rem;
+}
+
+/* ─── SLIDE BLOCKS ─── */
+.slide {
+  margin-bottom: 3rem;
+  padding: 2rem 2.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: border-color 0.3s;
+}
+.slide:hover { border-color: rgba(6,214,160,0.2); }
+.slide-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  letter-spacing: 0.03em;
+}
+.slide-tag.theory { background: rgba(17,138,178,0.15); color: var(--accent-blue); }
+.slide-tag.demo { background: rgba(239,71,111,0.15); color: var(--accent-red); }
+.slide-tag.practice { background: rgba(6,214,160,0.15); color: var(--accent-cyan); }
+.slide-tag.discussion { background: rgba(131,56,236,0.15); color: var(--accent-purple); }
+.slide h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  line-height: 1.4;
+}
+
+/* ─── SCRIPT BLOCK ─── */
+.script-block {
+  position: relative;
+  margin: 1.2rem 0;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, rgba(6,214,160,0.04), rgba(17,138,178,0.03));
+  border-left: 3px solid var(--accent-cyan);
+  border-radius: 0 12px 12px 0;
+  font-size: 0.95rem;
+  line-height: 2;
+  color: var(--text-primary);
+}
+.script-block::before {
+  content: '🎤 대본';
+  position: absolute;
+  top: -10px;
+  left: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--bg-card);
+  padding: 0 0.5rem;
+  color: var(--accent-cyan);
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+.script-block em {
+  font-style: normal;
+  color: var(--accent-yellow);
+  font-weight: 500;
+}
+.script-block strong {
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+.script-block .pause {
+  display: inline-block;
+  margin: 0 0.3rem;
+  padding: 0 0.4rem;
+  font-size: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.04);
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+/* ─── SLIDE VISUAL (화면 구성 가이드) ─── */
+.slide-visual {
+  margin: 1.5rem 0;
+  padding: 1.2rem 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+}
+.slide-visual .label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-orange);
+  margin-bottom: 0.7rem;
+}
+.slide-visual p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ─── CODE BLOCKS ─── */
+.code-block {
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1.2rem;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid var(--border);
+}
+.code-header .lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--accent-cyan);
+  letter-spacing: 0.05em;
+}
+.code-header .dots {
+  display: flex;
+  gap: 5px;
+}
+.code-header .dots span {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+}
+.code-header .dots span:nth-child(1) { background: var(--accent-red); }
+.code-header .dots span:nth-child(2) { background: var(--accent-yellow); }
+.code-header .dots span:nth-child(3) { background: var(--accent-cyan); }
+pre {
+  padding: 1.2rem 1.5rem;
+  background: var(--bg-code);
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #c9d1d9;
+}
+pre .comment { color: #6a737d; }
+pre .keyword { color: #ff7b72; }
+pre .string { color: #a5d6ff; }
+pre .func { color: #d2a8ff; }
+pre .prop { color: #79c0ff; }
+pre .node { color: #7ee787; }
+pre .rel { color: #ffa657; }
+pre .num { color: #ffd166; }
+pre .result { color: #6a737d; font-style: italic; }
+
+/* ─── COMPARISON TABLES ─── */
+.comparison {
+  margin: 1.5rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.comparison table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.comparison th {
+  padding: 0.8rem 1.2rem;
+  background: rgba(6,214,160,0.08);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: left;
+  color: var(--accent-cyan);
+  border-bottom: 1px solid var(--border);
+}
+.comparison td {
+  padding: 0.7rem 1.2rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: var(--text-secondary);
+  vertical-align: top;
+}
+.comparison tr:last-child td { border-bottom: none; }
+.comparison td:first-child { color: var(--text-primary); font-weight: 500; }
+.comparison .pass { color: var(--accent-cyan); }
+.comparison .fail { color: var(--accent-red); }
+
+/* ─── DIAGRAM BOXES ─── */
+.diagram {
+  margin: 1.5rem 0;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+.diagram-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.diagram-node {
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.diagram-node.entity { background: rgba(6,214,160,0.15); color: var(--accent-cyan); border: 1px solid rgba(6,214,160,0.3); }
+.diagram-node.relation { background: rgba(255,209,102,0.12); color: var(--accent-yellow); border: 1px solid rgba(255,209,102,0.3); border-radius: 20px; font-size: 0.75rem; }
+.diagram-node.fail { background: rgba(239,71,111,0.12); color: var(--accent-red); border: 1px solid rgba(239,71,111,0.3); }
+.diagram-node.dim { background: rgba(255,255,255,0.04); color: var(--text-dim); border: 1px solid rgba(255,255,255,0.08); }
+.diagram-arrow { color: var(--text-dim); font-size: 1.2rem; }
+.diagram-label {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* ─── CALLOUT ─── */
+.callout {
+  margin: 1.5rem 0;
+  padding: 1.2rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+.callout.key {
+  background: rgba(255,209,102,0.08);
+  border: 1px solid rgba(255,209,102,0.2);
+  color: var(--accent-yellow);
+}
+.callout.key strong { color: #fff; }
+.callout.tip {
+  background: rgba(6,214,160,0.06);
+  border: 1px solid rgba(6,214,160,0.15);
+  color: var(--accent-cyan);
+}
+.callout.warn {
+  background: rgba(239,71,111,0.06);
+  border: 1px solid rgba(239,71,111,0.15);
+  color: var(--accent-red);
+}
+
+/* ─── MILESTONE ─── */
+.milestone {
+  margin: 2rem 0;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, rgba(6,214,160,0.08), rgba(17,138,178,0.06));
+  border: 1px solid rgba(6,214,160,0.25);
+  border-radius: 16px;
+  text-align: center;
+}
+.milestone .trophy { font-size: 2.5rem; margin-bottom: 0.8rem; }
+.milestone h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  margin-bottom: 0.8rem;
+}
+.milestone p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+
+/* ─── PREVIEW NEXT ─── */
+.preview-next {
+  margin: 3rem 0 2rem;
+  padding: 2rem 2.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.preview-next .arrow {
+  font-size: 2.5rem;
+  color: var(--accent-purple);
+  flex-shrink: 0;
+}
+.preview-next h4 {
+  font-size: 1rem;
+  color: var(--accent-purple);
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.preview-next p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ─── FOOTER ─── */
+.page-footer {
+  padding: 3rem 0;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .container { padding: 0 1.2rem; }
+  .slide { padding: 1.5rem; }
+  .script-block { padding: 1.2rem 1.2rem; }
+  .preview-next { flex-direction: column; text-align: center; gap: 1rem; }
+  .hero-meta { gap: 0.8rem; }
+  .timeline-item { min-width: 100px; font-size: 0.65rem; padding: 0.6rem 0.3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HERO ═══════════ -->
+<header class="hero">
+  <div class="container hero-content">
+    <div class="hero-badge"><span class="dot"></span> Part 1 of 7 &middot; 기초</div>
+    <h1>왜 GraphRAG인가?</h1>
+    <p class="subtitle">Knowledge Graph + GraphRAG 실무 완성 과정</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><span class="icon">⏱</span> <strong>2시간</strong></div>
+      <div class="hero-meta-item"><span class="icon">⭐</span> 난이도 <strong>입문</strong></div>
+      <div class="hero-meta-item"><span class="icon">🎯</span> Neo4j에 <strong>첫 그래프</strong> 생성</div>
+      <div class="hero-meta-item"><span class="icon">💡</span> 설계 철학: <strong>"일단 해보기"</strong></div>
+    </div>
+    <div class="hero-goal">
+      <strong>🎯 Part 1 목표</strong><br>
+      GraphRAG가 왜 필요한지 이해하고, Neo4j에 첫 데이터를 넣어본다.<br>
+      이론을 가볍게, 실습을 빠르게 — <strong>"1-hop이면 벡터로 충분. Multi-hop이 필요하니까 GraphRAG를 쓰는 것"</strong>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════ TIMELINE NAV ═══════════ -->
+<nav class="timeline-nav" id="nav">
+  <div class="timeline-track">
+    <a class="timeline-item active" href="#sec1">벡터 RAG 한계<span class="time">20min</span></a>
+    <a class="timeline-item" href="#sec2">전략적 관점<span class="time">15min</span></a>
+    <a class="timeline-item" href="#sec3">온톨로지 핵심<span class="time">25min</span></a>
+    <a class="timeline-item" href="#sec4">6레이어 프레임워크<span class="time">15min</span></a>
+    <a class="timeline-item" href="#sec5">인프라: Why Neo4j<span class="time">5min</span></a>
+    <a class="timeline-item" href="#sec6">Neo4j + Cypher 실습<span class="time">40min</span></a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 1: 벡터 RAG의 한계 (20min)
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="sec1">
+<div class="container">
+  <div class="section-header">
+    <div class="section-number s1">01</div>
+    <div class="section-title-group">
+      <h2>벡터 RAG의 한계</h2>
+      <div class="section-time">⏱ 20분 &middot; 이론 + 데모</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 1-1 -->
+  <div class="slide" id="slide-1-1">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 1-1: 오프닝 — "이 질문에 답할 수 있나요?"</h3>
+
+    <div class="script-block">
+      여러분, RAG 해보신 분 많으시죠?<span class="pause">1s</span><br>
+      그런데 이런 질문 한번 보세요.<br><br>
+      <em>"삼성전자에 투자한 기관 중에서, 해당 기관이 투자한 다른 반도체 기업은 뭐가 있어?"</em><br><br>
+      벡터 RAG로 이거 답 나오시나요?<span class="pause">1s</span>안 나옵니다.<br>
+      왜 안 나오는지, 오늘 그 이야기부터 시작합니다.
+    </div>
+
+    <div class="slide-visual">
+      <div class="label">📺 화면 구성</div>
+      <p>화면 중앙에 위 질문을 큰 글씨로. 아래에 "벡터 RAG: ???" 표시. 수강생이 직관적으로 "이건 벡터로 안 되겠는데?" 느끼도록.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 1-2 -->
+  <div class="slide" id="slide-1-2">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 1-2: 벡터 RAG의 구조적 한계 — 청크 기반 맥락 단절</h3>
+
+    <div class="script-block">
+      벡터 RAG는 문서를 청크로 잘라서 임베딩하잖아요.<br>
+      근데 자르는 순간, <strong>맥락이 끊깁니다.</strong><br><br>
+      A 청크에 <em>'삼성전자 — 국민연금 투자'</em>가 있고,<br>
+      B 청크에 <em>'국민연금 — SK하이닉스 투자'</em>가 있으면,<br>
+      이 둘을 연결할 수 있는 방법이 없어요.<span class="pause">0.5s</span><br>
+      <strong>청크 사이의 관계가 사라지는 거죠.</strong><br><br>
+      이게 벡터 RAG의 구조적 한계입니다. 기술의 문제가 아니라, 설계의 한계예요.
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-flow">
+        <div class="diagram-node entity">Chunk A<br><small>삼성전자 ← 국민연금 투자</small></div>
+        <div class="diagram-arrow">✂️</div>
+        <div class="diagram-node entity">Chunk B<br><small>국민연금 → SK하이닉스 투자</small></div>
+      </div>
+      <div class="diagram-flow" style="margin-top: 1rem;">
+        <div class="diagram-node fail">❌ 관계 단절 — Chunk A와 B를 연결할 수 없음</div>
+      </div>
+      <span class="diagram-label">벡터 RAG는 각 청크를 독립적으로 임베딩 — 청크 간 관계가 소실됨</span>
+    </div>
+
+    <div class="slide-visual">
+      <div class="label">📺 화면 구성</div>
+      <p>왼쪽: 문서 원본 (관계가 흐르는 하이라이트). 오른쪽: 청크로 잘린 후 빨간 X로 관계 끊어진 모습. 시각적으로 "잘리면 끊긴다" 체감.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 1-3 -->
+  <div class="slide" id="slide-1-3">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 1-3: 핵심 판단 기준 — "1-hop이면 벡터로 충분하다"</h3>
+
+    <div class="script-block">
+      자, 판단 기준 하나 드릴게요. 정말 중요합니다.<span class="pause">1s</span><br><br>
+      <strong>"1-hop이면 벡터로 충분하다."</strong><br><br>
+      <em>'삼성전자 매출이 얼마야?'</em> → 이건 1-hop. 벡터로 됩니다.<br>
+      <em>'삼성전자에 투자한 기관이 투자한 다른 기업은?'</em> → 이건 Multi-hop. 벡터로 안 됩니다.<br><br>
+      여러분 프로젝트에서 이런 Multi-hop 질문이 필요한지,<br>
+      <strong>그게 첫 번째 판단 기준입니다.</strong>
+    </div>
+
+    <div class="callout key">
+      ⭐ <strong>핵심 공식:</strong> 1-hop (단일 문서 내 정보) = 벡터 RAG로 충분 &nbsp;|&nbsp; Multi-hop (관계 추론 필요) = GraphRAG 고려
+    </div>
+
+    <div class="comparison">
+      <table>
+        <tr>
+          <th>질문 유형</th><th>예시</th><th>벡터 RAG</th><th>GraphRAG</th>
+        </tr>
+        <tr>
+          <td><strong>1-hop</strong><br>(단일 사실)</td>
+          <td>삼성전자 2024년 매출은?</td>
+          <td class="pass">✅ 충분</td>
+          <td class="pass">✅ 가능</td>
+        </tr>
+        <tr>
+          <td><strong>2-hop</strong><br>(관계 1단계)</td>
+          <td>삼성전자의 파트너사는?</td>
+          <td>⚠️ 운 좋으면</td>
+          <td class="pass">✅ 정확</td>
+        </tr>
+        <tr>
+          <td><strong>Multi-hop</strong><br>(관계 2단계+)</td>
+          <td>삼성 투자 기관의 다른 투자처는?</td>
+          <td class="fail">❌ 불가능</td>
+          <td class="pass">✅ 핵심 강점</td>
+        </tr>
+        <tr>
+          <td><strong>비교/집계</strong></td>
+          <td>반도체 기업의 공통 투자자 Top 3?</td>
+          <td class="fail">❌ 불가능</td>
+          <td class="pass">✅ Cypher 쿼리</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SLIDE 1-4 -->
+  <div class="slide" id="slide-1-4">
+    <span class="slide-tag demo">🔴 데모</span>
+    <h3>슬라이드 1-4: 벡터 RAG 실패 데모</h3>
+
+    <div class="script-block">
+      실제로 보여드릴게요. 똑같은 데이터에 벡터 RAG로 질문합니다.<span class="pause">0.5s</span><br><br>
+      <em>(데모 실행)</em><br><br>
+      보시는 것처럼 — 관계를 따라가야 하는 질문엔 엉뚱한 답이 나오거나, 아예 답을 못합니다.<br>
+      이게 벡터 RAG의 구조적 한계예요.<br>
+      <strong>기술의 문제가 아니라, 설계의 한계입니다.</strong>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="lang">PYTHON — 벡터 RAG 실패 데모</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+<pre>
+<span class="keyword">from</span> langchain_openai <span class="keyword">import</span> <span class="func">ChatOpenAI</span>, <span class="func">OpenAIEmbeddings</span>
+<span class="keyword">from</span> langchain_community.vectorstores <span class="keyword">import</span> <span class="func">FAISS</span>
+<span class="keyword">from</span> langchain.chains <span class="keyword">import</span> <span class="func">RetrievalQA</span>
+
+<span class="comment"># 1. 문서 청크 준비</span>
+docs = [
+    <span class="string">"삼성전자는 반도체, 스마트폰을 제조하는 글로벌 IT 기업이다."</span>,
+    <span class="string">"국민연금은 삼성전자 지분 9.8%를 보유한 최대 기관투자자이다."</span>,
+    <span class="string">"국민연금은 SK하이닉스 지분 7.2%를 보유하고 있다."</span>,
+    <span class="string">"SK하이닉스는 HBM 반도체 분야 세계 1위 기업이다."</span>,
+    <span class="string">"블랙록은 삼성전자와 TSMC에 동시 투자하고 있다."</span>,
+]
+
+<span class="comment"># 2. 벡터 스토어 생성</span>
+embeddings = <span class="func">OpenAIEmbeddings</span>()
+vectorstore = <span class="func">FAISS</span>.from_texts(docs, embeddings)
+retriever = vectorstore.as_retriever(search_kwargs={<span class="string">"k"</span>: <span class="num">3</span>})
+
+<span class="comment"># 3. QA 체인</span>
+qa = <span class="func">RetrievalQA</span>.from_chain_type(
+    llm=<span class="func">ChatOpenAI</span>(model=<span class="string">"gpt-4o"</span>),
+    retriever=retriever
+)
+
+<span class="comment"># 4. Multi-hop 질문 → 실패</span>
+result = qa.invoke(
+    <span class="string">"삼성전자에 투자한 기관 중에서, 해당 기관이 투자한 다른 반도체 기업은?"</span>
+)
+<span class="func">print</span>(result[<span class="string">"result"</span>])
+
+<span class="result"># 💬 예상 출력: "국민연금이 삼성전자에 투자하고 있습니다..." (SK하이닉스 연결 못함)
+# 또는 "정확한 정보를 찾을 수 없습니다."
+# → 청크가 분리되어 있어 국민연금→SK하이닉스 관계 추론 불가</span>
+</pre>
+    </div>
+
+    <div class="callout warn">
+      ⚠️ <strong>핵심 포인트:</strong> 벡터 RAG는 "국민연금 → 삼성전자" 청크와 "국민연금 → SK하이닉스" 청크를 독립적으로 검색합니다. 두 청크를 연결해서 "삼성전자 투자기관 → 다른 투자처"를 추론하는 것은 구조적으로 불가능합니다.
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 2: 전략적 관점 (15min)
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="sec2">
+<div class="container">
+  <div class="section-header">
+    <div class="section-number s2">02</div>
+    <div class="section-title-group">
+      <h2>전략적 관점 — 가볍게</h2>
+      <div class="section-time">⏱ 15분 &middot; 이론</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2-1 -->
+  <div class="slide" id="slide-2-1">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 2-1: GraphRAG 도입 판단 5단계</h3>
+
+    <div class="script-block">
+      GraphRAG가 좋다고 해서 무조건 쓰는 게 아닙니다.<br>
+      가장 중요한 건 <strong>"문제 정의부터 하라"</strong>는 겁니다.<span class="pause">0.5s</span><br><br>
+      5단계만 기억하세요:<br>
+      도메인 파악 → 문서 분류 → 문제 정의 → 실패 케이스 추적 → 스키마 셋업.<br><br>
+      이 중에서 가장 중요한 건?<span class="pause">0.5s</span><br>
+      <strong>초기 인터뷰</strong>입니다. 현업이 뭘 원하는지 먼저 파악해야 합니다.<br><br>
+      <em>"GraphRAG부터 시작하지 마라. 문제 정의부터 하라."</em>
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-flow">
+        <div class="diagram-node entity">Step 1<br><small>도메인 특성 파악</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node entity">Step 2<br><small>문서 분류</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node entity">Step 3<br><small>문제 정의</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node entity">Step 4<br><small>실패 케이스 추적</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node entity">Step 5<br><small>스키마 셋업</small></div>
+      </div>
+      <span class="diagram-label">⭐ "초기 인터뷰가 가장 중요" — 현업의 질문 패턴을 먼저 파악하라</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2-2 -->
+  <div class="slide" id="slide-2-2">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 2-2: 3가지 GraphRAG 경험 유형</h3>
+
+    <div class="script-block">
+      GraphRAG라고 다 같은 게 아닙니다. 크게 3가지 유형이 있어요.<br><br>
+      첫째, <strong>Public Domain</strong> — 위키피디아 같은 공개 데이터. 인프라 구축이 핵심.<br>
+      둘째, <strong>Enterprise Domain</strong> — 기업 내부 도메인. '왜 그래프야?'를 설명해야 합니다.<br>
+      셋째, <strong>Enterprise Document</strong> — 기업 문서 기반. 여기가 <strong>평가와 Reranking</strong>이 핵심이에요.<br><br>
+      우리 과정은 이 세 가지를 다 경험합니다.
+    </div>
+
+    <div class="comparison">
+      <table>
+        <tr><th>유형</th><th>검색 방식</th><th>핵심 과제</th><th>우리 과정</th></tr>
+        <tr>
+          <td><strong>Public Domain</strong></td>
+          <td>Vector & Graph</td>
+          <td>인프라 구축, 도메인→그래프 변환</td>
+          <td>Part 1~3</td>
+        </tr>
+        <tr>
+          <td><strong>Enterprise Domain</strong></td>
+          <td>Graph only</td>
+          <td>"Why Graph?" 설득, 프롬프트 엔지니어링</td>
+          <td>Part 4~5</td>
+        </tr>
+        <tr>
+          <td><strong>Enterprise Document</strong></td>
+          <td>Vector & Graph</td>
+          <td>평가(Evaluation), Reranking</td>
+          <td>Part 6~7</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SLIDE 2-3 -->
+  <div class="slide" id="slide-2-3">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 2-3: 전체 아키텍처 맛보기</h3>
+
+    <div class="script-block">
+      지금은 이 그림 전체를 이해할 필요 없습니다.<br>
+      다만 기억하세요 — 우리가 11시간 동안 이 그림의 <strong>각 조각을 하나씩 채워나갈</strong> 겁니다.<br>
+      Part 1 끝나면 여기, Part 3 끝나면 여기가 채워져요.<br>
+      그걸 머릿속에 담아주세요.
+    </div>
+
+    <div class="diagram">
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; text-align: left;">
+        <div style="grid-column: 1 / -1;">
+          <div class="diagram-node entity" style="width: 100%; text-align: center;">🏗️ 전체 아키텍처 — 11시간에 걸쳐 완성</div>
+        </div>
+        <div class="diagram-node entity" style="opacity: 1;">
+          <strong>Server</strong><br>
+          <small>Neo4j ← Part 1 ✅<br>벡터 인덱스 ← Part 6<br>LLM API ← Part 3</small>
+        </div>
+        <div class="diagram-node dim">
+          <strong>RAG Pipeline</strong><br>
+          <small>Text2Cypher ← Part 6<br>하이브리드 검색 ← Part 6<br>Reranking ← Part 6</small>
+        </div>
+        <div class="diagram-node dim">
+          <strong>Client</strong><br>
+          <small>Streamlit 데모 ← Part 6<br>모니터링 ← Part 7<br>평가 ← Part 7</small>
+        </div>
+      </div>
+      <span class="diagram-label">회색 영역은 아직 배우지 않은 부분 — Part가 진행될수록 채워집니다</span>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 3: 온톨로지 핵심만 (25min)
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="sec3">
+<div class="container">
+  <div class="section-header">
+    <div class="section-number s3">03</div>
+    <div class="section-title-group">
+      <h2>온톨로지 핵심만</h2>
+      <div class="section-time">⏱ 25분 &middot; 이론</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3-1 -->
+  <div class="slide" id="slide-3-1">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 3-1: "온톨로지 = 합의의 도구"</h3>
+
+    <div class="script-block">
+      온톨로지라는 단어, 어렵게 느끼시는 분 많은데요.<br>
+      딱 한 줄로 정리하면 <strong>"도메인 전문가들이 합의한 개념의 지도"</strong>입니다.<br><br>
+      <em>'고객'</em>이라는 단어가 마케팅팀에서는 잠재고객이고, 영업팀에서는 계약고객이잖아요.<br>
+      이걸 합의해서 정리한 게 온톨로지예요.<br>
+      <strong>그래프를 만들기 전에 이게 먼저입니다.</strong>
+    </div>
+
+    <div class="comparison">
+      <table>
+        <tr><th>도메인</th><th>합의 필요성</th><th>난이도</th><th>예시</th></tr>
+        <tr>
+          <td>소셜네트워크</td><td>거의 없음</td><td>⭐</td>
+          <td>"팔로우", "좋아요" — 누구나 같은 의미</td>
+        </tr>
+        <tr>
+          <td>제조/통신</td><td>높음</td><td>⭐⭐⭐⭐</td>
+          <td>"장비" = 서버? 네트워크 장비? 단말?</td>
+        </tr>
+        <tr>
+          <td>금융/보험/법률</td><td>매우 높음</td><td>⭐⭐⭐⭐⭐</td>
+          <td>"보장" = 보장내역? 보장한도? 보장기간?</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SLIDE 3-2 -->
+  <div class="slide" id="slide-3-2">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 3-2: DB 스키마 vs Labeled Property Graph (LPG)</h3>
+
+    <div class="script-block">
+      RDB 아시죠? 테이블, 컬럼, Foreign Key.<br>
+      그래프 DB는 다릅니다. 노드, 엣지, 프로퍼티. 이걸 <strong>Labeled Property Graph</strong>라고 합니다.<br><br>
+      핵심 차이는 — RDB에서는 관계가 FK로 간접 표현되지만,<br>
+      LPG에서는 <strong>관계 자체가 1급 시민</strong>이에요.<br>
+      관계에 이름을 붙이고, 속성도 달 수 있습니다.
+    </div>
+
+    <div class="comparison">
+      <table>
+        <tr><th>구분</th><th>RDB (관계형 DB)</th><th>LPG (그래프 DB)</th></tr>
+        <tr>
+          <td><strong>데이터 단위</strong></td>
+          <td>행 (Row)</td>
+          <td>노드 (Node)</td>
+        </tr>
+        <tr>
+          <td><strong>관계 표현</strong></td>
+          <td>Foreign Key (간접)</td>
+          <td>Edge (직접, 1급 시민)</td>
+        </tr>
+        <tr>
+          <td><strong>관계 속성</strong></td>
+          <td>중간 테이블 필요</td>
+          <td>Edge에 프로퍼티 직접 부여</td>
+        </tr>
+        <tr>
+          <td><strong>Multi-hop 탐색</strong></td>
+          <td>JOIN 연쇄 → 느림</td>
+          <td>포인터 따라가기 → O(d)</td>
+        </tr>
+        <tr>
+          <td><strong>스키마 유연성</strong></td>
+          <td>고정 스키마</td>
+          <td>스키마리스 / 유연</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="lang">비교 — 같은 데이터, 다른 표현</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+<pre>
+<span class="comment">── RDB: 테이블 3개 + JOIN ──</span>
+<span class="keyword">SELECT</span> p.name, c.name
+<span class="keyword">FROM</span> persons p
+<span class="keyword">JOIN</span> employment e <span class="keyword">ON</span> p.id = e.person_id
+<span class="keyword">JOIN</span> companies c <span class="keyword">ON</span> e.company_id = c.id
+<span class="keyword">WHERE</span> p.name = <span class="string">'홍길동'</span>;
+
+<span class="comment">── LPG (Cypher): 관계를 직접 표현 ──</span>
+<span class="keyword">MATCH</span> (<span class="node">p:Person</span> {name: <span class="string">'홍길동'</span>})-[:<span class="rel">WORKS_AT</span>]->(<span class="node">c:Company</span>)
+<span class="keyword">RETURN</span> p.name, c.name;
+
+<span class="comment">// 관계가 직접 표현되니 코드가 직관적이고, 성능도 좋음</span>
+</pre>
+    </div>
+  </div>
+
+  <!-- SLIDE 3-3 -->
+  <div class="slide" id="slide-3-3">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 3-3: 문서 내 관계 vs 문서 간 관계</h3>
+
+    <div class="script-block">
+      GraphRAG에서 관계는 두 종류가 있어요.<br><br>
+      <strong>문서 내 관계</strong> — 하나의 문서 안에서 엔티티들 사이 관계.<br>
+      <em>'이 보험은 삼성화재가 운영한다.'</em><br><br>
+      <strong>문서 간 관계</strong> — 서로 다른 문서에 나오는 엔티티가 연결.<br>
+      <em>'삼성화재는 금감원에 보고서를 제출한다.'</em><br><br>
+      벡터 RAG가 못 하는 게 바로 이 <strong>문서 간 관계 추론</strong>입니다.<br>
+      같은 엔티티가 여러 문서에 등장할 때, 그 연결을 그래프가 잡아줍니다.
+    </div>
+
+    <div class="diagram">
+      <div style="display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center;">
+        <div class="diagram-node entity" style="text-align: center;">
+          📄 문서 1<br><small>삼성화재 — 자동차보험 운영</small>
+        </div>
+        <div style="text-align: center;">
+          <div class="diagram-node relation">🔗 삼성화재</div>
+          <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.3rem;">동일 엔티티 → 연결</div>
+        </div>
+        <div class="diagram-node entity" style="text-align: center;">
+          📄 문서 2<br><small>삼성화재 — 금감원 보고서 제출</small>
+        </div>
+      </div>
+      <span class="diagram-label">문서 간 관계: 벡터 RAG ❌ — GraphRAG ✅</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3-4 -->
+  <div class="slide" id="slide-3-4">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 3-4: Heterogeneous Graph — 보험 도메인 예시</h3>
+
+    <div class="script-block">
+      실무에서 그래프는 한 종류 노드만 있지 않아요.<br>
+      보험 도메인을 예로 들면 — 보험사, 보험상품, 고객, 보장내역, 법률조항…<br>
+      이렇게 <strong>다른 종류의 노드와 관계가 섞인 그래프</strong>를 Heterogeneous Graph라고 합니다.<br><br>
+      이게 왜 중요하냐면, 이 그래프 위에서<br>
+      <em>'이 고객에게 맞는 보험은 뭐야?'</em>를 Multi-hop으로 검색할 수 있기 때문이에요.
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-flow" style="flex-wrap: wrap; gap: 0.8rem;">
+        <div class="diagram-node entity">🏢 보험사<br><small>삼성화재</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node" style="background:rgba(131,56,236,0.15);color:var(--accent-purple);border:1px solid rgba(131,56,236,0.3);">📦 보험상품<br><small>자동차보험</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node" style="background:rgba(255,209,102,0.12);color:var(--accent-yellow);border:1px solid rgba(255,209,102,0.3);">🛡️ 보장내역<br><small>대인배상 2억</small></div>
+      </div>
+      <div class="diagram-flow" style="flex-wrap: wrap; gap: 0.8rem; margin-top: 0.8rem;">
+        <div class="diagram-node" style="background:rgba(239,71,111,0.12);color:var(--accent-red);border:1px solid rgba(239,71,111,0.3);">👤 고객<br><small>홍길동</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node" style="background:rgba(131,56,236,0.15);color:var(--accent-purple);border:1px solid rgba(131,56,236,0.3);">📦 보험상품<br><small>자동차보험</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node" style="background:rgba(17,138,178,0.15);color:var(--accent-blue);border:1px solid rgba(17,138,178,0.3);">⚖️ 법률조항<br><small>자배법 제3조</small></div>
+      </div>
+      <span class="diagram-label">5가지 노드 타입 × 4가지 관계 타입 → Heterogeneous Graph</span>
+    </div>
+
+    <div class="callout tip">
+      💡 Heterogeneous Graph에서는 노드 타입별로 다른 임베딩 전략을 적용할 수 있습니다 (Part 7 Soft Prompting에서 심화).
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 4: 6개 레이어 프레임워크 (15min)
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="sec4">
+<div class="container">
+  <div class="section-header">
+    <div class="section-number s4">04</div>
+    <div class="section-title-group">
+      <h2>6개 레이어 프레임워크</h2>
+      <div class="section-time">⏱ 15분 &middot; 이론</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4-1 -->
+  <div class="slide" id="slide-4-1">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 4-1: 프레임워크 전체 흐름</h3>
+
+    <div class="script-block">
+      이 과정의 뼈대를 보여드릴게요. 총 6개 레이어입니다.<br>
+      Strategy → Data → Infra → Processing → Deployment, 그리고 <strong>피드백 루프</strong>.<br><br>
+      결과가 유의미하지 않으면?<span class="pause">0.5s</span><br>
+      <strong>L1 전략부터 재검토</strong>합니다.<br>
+      이건 한 번 만들고 끝이 아니에요. 계속 돌면서 개선하는 구조입니다.
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-flow">
+        <div class="diagram-node entity">L1<br><small>Strategy</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node entity">L2<br><small>Data</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node entity">L3<br><small>Infra</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node entity">L4<br><small>Processing</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node entity">L5<br><small>Deployment</small></div>
+      </div>
+      <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--accent-red);">
+        ↩️ 유의미하지 않으면 L1으로 재검토 (피드백 루프)
+      </div>
+    </div>
+
+    <div class="comparison">
+      <table>
+        <tr><th>레이어</th><th>핵심 내용</th><th>담당 Part</th></tr>
+        <tr><td><strong>L1 Strategy</strong></td><td>폐쇄망/클라우드, 코스트, 라우팅</td><td>Part 1 (개요)</td></tr>
+        <tr><td><strong>L2 Data</strong></td><td>레퍼런스, KG Build, 엔티티 추출</td><td>Part 2, 3, 4, 5</td></tr>
+        <tr><td><strong>L3 Infra</strong></td><td>GDBMS 선정, 그래프 표현</td><td>Part 1 (맛보기) + Part 7</td></tr>
+        <tr><td><strong>L4 Processing</strong></td><td>Hard/Soft Prompting, Routing</td><td>Part 6</td></tr>
+        <tr><td><strong>L5 Deployment</strong></td><td>Text2Cypher Agent, 평가, 모니터링</td><td>Part 6, 7</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 5: 인프라 — Why Neo4j (5min)
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="sec5">
+<div class="container">
+  <div class="section-header">
+    <div class="section-number s5">05</div>
+    <div class="section-title-group">
+      <h2>인프라 — 최소한만</h2>
+      <div class="section-time">⏱ 5분 &middot; 이론</div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-5-1">
+    <span class="slide-tag theory">📘 이론</span>
+    <h3>슬라이드 5-1: "왜 Neo4j인가" — 한 줄 요약</h3>
+
+    <div class="script-block">
+      GDBMS 왜 Neo4j를 쓰느냐? 지금은 한 줄만 기억하세요.<span class="pause">0.5s</span><br><br>
+      <strong>"생태계 1위 + LangChain 연동 최고 + GraphRAG에 최적화."</strong><br><br>
+      다른 옵션이 있느냐? 있습니다. Kùzu, FalkorDB 등. 비교는 Part 7에서 합니다.<br>
+      지금은 일단 Neo4j로 시작합니다. <strong>써보고 나서 비교하는 게 훨씬 와닿아요.</strong>
+    </div>
+
+    <div class="callout key">
+      ⭐ <strong>Neo4j 선택 이유 (1줄):</strong> DB-engines 그래프 부문 부동의 1위 &middot; LangChain/LlamaIndex 공식 연동 &middot; get_neighbors O(d) 성능 &middot; LPG 기반 GraphRAG 최적화<br><br>
+      📌 <strong>Part 7 심화 예고:</strong> GDBMS 선정 3기준 상세, Kùzu/FalkorDB 비교, Neo4j 성능 최적화 7가지, Graph Query Languages (Cypher/Gremlin/GSQL/GQL)
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     SECTION 6: Neo4j + Cypher 실습 (40min)
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="sec6">
+<div class="container">
+  <div class="section-header">
+    <div class="section-number s6">06</div>
+    <div class="section-title-group">
+      <h2>Neo4j + Cypher 실습</h2>
+      <div class="section-time">⏱ 40분 &middot; 핸즈온 실습</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6-1: Docker -->
+  <div class="slide" id="slide-6-1">
+    <span class="slide-tag practice">🟢 실습</span>
+    <h3>슬라이드 6-1: Docker로 Neo4j 띄우기</h3>
+
+    <div class="script-block">
+      자, 드디어 실습입니다. Docker로 Neo4j를 바로 띄워보겠습니다.<br>
+      터미널 열고, docker-compose up 한 줄이면 끝입니다.
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="lang">YAML — docker-compose.yml</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+<pre>
+<span class="prop">version</span>: <span class="string">'3.8'</span>
+<span class="prop">services</span>:
+  <span class="prop">neo4j</span>:
+    <span class="prop">image</span>: <span class="string">neo4j:5.26-community</span>
+    <span class="prop">container_name</span>: <span class="string">graphrag-neo4j</span>
+    <span class="prop">ports</span>:
+      - <span class="string">"7474:7474"</span>   <span class="comment"># Neo4j Browser (웹 UI)</span>
+      - <span class="string">"7687:7687"</span>   <span class="comment"># Bolt 프로토콜 (드라이버 연결)</span>
+    <span class="prop">environment</span>:
+      - <span class="string">NEO4J_AUTH=neo4j/graphrag2025</span>
+      - <span class="string">NEO4J_PLUGINS=["apoc"]</span>
+      - <span class="string">NEO4J_dbms_security_procedures_unrestricted=apoc.*</span>
+    <span class="prop">volumes</span>:
+      - <span class="string">neo4j_data:/data</span>
+      - <span class="string">neo4j_logs:/logs</span>
+
+<span class="prop">volumes</span>:
+  <span class="prop">neo4j_data</span>:
+  <span class="prop">neo4j_logs</span>:
+</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="lang">BASH — 실행</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+<pre>
+<span class="comment"># 1. Neo4j 컨테이너 시작</span>
+$ <span class="keyword">docker compose up -d</span>
+
+<span class="comment"># 2. 로그 확인 (Started. 뜨면 성공)</span>
+$ <span class="keyword">docker logs -f</span> graphrag-neo4j
+
+<span class="comment"># 3. 브라우저 접속</span>
+<span class="comment"># → http://localhost:7474</span>
+<span class="comment"># → ID: neo4j / PW: graphrag2025</span>
+</pre>
+    </div>
+
+    <div class="callout tip">
+      💡 <strong>접속 확인:</strong> Neo4j Browser(localhost:7474)에서 <code>:server status</code> 입력 → "Connected" 표시되면 성공!
+    </div>
+  </div>
+
+  <!-- SLIDE 6-2: CREATE -->
+  <div class="slide" id="slide-6-2">
+    <span class="slide-tag practice">🟢 실습</span>
+    <h3>슬라이드 6-2: Cypher 기초 — CREATE (노드 생성)</h3>
+
+    <div class="script-block">
+      Cypher는 그래프 DB의 SQL이라고 생각하시면 됩니다.<br>
+      노드를 만들 때는 CREATE, 검색할 때는 MATCH.<br>
+      일단 회사 노드 하나 만들어볼게요.<span class="pause">0.5s</span><br><br>
+      <em>CREATE (c:Company {name: '삼성전자'})</em> — 이게 끝입니다. 어렵지 않죠?
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="lang">CYPHER — 노드 생성</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+<pre>
+<span class="comment">// ── 1단계: Company 노드 만들기 ──</span>
+<span class="keyword">CREATE</span> (<span class="node">c:Company</span> {
+  name: <span class="string">'삼성전자'</span>,
+  industry: <span class="string">'반도체/IT'</span>,
+  founded: <span class="num">1969</span>
+});
+
+<span class="keyword">CREATE</span> (<span class="node">c:Company</span> {
+  name: <span class="string">'SK하이닉스'</span>,
+  industry: <span class="string">'반도체'</span>,
+  founded: <span class="num">1983</span>
+});
+
+<span class="keyword">CREATE</span> (<span class="node">c:Company</span> {
+  name: <span class="string">'네이버'</span>,
+  industry: <span class="string">'인터넷/AI'</span>,
+  founded: <span class="num">1999</span>
+});
+
+<span class="comment">// ── 2단계: Person 노드 만들기 ──</span>
+<span class="keyword">CREATE</span> (<span class="node">p:Person</span> {name: <span class="string">'이재용'</span>, role: <span class="string">'회장'</span>});
+<span class="keyword">CREATE</span> (<span class="node">p:Person</span> {name: <span class="string">'최태원'</span>, role: <span class="string">'회장'</span>});
+
+<span class="comment">// ── 3단계: 기관투자자 노드 ──</span>
+<span class="keyword">CREATE</span> (<span class="node">i:Investor</span> {name: <span class="string">'국민연금'</span>, type: <span class="string">'국내기관'</span>});
+<span class="keyword">CREATE</span> (<span class="node">i:Investor</span> {name: <span class="string">'블랙록'</span>, type: <span class="string">'해외기관'</span>});
+
+<span class="comment">// 확인: 전체 노드 수 세기</span>
+<span class="keyword">MATCH</span> (n) <span class="keyword">RETURN</span> count(n);
+<span class="result">// → 7</span>
+</pre>
+    </div>
+
+    <div class="callout tip">
+      💡 <strong>Cypher 문법 팁:</strong> <code>()</code>는 노드, <code>:</code> 뒤는 Label, <code>{}</code> 안은 프로퍼티. SQL의 INSERT INTO와 비슷하지만, 스키마 정의 없이 바로 생성 가능!
+    </div>
+  </div>
+
+  <!-- SLIDE 6-3: 관계 -->
+  <div class="slide" id="slide-6-3">
+    <span class="slide-tag practice">🟢 실습</span>
+    <h3>슬라이드 6-3: Cypher 기초 — 관계 만들기</h3>
+
+    <div class="script-block">
+      노드만 있으면 의미가 없어요. <strong>관계를 만들어야 합니다.</strong><br><br>
+      <em>MATCH (a:Person {name: '이재용'}), (b:Company {name: '삼성전자'})</em><br>
+      <em>CREATE (a)-[:LEADS]->(b)</em><br><br>
+      이렇게 <strong>화살표로 관계를 표현</strong>합니다. 방향이 있다는 게 핵심이에요.
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="lang">CYPHER — 관계 생성</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+<pre>
+<span class="comment">// ── 경영 관계 ──</span>
+<span class="keyword">MATCH</span> (<span class="node">p:Person</span> {name: <span class="string">'이재용'</span>}),
+      (<span class="node">c:Company</span> {name: <span class="string">'삼성전자'</span>})
+<span class="keyword">CREATE</span> (p)-[:<span class="rel">LEADS</span>]->(c);
+
+<span class="keyword">MATCH</span> (<span class="node">p:Person</span> {name: <span class="string">'최태원'</span>}),
+      (<span class="node">c:Company</span> {name: <span class="string">'SK하이닉스'</span>})
+<span class="keyword">CREATE</span> (p)-[:<span class="rel">LEADS</span>]->(c);
+
+<span class="comment">// ── 투자 관계 (프로퍼티 포함) ──</span>
+<span class="keyword">MATCH</span> (<span class="node">i:Investor</span> {name: <span class="string">'국민연금'</span>}),
+      (<span class="node">c:Company</span> {name: <span class="string">'삼성전자'</span>})
+<span class="keyword">CREATE</span> (i)-[:<span class="rel">INVESTED_IN</span> {share: <span class="num">9.8</span>, unit: <span class="string">'%'</span>}]->(c);
+
+<span class="keyword">MATCH</span> (<span class="node">i:Investor</span> {name: <span class="string">'국민연금'</span>}),
+      (<span class="node">c:Company</span> {name: <span class="string">'SK하이닉스'</span>})
+<span class="keyword">CREATE</span> (i)-[:<span class="rel">INVESTED_IN</span> {share: <span class="num">7.2</span>, unit: <span class="string">'%'</span>}]->(c);
+
+<span class="keyword">MATCH</span> (<span class="node">i:Investor</span> {name: <span class="string">'블랙록'</span>}),
+      (<span class="node">c:Company</span> {name: <span class="string">'삼성전자'</span>})
+<span class="keyword">CREATE</span> (i)-[:<span class="rel">INVESTED_IN</span> {share: <span class="num">5.1</span>, unit: <span class="string">'%'</span>}]->(c);
+
+<span class="comment">// ── 파트너십 관계 ──</span>
+<span class="keyword">MATCH</span> (<span class="node">a:Company</span> {name: <span class="string">'삼성전자'</span>}),
+      (<span class="node">b:Company</span> {name: <span class="string">'네이버'</span>})
+<span class="keyword">CREATE</span> (a)-[:<span class="rel">PARTNERS_WITH</span> {since: <span class="num">2023</span>}]->(b);
+
+<span class="comment">// 확인: 전체 관계 수</span>
+<span class="keyword">MATCH</span> ()-[r]->() <span class="keyword">RETURN</span> count(r);
+<span class="result">// → 5</span>
+</pre>
+    </div>
+
+    <div class="callout key">
+      ⭐ <strong>관계 프로퍼티:</strong> <code>INVESTED_IN {share: 9.8}</code>처럼 관계 자체에 속성을 부여할 수 있습니다. RDB에서는 중간 테이블이 필요하지만, 그래프 DB에서는 관계가 1급 시민이라 직접 표현 가능!
+    </div>
+  </div>
+
+  <!-- SLIDE 6-4: MATCH -->
+  <div class="slide" id="slide-6-4">
+    <span class="slide-tag practice">🟢 실습</span>
+    <h3>슬라이드 6-4: MATCH + WHERE로 검색</h3>
+
+    <div class="script-block">
+      이제 만든 데이터를 검색해봅시다.<br>
+      <em>MATCH (p:Person)-[:LEADS]->(c:Company) RETURN p.name, c.name</em><br>
+      누가 어디를 이끄는지 한 눈에 나오죠?<br>
+      여기에 WHERE 조건을 달면 필터링도 됩니다.
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="lang">CYPHER — 검색 쿼리 모음</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+<pre>
+<span class="comment">// ── 기본 검색: 누가 어느 회사를 이끄나? ──</span>
+<span class="keyword">MATCH</span> (<span class="node">p:Person</span>)-[:<span class="rel">LEADS</span>]->(<span class="node">c:Company</span>)
+<span class="keyword">RETURN</span> p.name <span class="keyword">AS</span> 경영자, c.name <span class="keyword">AS</span> 회사;
+<span class="result">// → 이재용 | 삼성전자
+//    최태원 | SK하이닉스</span>
+
+<span class="comment">// ── WHERE 조건: 특정 산업 필터링 ──</span>
+<span class="keyword">MATCH</span> (<span class="node">c:Company</span>)
+<span class="keyword">WHERE</span> c.industry <span class="keyword">CONTAINS</span> <span class="string">'반도체'</span>
+<span class="keyword">RETURN</span> c.name, c.founded;
+<span class="result">// → 삼성전자 | 1969
+//    SK하이닉스 | 1983</span>
+
+<span class="comment">// ── 투자 관계 조회: 누가 삼성전자에 투자했나? ──</span>
+<span class="keyword">MATCH</span> (<span class="node">i:Investor</span>)-[<span class="prop">r</span>:<span class="rel">INVESTED_IN</span>]->(<span class="node">c:Company</span> {name: <span class="string">'삼성전자'</span>})
+<span class="keyword">RETURN</span> i.name <span class="keyword">AS</span> 투자자, r.share <span class="keyword">AS</span> 지분율
+<span class="keyword">ORDER BY</span> r.share <span class="keyword">DESC</span>;
+<span class="result">// → 국민연금 | 9.8
+//    블랙록   | 5.1</span>
+
+<span class="comment">// ── 전체 그래프 시각화 ──</span>
+<span class="keyword">MATCH</span> (n)-[r]->(m)
+<span class="keyword">RETURN</span> n, r, m;
+<span class="comment">// → Neo4j Browser에서 그래프가 시각화됨!</span>
+</pre>
+    </div>
+  </div>
+
+  <!-- SLIDE 6-5: Multi-hop -->
+  <div class="slide" id="slide-6-5">
+    <span class="slide-tag practice">🟢 실습</span>
+    <h3>슬라이드 6-5: ⭐ Multi-hop 쿼리 — "이게 왜 강력한지"</h3>
+
+    <div class="script-block">
+      자, 이제 <strong>하이라이트</strong>입니다.<span class="pause">1s</span><br><br>
+      <em>MATCH (c1:Company {name:'삼성전자'})&lt;-[:INVESTED_IN]-(i)-[:INVESTED_IN]->(c2:Company)</em><br>
+      <em>WHERE c1 &lt;&gt; c2 RETURN i.name, c2.name</em><br><br>
+      삼성전자에 투자한 기관이 투자한 <strong>다른 기업</strong>이 누구인지 —<br>
+      이게 <strong>2-hop 쿼리</strong>입니다.<br><br>
+      벡터 RAG로는 불가능했던 질문이, Cypher 한 줄로 답이 나옵니다.<span class="pause">1s</span><br>
+      <strong>이 순간을 기억하세요. 이게 GraphRAG의 존재 이유입니다.</strong>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="lang">CYPHER — Multi-hop 쿼리 (이 시간의 하이라이트 🔥)</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+<pre>
+<span class="comment">// ════════════════════════════════════════
+// ⭐ 2-hop: 삼성전자 투자기관의 다른 투자처
+// ════════════════════════════════════════</span>
+<span class="keyword">MATCH</span> (<span class="node">c1:Company</span> {name: <span class="string">'삼성전자'</span>})
+      <-[:<span class="rel">INVESTED_IN</span>]-(<span class="node">i:Investor</span>)
+      -[:<span class="rel">INVESTED_IN</span>]->(<span class="node">c2:Company</span>)
+<span class="keyword">WHERE</span> c1 <> c2
+<span class="keyword">RETURN</span> i.name <span class="keyword">AS</span> 투자기관, c2.name <span class="keyword">AS</span> 다른투자처;
+
+<span class="result">// → 국민연금 | SK하이닉스   ← 이 연결을 벡터 RAG는 못 찾음!</span>
+
+<span class="comment">// ════════════════════════════════════════
+// ⭐ 3-hop: 경영자 → 회사 → 투자자 → 다른 투자처
+// ════════════════════════════════════════</span>
+<span class="keyword">MATCH</span> (<span class="node">p:Person</span> {name: <span class="string">'이재용'</span>})
+      -[:<span class="rel">LEADS</span>]->(<span class="node">c1:Company</span>)
+      <-[:<span class="rel">INVESTED_IN</span>]-(<span class="node">i:Investor</span>)
+      -[:<span class="rel">INVESTED_IN</span>]->(<span class="node">c2:Company</span>)
+<span class="keyword">WHERE</span> c1 <> c2
+<span class="keyword">RETURN</span> p.name <span class="keyword">AS</span> 경영자,
+       c1.name <span class="keyword">AS</span> 소속회사,
+       i.name <span class="keyword">AS</span> 투자기관,
+       c2.name <span class="keyword">AS</span> 투자기관의_다른투자처;
+
+<span class="result">// → 이재용 | 삼성전자 | 국민연금 | SK하이닉스</span>
+
+<span class="comment">// ════════════════════════════════════════
+// ⭐ 파트너 경로: 삼성전자의 파트너사 전체 탐색
+// ════════════════════════════════════════</span>
+<span class="keyword">MATCH</span> path = (<span class="node">c:Company</span> {name: <span class="string">'삼성전자'</span>})-[:<span class="rel">PARTNERS_WITH</span>*1..2]->(<span class="node">target</span>)
+<span class="keyword">RETURN</span> path;
+
+<span class="comment">// → 삼성전자 → 네이버 (1-hop 파트너)
+// → Neo4j Browser에서 경로가 시각화됨!</span>
+</pre>
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-flow">
+        <div class="diagram-node entity">삼성전자</div>
+        <div class="diagram-arrow">←</div>
+        <div class="diagram-node relation">INVESTED_IN</div>
+        <div class="diagram-arrow">←</div>
+        <div class="diagram-node entity">국민연금</div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node relation">INVESTED_IN</div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node entity">SK하이닉스</div>
+      </div>
+      <span class="diagram-label">2-hop 경로: 삼성전자 ←[투자]← 국민연금 →[투자]→ SK하이닉스</span>
+    </div>
+
+    <div class="callout key">
+      ⭐ <strong>이 순간이 Part 1의 클라이맥스:</strong> Section 1에서 벡터 RAG로 실패했던 바로 그 질문이, Cypher 한 줄로 답이 나옵니다. 이 대비를 수강생이 체감하는 것이 핵심!
+    </div>
+  </div>
+
+  <!-- SLIDE 6-6: Python 연동 -->
+  <div class="slide" id="slide-6-6">
+    <span class="slide-tag practice">🟢 실습</span>
+    <h3>슬라이드 6-6: (보너스) Python에서 Neo4j 연결하기</h3>
+
+    <div class="script-block">
+      Neo4j Browser에서 직접 Cypher를 쳐봤잖아요.<br>
+      실무에서는 <strong>Python 코드에서 Neo4j에 연결</strong>해서 쿼리를 실행합니다.<br>
+      Part 3~6에서 계속 쓸 패턴이니 지금 익혀두세요.
+    </div>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="lang">PYTHON — Neo4j 드라이버 연결 + Multi-hop 쿼리</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+<pre>
+<span class="keyword">from</span> neo4j <span class="keyword">import</span> <span class="func">GraphDatabase</span>
+
+<span class="comment"># 1. 연결</span>
+URI = <span class="string">"bolt://localhost:7687"</span>
+AUTH = (<span class="string">"neo4j"</span>, <span class="string">"graphrag2025"</span>)
+
+driver = <span class="func">GraphDatabase</span>.driver(URI, auth=AUTH)
+
+<span class="comment"># 2. Multi-hop 쿼리 실행</span>
+<span class="keyword">def</span> <span class="func">find_co_investments</span>(company_name: str):
+    <span class="string">"""삼성전자 투자기관의 다른 투자처 찾기 (2-hop)"""</span>
+    query = <span class="string">"""
+    MATCH (c1:Company {name: $company})
+          <-[:INVESTED_IN]-(i:Investor)
+          -[:INVESTED_IN]->(c2:Company)
+    WHERE c1 <> c2
+    RETURN i.name AS investor,
+           c2.name AS other_investment,
+           i.type AS investor_type
+    """</span>
+    
+    <span class="keyword">with</span> driver.session() <span class="keyword">as</span> session:
+        result = session.run(query, company=company_name)
+        <span class="keyword">return</span> [dict(record) <span class="keyword">for</span> record <span class="keyword">in</span> result]
+
+<span class="comment"># 3. 실행</span>
+results = <span class="func">find_co_investments</span>(<span class="string">"삼성전자"</span>)
+<span class="keyword">for</span> r <span class="keyword">in</span> results:
+    <span class="func">print</span>(<span class="string">f"</span>{r[<span class="string">'investor'</span>]}<span class="string"> → </span>{r[<span class="string">'other_investment'</span>]}<span class="string">"</span>)
+
+<span class="result"># 출력:
+# 국민연금 → SK하이닉스</span>
+
+<span class="comment"># 4. 정리</span>
+driver.close()
+</pre>
+    </div>
+
+    <div class="callout tip">
+      💡 <strong>설치:</strong> <code>pip install neo4j</code> &middot; Part 3에서 이 패턴으로 LLM 추출 결과를 자동 적재하고, Part 6에서 Text2Cypher Agent에 연결합니다.
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     MILESTONE + 마무리
+     ═══════════════════════════════════════════════ -->
+<section class="section" id="milestone" style="border-bottom: none;">
+<div class="container">
+
+  <div class="milestone">
+    <div class="trophy">🏆</div>
+    <h3>Part 1 Milestone 달성!</h3>
+    <p>
+      <strong>노드 7개 + 관계 5개</strong>의 미니 Knowledge Graph를 Neo4j에 직접 생성했습니다.<br>
+      벡터 RAG로 불가능했던 Multi-hop 질문이 Cypher 한 줄로 답이 나오는 걸 체험했습니다.<br>
+      <strong>"나도 그래프 DB를 쓸 수 있구나!"</strong> — 이 자신감을 가져가세요.
+    </p>
+  </div>
+
+  <div class="preview-next">
+    <div class="arrow">👉</div>
+    <div>
+      <h4>Next → Part 2: "직접 해봐야 안다" — 수작업 KG (2시간) ⭐⭐</h4>
+      <p>
+        실제 도메인 문서에서 엔티티와 관계를 <strong>손으로 직접</strong> 추출합니다. 뉴스 기사 10개에서 노드 15개, 관계 20개를 수작업으로 만드는 "고통의 시간". 이 고통이 Part 3 LLM 자동화의 가치를 체감하게 해줍니다.
+      </p>
+    </div>
+  </div>
+
+</div>
+</section>
+
+</main>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="page-footer">
+  <div class="container">
+    Knowledge Graph + GraphRAG 실무 완성 과정 &middot; Part 1 of 7<br>
+    <span style="color: var(--accent-cyan);">깊이가 곧 가치</span> &middot; Root Bricks Co., Ltd.
+  </div>
+</footer>
+
+<!-- ═══════════ SCROLL SPY ═══════════ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('.section[id]');
+  const navItems = document.querySelectorAll('.timeline-item');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(item => item.classList.remove('active'));
+        const activeNav = document.querySelector(`.timeline-item[href="#${entry.target.id}"]`);
+        if (activeNav) activeNav.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  
+  sections.forEach(section => observer.observe(section));
+  
+  // Smooth scroll for nav
+  navItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(item.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>
