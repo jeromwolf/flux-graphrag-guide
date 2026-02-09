@@ -147,7 +147,7 @@ export function ManufacturingStage0Interactive() {
           height={500}
         />
         {show3Hop && (
-          <div className="mt-4 p-4 rounded-lg text-sm bg-sky-50 border border-sky-200 text-slate-600">
+          <div className="mt-4 p-4 rounded-lg text-sm bg-sky-50 border border-sky-200 text-slate-700">
             <strong className="text-sky-600">3-hop 경로:</strong> 접착 박리 (DEF-001) → 전단강도 시험 (INS-001) → 열압착 (PRC-003) → HP-01 (EQP-003)
           </div>
         )}

@@ -47,7 +47,7 @@ export default async function DomainPage({ params }: { params: Promise<{ domain:
             <h1 className="text-4xl md:text-5xl font-black mb-2 gradient-text" style={{ fontFamily: 'var(--font-title)' }}>
               {domain.name} ({domain.nameEn})
             </h1>
-            <p className="text-lg text-slate-500">{domain.description}</p>
+            <p className="text-lg text-slate-700">{domain.description}</p>
           </div>
           {isComingSoon && (
             <span className="ml-auto text-sm px-4 py-2 rounded-full whitespace-nowrap bg-amber-50 text-amber-600 border border-amber-200">
@@ -87,10 +87,10 @@ export default async function DomainPage({ params }: { params: Promise<{ domain:
                   <span className="text-xs font-mono px-2 py-1 rounded bg-sky-50 text-sky-600">
                     Stage {stage.stage}
                   </span>
-                  <span className="text-sm text-slate-400">노드 {stage.nodes}</span>
+                  <span className="text-sm text-slate-500">노드 {stage.nodes}</span>
                 </div>
                 <h3 className="text-xl font-bold mb-2">{stage.name}</h3>
-                <p className="text-sm mb-3 text-slate-500">{stage.curriculumParts}</p>
+                <p className="text-sm mb-3 text-slate-700">{stage.curriculumParts}</p>
                 <div className="p-3 rounded-lg text-sm bg-slate-50 ring-card">
                   <span className="text-xs text-violet-500">마일스톤</span>
                   <p className="mt-1 text-sm">{stage.milestone}</p>

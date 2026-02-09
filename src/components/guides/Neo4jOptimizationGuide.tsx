@@ -14,13 +14,13 @@ export default function Neo4jOptimizationGuide() {
           1. Composite Index
         </h4>
         <div className="p-4 rounded-lg space-y-3 bg-white ring-card">
-          <div className="text-sm text-slate-500">
+          <div className="text-sm text-slate-700">
             <strong className="text-slate-900">언제:</strong> 자주 함께 검색되는 속성 조합이 있을 때
           </div>
           <div className="p-3 rounded font-mono text-xs bg-slate-100 text-sky-600">
             CREATE INDEX FOR (p:Process) ON (p.name, p.department)
           </div>
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-slate-500">
             단일 속성 인덱스 2개보다 Composite Index 1개가 훨씬 빠릅니다.
           </div>
         </div>
@@ -31,13 +31,13 @@ export default function Neo4jOptimizationGuide() {
           2. Fulltext Index
         </h4>
         <div className="p-4 rounded-lg space-y-3 bg-white ring-card">
-          <div className="text-sm text-slate-500">
+          <div className="text-sm text-slate-700">
             <strong className="text-slate-900">언제:</strong> 텍스트 검색이 필요할 때 (한국어 포함)
           </div>
           <div className="p-3 rounded font-mono text-xs bg-slate-100 text-sky-600">
             CREATE FULLTEXT INDEX FOR (d:Defect) ON EACH [d.description]
           </div>
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-slate-500">
             CONTAINS 연산보다 10배 이상 빠릅니다. 한국어 형태소 분석은 별도 플러그인 필요.
           </div>
         </div>
@@ -52,7 +52,7 @@ export default function Neo4jOptimizationGuide() {
             <div className="font-semibold mb-2 text-sky-600">
               apoc.periodic.iterate
             </div>
-            <div className="text-sm mb-2 text-slate-500">
+            <div className="text-sm mb-2 text-slate-700">
               대용량 배치 작업을 청크 단위로 분할하여 메모리 초과를 방지합니다.
             </div>
             <div
@@ -69,7 +69,7 @@ export default function Neo4jOptimizationGuide() {
             <div className="font-semibold mb-2 text-sky-600">
               apoc.path.expandConfig
             </div>
-            <div className="text-sm mb-2 text-slate-500">
+            <div className="text-sm mb-2 text-slate-700">
               경로 탐색의 범위를 제한하여 불필요한 그래프 탐색을 방지합니다.
             </div>
             <div
@@ -129,7 +129,7 @@ export default function Neo4jOptimizationGuide() {
                   <td className="px-4 py-3 font-mono text-xs text-sky-600">
                     {row.pagecache}
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs text-slate-500">
+                  <td className="px-4 py-3 font-mono text-xs text-slate-700">
                     {row.ram}
                   </td>
                 </tr>
@@ -153,7 +153,7 @@ export default function Neo4jOptimizationGuide() {
                 <code className="px-2 py-1 rounded text-xs font-mono bg-sky-50 text-sky-600">
                   PROFILE
                 </code>
-                <span className="text-sm ml-2 text-slate-500">
+                <span className="text-sm ml-2 text-slate-700">
                   쿼리를 실행하고 실제 db hits, 행 수를 표시
                 </span>
               </div>
@@ -163,13 +163,13 @@ export default function Neo4jOptimizationGuide() {
                 <code className="px-2 py-1 rounded text-xs font-mono bg-amber-50 text-amber-700">
                   EXPLAIN
                 </code>
-                <span className="text-sm ml-2 text-slate-500">
+                <span className="text-sm ml-2 text-slate-700">
                   실행 계획만 표시 (실제 실행하지 않음)
                 </span>
               </div>
             </div>
           </div>
-          <div className="text-sm space-y-2 text-slate-500">
+          <div className="text-sm space-y-2 text-slate-700">
             <p><strong className="text-slate-900">db hits 줄이기 전략:</strong></p>
             <ul className="list-disc list-inside space-y-1 ml-2">
               <li>인덱스를 활용하는 WHERE 조건 우선 배치</li>
@@ -244,7 +244,7 @@ export default function Neo4jOptimizationGuide() {
               <span className="text-xl">{item.icon}</span>
               <div>
                 <div className="font-semibold mb-1">{item.title}</div>
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-slate-700">
                   {item.description}
                 </div>
               </div>

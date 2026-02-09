@@ -56,7 +56,7 @@ export default function Text2CypherGuide() {
                     성공률 {item.rate}
                   </span>
                 </div>
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-slate-700">
                   {item.description}
                 </div>
               </div>
@@ -111,7 +111,7 @@ export default function Text2CypherGuide() {
                   <td className="px-4 py-3 font-medium text-slate-900">
                     {row.pattern}
                   </td>
-                  <td className="px-4 py-3 text-slate-500">
+                  <td className="px-4 py-3 text-slate-700">
                     {row.desc}
                   </td>
                 </tr>
@@ -125,7 +125,7 @@ export default function Text2CypherGuide() {
         <h4 className="text-xl font-bold mb-4 text-sky-600">
           Agent 기반 자가 수정
         </h4>
-        <p className="text-sm mb-4 text-slate-500">
+        <p className="text-sm mb-4 text-slate-700">
           Agent 방식은 Cypher 생성 후 실행 결과를 피드백으로 활용하여 자가 수정을 반복합니다.
         </p>
         <div className="flex flex-wrap items-center gap-2 p-4 rounded-lg bg-white ring-card">
@@ -144,7 +144,7 @@ export default function Text2CypherGuide() {
           ].map((step, idx) => (
             <span
               key={idx}
-              className={step.icon ? 'text-xs px-3 py-2 rounded-lg font-medium bg-sky-50 text-sky-600 border border-sky-200' : 'text-lg text-slate-400'}
+              className={step.icon ? 'text-xs px-3 py-2 rounded-lg font-medium bg-sky-50 text-sky-600 border border-sky-200' : 'text-lg text-slate-500'}
             >
               {step.icon && <span className="mr-1">{step.icon}</span>}
               {step.label}
@@ -204,7 +204,7 @@ export default function Text2CypherGuide() {
               </div>
               <div>
                 <div className="font-semibold mb-1">{item.title}</div>
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-slate-700">
                   {item.description}
                 </div>
               </div>

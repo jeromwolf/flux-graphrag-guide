@@ -54,7 +54,7 @@ export default function OntologyDesignGuide() {
                       {row.type}
                     </code>
                   </td>
-                  <td className="px-4 py-3 text-slate-500">
+                  <td className="px-4 py-3 text-slate-700">
                     {row.meaning}
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-slate-900">
@@ -115,7 +115,7 @@ export default function OntologyDesignGuide() {
                   <td className="px-4 py-3 font-medium text-slate-900">
                     {row.entity}
                   </td>
-                  <td className="px-4 py-3 text-slate-500">
+                  <td className="px-4 py-3 text-slate-700">
                     {row.desc}
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-sky-600">
@@ -132,7 +132,7 @@ export default function OntologyDesignGuide() {
         <h4 className="text-xl font-bold mb-4 text-sky-600">
           Meta-Dictionary 구조
         </h4>
-        <p className="text-sm mb-4 text-slate-500">
+        <p className="text-sm mb-4 text-slate-700">
           온톨로지를 체계적으로 관리하기 위한 메타 사전입니다. 모든 엔티티, 속성, 관계, 검증 규칙을 한 곳에서 관리합니다.
         </p>
         <div className="overflow-x-auto">
@@ -189,7 +189,7 @@ export default function OntologyDesignGuide() {
                   <td className="px-4 py-3 font-mono text-xs text-slate-900">
                     {row.properties}
                   </td>
-                  <td className="px-4 py-3 text-xs text-slate-500">
+                  <td className="px-4 py-3 text-xs text-slate-700">
                     {row.relations}
                   </td>
                   <td className="px-4 py-3 text-xs text-amber-700">
@@ -241,7 +241,7 @@ export default function OntologyDesignGuide() {
                 <span className="text-xl">{item.icon}</span>
                 <span className="font-bold">{item.domain}</span>
               </div>
-              <div className="text-xs space-y-1 text-slate-500">
+              <div className="text-xs space-y-1 text-slate-700">
                 <div>
                   <span className="text-sky-600">엔티티:</span> {item.entities}
                 </div>

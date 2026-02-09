@@ -259,25 +259,25 @@ db.transaction.timeout=30s`}
             </thead>
             <tbody>
               <tr>
-                <td className="text-slate-500" style={tdStyle}>전체 노드 스캔</td>
+                <td className="text-slate-700" style={tdStyle}>전체 노드 스캔</td>
                 <td className="text-red-500" style={tdStyle}>3,200ms</td>
                 <td className="text-sky-600" style={tdStyle}>45ms</td>
                 <td className="text-sky-600 font-bold" style={tdStyle}>98.6%</td>
               </tr>
               <tr>
-                <td className="text-slate-500" style={tdStyle}>3-hop 경로 탐색</td>
+                <td className="text-slate-700" style={tdStyle}>3-hop 경로 탐색</td>
                 <td className="text-red-500" style={tdStyle}>890ms</td>
                 <td className="text-sky-600" style={tdStyle}>120ms</td>
                 <td className="text-sky-600 font-bold" style={tdStyle}>86.5%</td>
               </tr>
               <tr>
-                <td className="text-slate-500" style={tdStyle}>텍스트 검색</td>
+                <td className="text-slate-700" style={tdStyle}>텍스트 검색</td>
                 <td className="text-red-500" style={tdStyle}>1,500ms</td>
                 <td className="text-sky-600" style={tdStyle}>35ms</td>
                 <td className="text-sky-600 font-bold" style={tdStyle}>97.7%</td>
               </tr>
               <tr>
-                <td className="text-slate-500" style={tdStyle}>집계 쿼리</td>
+                <td className="text-slate-700" style={tdStyle}>집계 쿼리</td>
                 <td className="text-red-500" style={tdStyle}>2,100ms</td>
                 <td className="text-sky-600" style={tdStyle}>180ms</td>
                 <td className="text-sky-600 font-bold" style={tdStyle}>91.4%</td>
@@ -322,7 +322,7 @@ function QualityDashboard() {
           <HopAccuracy hops={3} accuracy={87} />
           <HopAccuracy hops={4} accuracy={71} />
         </div>
-        <div className="mt-4 p-3 rounded-lg text-sm bg-slate-50 text-slate-500">
+        <div className="mt-4 p-3 rounded-lg text-sm bg-slate-50 text-slate-700">
           4-hop 이상에서 정확도 하락 관찰. 중간 노드 검증 로직 추가로 개선 가능.
         </div>
       </div>
@@ -374,52 +374,52 @@ function GDBMSGuide() {
             <tbody>
               <tr>
                 <td className="text-slate-900" style={tdLabelStyle}>쿼리 언어</td>
-                <td className="text-slate-500" style={tdStyle}>Cypher</td>
-                <td className="text-slate-500" style={tdStyle}>Gremlin / SPARQL</td>
-                <td className="text-slate-500" style={tdStyle}>nGQL (Cypher-like)</td>
-                <td className="text-slate-500" style={tdStyle}>Cypher</td>
+                <td className="text-slate-700" style={tdStyle}>Cypher</td>
+                <td className="text-slate-700" style={tdStyle}>Gremlin / SPARQL</td>
+                <td className="text-slate-700" style={tdStyle}>nGQL (Cypher-like)</td>
+                <td className="text-slate-700" style={tdStyle}>Cypher</td>
               </tr>
               <tr>
                 <td className="text-slate-900" style={tdLabelStyle}>최대 노드 수</td>
-                <td className="text-slate-500" style={tdStyle}>수십억</td>
-                <td className="text-slate-500" style={tdStyle}>수십억</td>
-                <td className="text-slate-500" style={tdStyle}>수천억</td>
-                <td className="text-slate-500" style={tdStyle}>수억 (메모리 한도)</td>
+                <td className="text-slate-700" style={tdStyle}>수십억</td>
+                <td className="text-slate-700" style={tdStyle}>수십억</td>
+                <td className="text-slate-700" style={tdStyle}>수천억</td>
+                <td className="text-slate-700" style={tdStyle}>수억 (메모리 한도)</td>
               </tr>
               <tr>
                 <td className="text-slate-900" style={tdLabelStyle}>가격</td>
-                <td className="text-slate-500" style={tdStyle}>Community 무료 / Enterprise 유료</td>
-                <td className="text-slate-500" style={tdStyle}>시간당 과금 (AWS)</td>
-                <td className="text-slate-500" style={tdStyle}>오픈소스 무료</td>
-                <td className="text-slate-500" style={tdStyle}>Community 무료 / Enterprise 유료</td>
+                <td className="text-slate-700" style={tdStyle}>Community 무료 / Enterprise 유료</td>
+                <td className="text-slate-700" style={tdStyle}>시간당 과금 (AWS)</td>
+                <td className="text-slate-700" style={tdStyle}>오픈소스 무료</td>
+                <td className="text-slate-700" style={tdStyle}>Community 무료 / Enterprise 유료</td>
               </tr>
               <tr>
                 <td className="text-slate-900" style={tdLabelStyle}>한국어 지원</td>
                 <td className="text-sky-600" style={tdStyle}>우수 (UTF-8 완전 지원)</td>
-                <td className="text-slate-500" style={tdStyle}>양호</td>
-                <td className="text-slate-500" style={tdStyle}>양호</td>
-                <td className="text-slate-500" style={tdStyle}>양호</td>
+                <td className="text-slate-700" style={tdStyle}>양호</td>
+                <td className="text-slate-700" style={tdStyle}>양호</td>
+                <td className="text-slate-700" style={tdStyle}>양호</td>
               </tr>
               <tr>
                 <td className="text-slate-900" style={tdLabelStyle}>커뮤니티</td>
                 <td className="text-sky-600" style={tdStyle}>매우 활발</td>
-                <td className="text-slate-500" style={tdStyle}>AWS 커뮤니티</td>
-                <td className="text-slate-500" style={tdStyle}>성장 중</td>
-                <td className="text-slate-500" style={tdStyle}>소규모</td>
+                <td className="text-slate-700" style={tdStyle}>AWS 커뮤니티</td>
+                <td className="text-slate-700" style={tdStyle}>성장 중</td>
+                <td className="text-slate-700" style={tdStyle}>소규모</td>
               </tr>
               <tr>
                 <td className="text-slate-900" style={tdLabelStyle}>GDS (분석)</td>
                 <td className="text-sky-600" style={tdStyle}>GDS 라이브러리</td>
-                <td className="text-slate-500" style={tdStyle}>Neptune Analytics</td>
-                <td className="text-slate-500" style={tdStyle}>내장 알고리즘</td>
-                <td className="text-slate-500" style={tdStyle}>MAGE</td>
+                <td className="text-slate-700" style={tdStyle}>Neptune Analytics</td>
+                <td className="text-slate-700" style={tdStyle}>내장 알고리즘</td>
+                <td className="text-slate-700" style={tdStyle}>MAGE</td>
               </tr>
               <tr>
                 <td className="text-slate-900" style={tdLabelStyle}>학습 곡선</td>
                 <td className="text-sky-600" style={tdStyle}>낮음</td>
-                <td className="text-slate-500" style={tdStyle}>중간</td>
-                <td className="text-slate-500" style={tdStyle}>중간</td>
-                <td className="text-slate-500" style={tdStyle}>낮음</td>
+                <td className="text-slate-700" style={tdStyle}>중간</td>
+                <td className="text-slate-700" style={tdStyle}>중간</td>
+                <td className="text-slate-700" style={tdStyle}>낮음</td>
               </tr>
             </tbody>
           </table>
@@ -432,10 +432,10 @@ function GDBMSGuide() {
           <h4 className="font-bold mb-3 text-sky-600">
             교육 / PoC 환경
           </h4>
-          <p className="text-sm mb-3 text-slate-500">
+          <p className="text-sm mb-3 text-slate-700">
             <strong className="text-slate-900">Neo4j Community Edition</strong> 추천
           </p>
-          <ul className="space-y-1 text-sm text-slate-400">
+          <ul className="space-y-1 text-sm text-slate-500">
             <li>- Cypher 학습 자료 풍부</li>
             <li>- 무료 사용 가능</li>
             <li>- Desktop / Docker 간편 설치</li>
@@ -447,11 +447,11 @@ function GDBMSGuide() {
           <h4 className="font-bold mb-3 text-violet-500">
             프로덕션 환경
           </h4>
-          <p className="text-sm mb-3 text-slate-500">
+          <p className="text-sm mb-3 text-slate-700">
             <strong className="text-slate-900">Neo4j Enterprise</strong> 또는{' '}
             <strong className="text-slate-900">NebulaGraph</strong>
           </p>
-          <ul className="space-y-1 text-sm text-slate-400">
+          <ul className="space-y-1 text-sm text-slate-500">
             <li>- 클러스터링 / HA 지원</li>
             <li>- 대규모 스케일링 가능</li>
             <li>- 엔터프라이즈 보안 (RBAC)</li>
@@ -580,7 +580,7 @@ function NextSteps() {
         <h3 className="text-lg font-bold mb-3 text-sky-600">
           금융 도메인 확장 예고
         </h3>
-        <p className="text-sm mb-4 text-slate-500">
+        <p className="text-sm mb-4 text-slate-700">
           제조 도메인에서 검증된 GraphRAG 패턴을 금융 도메인으로 확장합니다.
           규제 준수, 거래 네트워크 분석, 리스크 관계 추적 등 금융 특화 시나리오를 다룹니다.
         </p>
@@ -625,7 +625,7 @@ function NextSteps() {
         <h3 className="text-lg font-bold mb-3 text-sky-600">
           피드백을 보내주세요
         </h3>
-        <p className="text-sm mb-4 text-slate-500">
+        <p className="text-sm mb-4 text-slate-700">
           커리큘럼 개선, 추가 도메인 요청, 버그 리포트 등 모든 피드백을 환영합니다.
         </p>
         <div className="flex justify-center gap-4 flex-wrap">
@@ -646,7 +646,7 @@ function SectionTitle({ title, subtitle }: { title: string; subtitle: string }) 
   return (
     <div className="mb-2">
       <h2 className="text-2xl font-bold">{title}</h2>
-      <p className="text-sm mt-1 text-slate-500">{subtitle}</p>
+      <p className="text-sm mt-1 text-slate-700">{subtitle}</p>
     </div>
   );
 }
@@ -662,7 +662,7 @@ function MetricCard({ label, value, accent }: { label: string; value: string; ac
   return (
     <div className="p-4 rounded-xl text-center bg-white ring-card">
       <p className={`text-2xl font-black ${colorClass}`}>{value}</p>
-      <p className="text-xs mt-1 text-slate-400">{label}</p>
+      <p className="text-xs mt-1 text-slate-500">{label}</p>
     </div>
   );
 }
@@ -682,7 +682,7 @@ function ArchLayer({ label, color, items }: { label: string; color: string; item
       <p className={`text-xs font-mono font-bold mb-2 ${colorClass.split(' ')[0]}`}>{label}</p>
       <div className="flex flex-wrap gap-2">
         {items.map((item) => (
-          <span key={item} className="text-xs px-2 py-1 rounded bg-slate-100 text-slate-500">
+          <span key={item} className="text-xs px-2 py-1 rounded bg-slate-100 text-slate-700">
             {item}
           </span>
         ))}
@@ -693,7 +693,7 @@ function ArchLayer({ label, color, items }: { label: string; color: string; item
 
 function LayerArrow() {
   return (
-    <div className="flex justify-center text-slate-400">
+    <div className="flex justify-center text-slate-500">
       <span className="text-lg">|</span>
     </div>
   );
@@ -713,7 +713,7 @@ function DetailCard({ title, color, items }: { title: string; color: string; ite
       <h4 className={`font-bold mb-3 ${colorClass}`}>{title}</h4>
       <ul className="space-y-2">
         {items.map((item, i) => (
-          <li key={i} className="text-sm text-slate-500">
+          <li key={i} className="text-sm text-slate-700">
             - {item}
           </li>
         ))}
@@ -725,8 +725,8 @@ function DetailCard({ title, color, items }: { title: string; color: string; ite
 function CodeBlock({ title, code }: { title: string; code: string }) {
   return (
     <div>
-      <p className="text-xs font-mono mb-2 text-slate-400">{title}</p>
-      <pre className="p-4 rounded-lg overflow-x-auto text-xs leading-relaxed bg-slate-100 border border-slate-200 font-mono text-slate-500">
+      <p className="text-xs font-mono mb-2 text-slate-500">{title}</p>
+      <pre className="p-4 rounded-lg overflow-x-auto text-xs leading-relaxed bg-slate-100 border border-slate-200 font-mono text-slate-700">
         <code>{code}</code>
       </pre>
     </div>
@@ -742,7 +742,7 @@ function RagasMetric({ label, value, description }: { label: string; value: numb
     <div className="p-4 rounded-xl text-center bg-slate-50 ring-card">
       <p className={`text-2xl font-black ${colorClass}`}>{value.toFixed(2)}</p>
       <p className="text-xs font-semibold mt-1 text-slate-900">{label}</p>
-      <p className="text-xs mt-1 text-slate-400">{description}</p>
+      <p className="text-xs mt-1 text-slate-500">{description}</p>
       {/* Progress bar */}
       <div className="mt-2 h-1.5 rounded-full bg-slate-100">
         <div className={`h-full rounded-full ${bgClass}`} style={{ width: `${pct}%` }} />
@@ -756,7 +756,7 @@ function HopAccuracy({ hops, accuracy }: { hops: number; accuracy: number }) {
   return (
     <div className="p-4 rounded-xl text-center bg-slate-50 ring-card">
       <p className={`text-2xl font-black ${colorClass}`}>{accuracy}%</p>
-      <p className="text-xs mt-1 text-slate-400">{hops}-hop 정확도</p>
+      <p className="text-xs mt-1 text-slate-500">{hops}-hop 정확도</p>
     </div>
   );
 }
@@ -765,7 +765,7 @@ function ChecklistItem({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3">
       <div className="w-5 h-5 rounded border-2 border-sky-600 flex-shrink-0 bg-transparent" />
-      <span className="text-sm text-slate-500">{label}</span>
+      <span className="text-sm text-slate-700">{label}</span>
     </div>
   );
 }
@@ -776,7 +776,7 @@ function NumberedItem({ n, text }: { n: number; text: string }) {
       <span className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold bg-sky-50/60 text-sky-600 border border-sky-200">
         {n}
       </span>
-      <span className="text-sm text-slate-500">{text}</span>
+      <span className="text-sm text-slate-700">{text}</span>
     </div>
   );
 }
@@ -805,11 +805,11 @@ function MonitorCard({
       <div className="space-y-1">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full flex-shrink-0 bg-sky-600" />
-          <span className="text-xs text-slate-500">목표: {target}</span>
+          <span className="text-xs text-slate-700">목표: {target}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full flex-shrink-0 bg-red-500" />
-          <span className="text-xs text-slate-500">경고: {alert}</span>
+          <span className="text-xs text-slate-700">경고: {alert}</span>
         </div>
       </div>
     </div>
@@ -827,7 +827,7 @@ function PipelineStage({ stage, desc, color }: { stage: string; desc: string; co
   return (
     <div className={`p-3 rounded-lg text-center bg-slate-50 border-t-2 ${colorClass}`}>
       <p className={`text-sm font-semibold ${colorClass.split(' ')[0]}`}>{stage}</p>
-      <p className="text-xs mt-1 text-slate-400">{desc}</p>
+      <p className="text-xs mt-1 text-slate-500">{desc}</p>
     </div>
   );
 }
@@ -836,7 +836,7 @@ function PreviewCard({ title, desc }: { title: string; desc: string }) {
   return (
     <div className="p-4 rounded-lg bg-slate-50 ring-card">
       <p className="text-sm font-semibold text-slate-900">{title}</p>
-      <p className="text-xs mt-1 text-slate-400">{desc}</p>
+      <p className="text-xs mt-1 text-slate-500">{desc}</p>
     </div>
   );
 }
@@ -853,7 +853,7 @@ function CommunityItem({ title, desc, color }: { title: string; desc: string; co
   return (
     <div className="p-4 rounded-lg bg-slate-50 ring-card">
       <p className={`text-sm font-semibold ${colorClass}`}>{title}</p>
-      <p className="text-xs mt-1 text-slate-400">{desc}</p>
+      <p className="text-xs mt-1 text-slate-500">{desc}</p>
     </div>
   );
 }

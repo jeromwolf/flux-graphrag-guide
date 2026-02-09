@@ -57,7 +57,7 @@ export default function GraphragDecisionGuide() {
               </div>
               <div>
                 <div className="font-semibold mb-1">{item.title}</div>
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-slate-700">
                   {item.description}
                 </div>
               </div>
@@ -208,7 +208,7 @@ export default function GraphragDecisionGuide() {
                 <div className="font-semibold text-red-500">
                   {item.title}
                 </div>
-                <div className="text-sm text-slate-500">
+                <div className="text-sm text-slate-700">
                   {item.description}
                 </div>
               </div>

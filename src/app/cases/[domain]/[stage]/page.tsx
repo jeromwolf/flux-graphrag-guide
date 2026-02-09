@@ -95,7 +95,7 @@ export default async function StagePage({ params }: { params: Promise<{ domain: 
             마일스톤
           </span>
           <p className="text-lg font-semibold mt-2">{stage.milestone}</p>
-          <p className="text-sm mt-2 text-slate-500">
+          <p className="text-sm mt-2 text-slate-700">
             {stage.curriculumParts} · 노드 {stage.nodes}
           </p>
         </div>
@@ -315,7 +315,7 @@ function PlaceholderContent() {
   return (
     <div className="p-12 rounded-xl text-center ring-card bg-white">
       <p className="text-xl font-semibold mb-2">콘텐츠 준비 중</p>
-      <p className="text-slate-500">
+      <p className="text-slate-700">
         이 단계의 실습 콘텐츠는 곧 공개됩니다.
       </p>
     </div>
@@ -395,7 +395,7 @@ function DownloadLink({ href, title, description }: { href: string; title: strin
         <FileText className="w-5 h-5 text-sky-500" />
         <span className="font-mono text-sm font-semibold">{title}</span>
       </div>
-      <p className="text-xs text-slate-500">{description}</p>
+      <p className="text-xs text-slate-700">{description}</p>
     </a>
   );
 }

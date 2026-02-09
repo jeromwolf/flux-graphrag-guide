@@ -103,7 +103,7 @@ export function ManufacturingStage2Interactive() {
       >
         {/* Pipeline diagram */}
         <div className="mb-6">
-          <h4 className="text-sm font-semibold mb-4 text-slate-400">
+          <h4 className="text-sm font-semibold mb-4 text-slate-500">
             자동 파이프라인
           </h4>
           <div className="flex flex-col md:flex-row items-stretch gap-3">
@@ -129,12 +129,12 @@ export function ManufacturingStage2Interactive() {
                   <div className="text-sm font-semibold text-slate-900">
                     {stage.label}
                   </div>
-                  <div className="text-xs mt-1 text-slate-400">
+                  <div className="text-xs mt-1 text-slate-500">
                     {stage.detail}
                   </div>
                 </div>
                 {idx < pipelineStages.length - 1 && (
-                  <span className="hidden md:block text-lg flex-shrink-0 text-slate-400">
+                  <span className="hidden md:block text-lg flex-shrink-0 text-slate-500">
                     &rarr;
                   </span>
                 )}
@@ -168,7 +168,7 @@ export function ManufacturingStage2Interactive() {
           />
         </div>
 
-        <div className="mt-6 p-4 rounded-lg text-sm bg-sky-50 border border-sky-200 text-slate-500">
+        <div className="mt-6 p-4 rounded-lg text-sm bg-sky-50 border border-sky-200 text-slate-700">
           <strong className="text-sky-600">스케일 포인트:</strong>{' '}
           노드 수가 5배 이상 증가하면 수작업 관리가 불가능합니다. Entity Resolution과 자동 파이프라인은 프로토타입 단계에서 반드시 구축해야 하는 인프라입니다.
         </div>
@@ -215,7 +215,7 @@ export function ManufacturingStage2Interactive() {
                 성공률 {text2cypherEvolution[activeTab].successRate}%
               </span>
             </div>
-            <p className="text-sm mb-3 text-slate-500">
+            <p className="text-sm mb-3 text-slate-700">
               {text2cypherEvolution[activeTab].description}
             </p>
             <div className="grid grid-cols-2 gap-3">
@@ -223,13 +223,13 @@ export function ManufacturingStage2Interactive() {
                 <span className="font-semibold text-sky-600">
                   장점:
                 </span>{' '}
-                <span className="text-slate-500">{text2cypherEvolution[activeTab].pros}</span>
+                <span className="text-slate-700">{text2cypherEvolution[activeTab].pros}</span>
               </div>
               <div className="p-3 rounded-lg text-sm bg-red-50 border border-red-200">
                 <span className="font-semibold text-red-500">
                   한계:
                 </span>{' '}
-                <span className="text-slate-500">{text2cypherEvolution[activeTab].cons}</span>
+                <span className="text-slate-700">{text2cypherEvolution[activeTab].cons}</span>
               </div>
             </div>
           </div>
@@ -237,13 +237,13 @@ export function ManufacturingStage2Interactive() {
 
         {/* Success rate bar chart */}
         <div className="mb-6">
-          <h4 className="text-sm font-semibold mb-3 text-slate-400">
+          <h4 className="text-sm font-semibold mb-3 text-slate-500">
             성공률 비교
           </h4>
           <div className="space-y-3">
             {text2cypherEvolution.map((evo, idx) => (
               <div key={idx} className="flex items-center gap-3">
-                <span className="text-xs font-mono w-20 text-right flex-shrink-0 text-slate-500">
+                <span className="text-xs font-mono w-20 text-right flex-shrink-0 text-slate-700">
                   {evo.stage}
                 </span>
                 <div className="flex-1 h-7 rounded-full overflow-hidden bg-slate-50">
@@ -264,7 +264,7 @@ export function ManufacturingStage2Interactive() {
 
         {/* Example conversion */}
         <div>
-          <h4 className="text-sm font-semibold mb-3 text-slate-400">
+          <h4 className="text-sm font-semibold mb-3 text-slate-500">
             변환 예시
           </h4>
           <div className="rounded-xl overflow-hidden border border-slate-200">
@@ -319,7 +319,7 @@ export function ManufacturingStage2Interactive() {
       >
         {/* Routing strategy diagram */}
         <div className="mb-6">
-          <h4 className="text-sm font-semibold mb-4 text-slate-400">
+          <h4 className="text-sm font-semibold mb-4 text-slate-500">
             질문 라우팅 전략
           </h4>
 
@@ -328,7 +328,7 @@ export function ManufacturingStage2Interactive() {
             <div className="text-sm font-semibold text-violet-500">
               질문 분류기 (Query Router)
             </div>
-            <div className="text-xs mt-1 text-slate-400">
+            <div className="text-xs mt-1 text-slate-500">
               LLM이 질문 유형을 분석하여 최적 검색 경로 결정
             </div>
           </div>
@@ -350,7 +350,7 @@ export function ManufacturingStage2Interactive() {
                     {strategy.questionType}
                   </span>
                 </div>
-                <p className="text-xs mb-3 text-slate-400">
+                <p className="text-xs mb-3 text-slate-500">
                   {strategy.example}
                 </p>
                 <div className="flex items-center justify-between">
@@ -374,7 +374,7 @@ export function ManufacturingStage2Interactive() {
 
         {/* How hybrid works */}
         <div className="p-5 rounded-xl bg-slate-50 border border-slate-200">
-          <h4 className="text-sm font-semibold mb-3 text-slate-400">
+          <h4 className="text-sm font-semibold mb-3 text-slate-500">
             하이브리드 검색 작동 원리
           </h4>
           <div className="space-y-3">
@@ -420,12 +420,12 @@ export function ManufacturingStage2Interactive() {
           <div className="flex min-h-[400px]">
             {/* Sidebar */}
             <div className="w-64 p-4 border-r flex-shrink-0 bg-slate-50 border-slate-200">
-              <div className="text-xs font-semibold mb-3 text-slate-400">
+              <div className="text-xs font-semibold mb-3 text-slate-500">
                 MANUFACTURING GRAPHRAG
               </div>
               <div className="space-y-3">
                 <div>
-                  <label className="text-xs mb-1 block text-slate-400">
+                  <label className="text-xs mb-1 block text-slate-500">
                     질문 입력
                   </label>
                   <div className="p-2 rounded-lg text-sm bg-white border border-slate-200 text-slate-900">
@@ -433,7 +433,7 @@ export function ManufacturingStage2Interactive() {
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs mb-1 block text-slate-400">
+                  <label className="text-xs mb-1 block text-slate-500">
                     검색 모드
                   </label>
                   <div className="space-y-1">
@@ -464,7 +464,7 @@ export function ManufacturingStage2Interactive() {
             <div className="flex-1 flex flex-col">
               {/* Graph visualization area */}
               <div className="flex-1 p-4 border-b border-slate-200">
-                <div className="text-xs font-semibold mb-2 text-slate-400">
+                <div className="text-xs font-semibold mb-2 text-slate-500">
                   GRAPH VISUALIZATION
                 </div>
                 <div className="h-full rounded-lg flex items-center justify-center bg-slate-100 border border-dashed border-slate-200 min-h-[180px]">
@@ -501,10 +501,10 @@ export function ManufacturingStage2Interactive() {
 
               {/* Answer area */}
               <div className="p-4">
-                <div className="text-xs font-semibold mb-2 text-slate-400">
+                <div className="text-xs font-semibold mb-2 text-slate-500">
                   ANSWER
                 </div>
-                <div className="p-3 rounded-lg text-sm bg-slate-50 border border-slate-200 text-slate-500">
+                <div className="p-3 rounded-lg text-sm bg-slate-50 border border-slate-200 text-slate-700">
                   <p>
                     HP-01 설비에서 지난달 발생한 결함은{' '}
                     <strong className="text-red-500">접착 박리</strong>(Critical)와{' '}
@@ -514,7 +514,7 @@ export function ManufacturingStage2Interactive() {
                   </p>
                 </div>
                 {/* Evidence path */}
-                <div className="mt-2 p-2 rounded-lg text-xs bg-sky-50 border border-sky-200 text-slate-400">
+                <div className="mt-2 p-2 rounded-lg text-xs bg-sky-50 border border-sky-200 text-slate-500">
                   <span className="text-sky-600">근거 경로:</span>{' '}
                   HP-01 &rarr; 열압착 &rarr; 접착 박리 / 기포 발생 (CAUSED_BY_PROCESS)
                 </div>
@@ -557,14 +557,14 @@ export function ManufacturingStage2Interactive() {
           {performanceData.map((item, idx) => (
             <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-200">
               <div className="flex items-baseline justify-between mb-1">
-                <span className="text-sm text-slate-500">
+                <span className="text-sm text-slate-700">
                   {item.metric}
                 </span>
                 <span className="text-xl font-bold text-sky-600">
                   {item.value}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 {item.detail}
               </p>
             </div>
@@ -573,7 +573,7 @@ export function ManufacturingStage2Interactive() {
 
         {/* RAGAS results */}
         <div className="p-5 rounded-xl bg-slate-50 border border-slate-200">
-          <h4 className="text-sm font-semibold mb-4 text-slate-400">
+          <h4 className="text-sm font-semibold mb-4 text-slate-500">
             RAGAS 평가 결과
           </h4>
           <div className="space-y-4">
@@ -615,7 +615,7 @@ export function ManufacturingStage2Interactive() {
           <p className="text-sm font-semibold mb-2 text-sky-600">
             종합 평가
           </p>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-700">
             프로토타입 단계에서 <strong className="text-sky-600">구조적 질문 92%</strong> 정확도를 달성했습니다.
             RAGAS Answer Relevancy <strong className="text-sky-600">0.91</strong>은 상용 수준에 근접한 성과입니다.
             Context Recall(<strong className="text-amber-600">0.79</strong>)은 Stage 3에서 커뮤니티 요약 기법을 적용하여 개선할 예정입니다.
@@ -661,7 +661,7 @@ function CollapsibleSection({
             <h2 className="text-xl font-bold text-slate-900">
               {title}
             </h2>
-            <p className="text-sm mt-1 text-slate-400">
+            <p className="text-sm mt-1 text-slate-500">
               {subtitle}
             </p>
           </div>
@@ -710,11 +710,11 @@ function ScaleCard({
         <span className="text-2xl font-bold" style={{ color }}>
           {stat}
         </span>
-        <span className="text-xs ml-1 text-slate-400">
+        <span className="text-xs ml-1 text-slate-500">
           {statLabel}
         </span>
       </div>
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-slate-700">
         {description}
       </p>
     </div>

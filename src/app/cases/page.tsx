@@ -21,7 +21,7 @@ export default function CasesPage() {
         <h1 className="text-4xl md:text-5xl font-black mb-4 gradient-text" style={{ fontFamily: 'var(--font-title)' }}>
           도메인 유스케이스
         </h1>
-        <p className="text-lg text-slate-500">
+        <p className="text-lg text-slate-700">
           4개 도메인 × 4단계 = 16개 실습 프로젝트
         </p>
       </div>
@@ -36,7 +36,7 @@ export default function CasesPage() {
               {domainIcons[domain.id] || <Globe className="w-8 h-8 text-sky-500" />}
               <div>
                 <h2 className="text-2xl font-bold">{domain.name} ({domain.nameEn})</h2>
-                <p className="text-sm text-slate-500">{domain.description}</p>
+                <p className="text-sm text-slate-700">{domain.description}</p>
               </div>
               {domain.status === 'coming-soon' && (
                 <span className="ml-auto text-xs px-3 py-1 rounded-full bg-amber-50 text-amber-600 border border-amber-200">
@@ -59,7 +59,7 @@ export default function CasesPage() {
                       Stage {stage.stage}
                     </div>
                     <div className="font-semibold text-sm mb-1">{stage.name}</div>
-                    <div className="text-xs text-slate-400">
+                    <div className="text-xs text-slate-500">
                       노드 {stage.nodes} · {stage.curriculumParts}
                     </div>
                   </>

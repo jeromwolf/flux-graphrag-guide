@@ -169,7 +169,7 @@ export function ManufacturingStage1Interactive() {
         <div className="grid md:grid-cols-2 gap-6">
           {/* Entity count table */}
           <div className="p-5 rounded-xl bg-slate-50 ring-card">
-            <h4 className="text-sm font-semibold mb-4 text-slate-400">
+            <h4 className="text-sm font-semibold mb-4 text-slate-500">
               엔티티 타입별 노드 수
             </h4>
             <div className="space-y-3">
@@ -199,10 +199,10 @@ export function ManufacturingStage1Interactive() {
 
           {/* Expanded relationship types */}
           <div className="p-5 rounded-xl bg-slate-50 ring-card">
-            <h4 className="text-sm font-semibold mb-4 text-slate-400">
+            <h4 className="text-sm font-semibold mb-4 text-slate-500">
               확장된 관계 타입 (12개)
             </h4>
-            <div className="space-y-1.5 text-sm text-slate-500">
+            <div className="space-y-1.5 text-sm text-slate-700">
               <p>
                 <span className="text-sky-600">NEXT</span> - 순차 공정
               </p>
@@ -244,7 +244,7 @@ export function ManufacturingStage1Interactive() {
         </div>
 
         {/* Stage 0 vs Stage 1 comparison */}
-        <div className="mt-6 p-4 rounded-lg text-sm bg-sky-50/60 border border-sky-200 text-slate-500">
+        <div className="mt-6 p-4 rounded-lg text-sm bg-sky-50/60 border border-sky-200 text-slate-700">
           <strong className="text-sky-600">Stage 0 vs Stage 1:</strong>{' '}
           노드 7개 / 관계 7개 / 엔티티 5종 → 노드 35개 / 관계 52개 / 엔티티 7종. 작업자(Operator)와 자재(Material)를 추가하여 인과 분석의 깊이가 크게 향상됩니다.
         </div>
@@ -263,7 +263,7 @@ export function ManufacturingStage1Interactive() {
           <table className="w-full text-sm" style={{ borderCollapse: 'separate', borderSpacing: 0 }}>
             <thead>
               <tr>
-                <th className="text-left px-5 py-3 font-semibold bg-slate-50 border-b-2 border-slate-200 text-slate-400">
+                <th className="text-left px-5 py-3 font-semibold bg-slate-50 border-b-2 border-slate-200 text-slate-500">
                   항목
                 </th>
                 <th className="text-center px-5 py-3 font-semibold bg-sky-50 border-b-2 border-sky-500 text-sky-600">
@@ -305,7 +305,7 @@ export function ManufacturingStage1Interactive() {
               <p className="text-sm font-semibold mb-1 text-red-500">
                 LLM 환각(Hallucination) 관계 발생
               </p>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-700">
                 LLM이 추출한 61개 관계 중 9개(약 15%)가 원본 문서에 없는 허위 관계입니다.
                 예: &quot;연마 공정이 접착제를 사용한다&quot; (실제로는 열압착 공정에서만 사용).
                 이는 LLM 추출 후 <strong className="text-amber-600">전문가 검증</strong>이
@@ -368,7 +368,7 @@ export function ManufacturingStage1Interactive() {
           <p className="text-sm font-semibold mb-2 text-sky-600">
             결론: 최적 전략
           </p>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-700">
             <strong className="text-amber-600">LLM 추출 후 수작업 정제</strong>가 최적 전략입니다.
             LLM의 높은 재현율(91%)로 빠르게 초안을 생성하고, 전문가가 정밀도를 보완하면
             F1-Score <strong className="text-sky-600">93%</strong> 이상을 달성할 수 있습니다.
@@ -441,7 +441,7 @@ export function ManufacturingStage1Interactive() {
           />
         </div>
 
-        <div className="mt-6 p-4 rounded-lg text-sm bg-amber-50 border border-amber-200 text-slate-500">
+        <div className="mt-6 p-4 rounded-lg text-sm bg-amber-50 border border-amber-200 text-slate-700">
           <strong className="text-amber-700">핵심 교훈:</strong>{' '}
           35개 노드 규모에서 수작업과 LLM 추출을 모두 경험하면, 이후 대규모 KG 구축 시 최적의 하이브리드 전략을 수립할 수 있습니다.
           &quot;정밀도는 전문가가, 커버리지는 LLM이&quot; 담당하는 역할 분담이 핵심입니다.
@@ -486,7 +486,7 @@ function CollapsibleSection({
             <h2 className="text-xl font-bold text-slate-900">
               {title}
             </h2>
-            <p className="text-sm mt-1 text-slate-400">
+            <p className="text-sm mt-1 text-slate-500">
               {subtitle}
             </p>
           </div>
@@ -528,7 +528,7 @@ function LearningCard({
       <h3 className="font-semibold mb-3" style={{ color }}>
         {title}
       </h3>
-      <ul className="space-y-2 text-sm text-slate-500">
+      <ul className="space-y-2 text-sm text-slate-700">
         {items.map((item, idx) => (
           <li key={idx}>
             <span style={{ color, marginRight: '8px' }}>&#x2022;</span>

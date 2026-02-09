@@ -49,7 +49,7 @@ export default function RagasEvaluationGuide() {
                 {item.metric}
               </div>
               <div className="text-sm font-medium mb-1">{item.description}</div>
-              <div className="text-xs text-slate-500">
+              <div className="text-xs text-slate-700">
                 {item.detail}
               </div>
             </div>
@@ -61,7 +61,7 @@ export default function RagasEvaluationGuide() {
         <h4 className="text-xl font-bold mb-4 text-sky-600">
           Multi-hop 질문 생성
         </h4>
-        <p className="text-sm mb-4 text-slate-500">
+        <p className="text-sm mb-4 text-slate-700">
           GraphRAG 평가에서는 hop 수에 따른 질문 난이도를 체계적으로 구성해야 합니다.
         </p>
         <div className="space-y-3">
@@ -104,7 +104,7 @@ export default function RagasEvaluationGuide() {
                 </span>
               </div>
               <div className="text-sm font-medium mb-1">{item.question}</div>
-              <div className="text-xs font-mono text-slate-400">
+              <div className="text-xs font-mono text-slate-500">
                 경로: {item.path}
               </div>
             </div>
@@ -120,7 +120,7 @@ export default function RagasEvaluationGuide() {
         <h4 className="text-xl font-bold mb-4 text-sky-600">
           Common Knowledge 필터링
         </h4>
-        <p className="text-sm mb-4 text-slate-500">
+        <p className="text-sm mb-4 text-slate-700">
           그래프에서 직접 답할 수 있는 질문과 LLM 일반 지식으로 답하는 질문을 구분해야 합니다.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -128,7 +128,7 @@ export default function RagasEvaluationGuide() {
             <div className="font-semibold mb-2 text-sky-600">
               그래프 기반 질문 (유효)
             </div>
-            <ul className="text-sm space-y-2 text-slate-500">
+            <ul className="text-sm space-y-2 text-slate-700">
               <li>- &quot;PRC-001 공정의 불량률은?&quot;</li>
               <li>- &quot;EQP-HP01에서 발생한 결함 목록&quot;</li>
               <li>- &quot;최근 검사 실패 이력&quot;</li>
@@ -138,14 +138,14 @@ export default function RagasEvaluationGuide() {
             <div className="font-semibold mb-2 text-red-500">
               일반 지식 질문 (필터링 대상)
             </div>
-            <ul className="text-sm space-y-2 text-slate-500">
+            <ul className="text-sm space-y-2 text-slate-700">
               <li>- &quot;열압착이란 무엇인가?&quot;</li>
               <li>- &quot;ISO 9001 인증 절차&quot;</li>
               <li>- &quot;품질 관리의 일반 원칙&quot;</li>
             </ul>
           </div>
         </div>
-        <div className="mt-4 text-sm space-y-2 text-slate-500">
+        <div className="mt-4 text-sm space-y-2 text-slate-700">
           <p><strong className="text-slate-900">필터링 기준:</strong></p>
           <ul className="list-disc list-inside space-y-1 ml-2">
             <li>질문에 특정 ID, 코드, 고유명사가 포함되면 그래프 기반 질문</li>
@@ -211,7 +211,7 @@ export default function RagasEvaluationGuide() {
                       {row.target}
                     </code>
                   </td>
-                  <td className="px-4 py-3 text-slate-500">
+                  <td className="px-4 py-3 text-slate-700">
                     {row.strategy}
                   </td>
                 </tr>

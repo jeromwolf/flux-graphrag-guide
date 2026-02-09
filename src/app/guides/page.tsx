@@ -117,7 +117,7 @@ export default function GuidesPage() {
         <h1 className="text-4xl font-black mb-4 gradient-text" style={{ fontFamily: 'var(--font-title)' }}>
           실전 가이드
         </h1>
-        <p className="text-slate-500">
+        <p className="text-slate-700">
           GraphRAG 실무 적용을 위한 핵심 가이드
         </p>
       </div>
@@ -139,11 +139,11 @@ export default function GuidesPage() {
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="font-bold text-lg">{guide.title}</h3>
                     <DifficultyBadge level={guide.difficulty} />
-                    <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-400">
+                    <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-500">
                       {guide.readingTime}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-slate-700">
                     {guide.description}
                   </p>
 
