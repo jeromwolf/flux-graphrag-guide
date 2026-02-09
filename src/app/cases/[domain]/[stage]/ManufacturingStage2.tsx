@@ -103,7 +103,7 @@ export function ManufacturingStage2Interactive() {
       >
         {/* Pipeline diagram */}
         <div className="mb-6">
-          <h4 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-dim)' }}>
+          <h4 className="text-sm font-semibold mb-4 text-slate-400">
             자동 파이프라인
           </h4>
           <div className="flex flex-col md:flex-row items-stretch gap-3">
@@ -126,18 +126,15 @@ export function ManufacturingStage2Interactive() {
                   >
                     {stage.icon}
                   </div>
-                  <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  <div className="text-sm font-semibold text-slate-900">
                     {stage.label}
                   </div>
-                  <div className="text-xs mt-1" style={{ color: 'var(--text-dim)' }}>
+                  <div className="text-xs mt-1 text-slate-400">
                     {stage.detail}
                   </div>
                 </div>
                 {idx < pipelineStages.length - 1 && (
-                  <span
-                    className="hidden md:block text-lg flex-shrink-0"
-                    style={{ color: 'var(--text-dim)' }}
-                  >
+                  <span className="hidden md:block text-lg flex-shrink-0 text-slate-400">
                     &rarr;
                   </span>
                 )}
@@ -171,15 +168,8 @@ export function ManufacturingStage2Interactive() {
           />
         </div>
 
-        <div
-          className="mt-6 p-4 rounded-lg text-sm"
-          style={{
-            background: 'rgba(14,165,233,0.05)',
-            border: '1px solid rgba(14,165,233,0.2)',
-            color: 'var(--text-secondary)',
-          }}
-        >
-          <strong style={{ color: 'var(--accent-cyan)' }}>스케일 포인트:</strong>{' '}
+        <div className="mt-6 p-4 rounded-lg text-sm bg-sky-50 border border-sky-200 text-slate-500">
+          <strong className="text-sky-600">스케일 포인트:</strong>{' '}
           노드 수가 5배 이상 증가하면 수작업 관리가 불가능합니다. Entity Resolution과 자동 파이프라인은 프로토타입 단계에서 반드시 구축해야 하는 인프라입니다.
         </div>
       </CollapsibleSection>
@@ -200,57 +190,46 @@ export function ManufacturingStage2Interactive() {
               <button
                 key={idx}
                 onClick={() => setActiveTab(idx)}
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
-                style={{
-                  background: activeTab === idx ? 'rgba(59,130,246,0.15)' : 'transparent',
-                  border: activeTab === idx ? '1px solid var(--accent-blue)' : '1px solid var(--border)',
-                  color: activeTab === idx ? 'var(--accent-blue)' : 'var(--text-secondary)',
-                }}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  activeTab === idx
+                    ? 'bg-blue-50 border border-blue-500 text-blue-500'
+                    : 'bg-transparent border border-slate-200 text-slate-500'
+                }`}
               >
                 {evo.stage}
               </button>
             ))}
           </div>
 
-          <div
-            className="p-5 rounded-xl"
-            style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)' }}
-          >
+          <div className="p-5 rounded-xl bg-slate-50 border border-slate-200">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+              <h4 className="font-semibold text-slate-900">
                 {text2cypherEvolution[activeTab].stage}
               </h4>
               <span
-                className="px-3 py-1 rounded-full text-sm font-bold"
+                className="px-3 py-1 rounded-full text-sm font-bold text-blue-500"
                 style={{
                   background: `rgba(59,130,246,${text2cypherEvolution[activeTab].successRate / 200})`,
-                  color: 'var(--accent-blue)',
                 }}
               >
                 성공률 {text2cypherEvolution[activeTab].successRate}%
               </span>
             </div>
-            <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm mb-3 text-slate-500">
               {text2cypherEvolution[activeTab].description}
             </p>
             <div className="grid grid-cols-2 gap-3">
-              <div
-                className="p-3 rounded-lg text-sm"
-                style={{ background: 'rgba(14,165,233,0.05)', border: '1px solid rgba(14,165,233,0.15)' }}
-              >
-                <span className="font-semibold" style={{ color: 'var(--accent-cyan)' }}>
+              <div className="p-3 rounded-lg text-sm bg-sky-50 border border-sky-200">
+                <span className="font-semibold text-sky-600">
                   장점:
                 </span>{' '}
-                <span style={{ color: 'var(--text-secondary)' }}>{text2cypherEvolution[activeTab].pros}</span>
+                <span className="text-slate-500">{text2cypherEvolution[activeTab].pros}</span>
               </div>
-              <div
-                className="p-3 rounded-lg text-sm"
-                style={{ background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)' }}
-              >
-                <span className="font-semibold" style={{ color: 'var(--accent-red)' }}>
+              <div className="p-3 rounded-lg text-sm bg-red-50 border border-red-200">
+                <span className="font-semibold text-red-500">
                   한계:
                 </span>{' '}
-                <span style={{ color: 'var(--text-secondary)' }}>{text2cypherEvolution[activeTab].cons}</span>
+                <span className="text-slate-500">{text2cypherEvolution[activeTab].cons}</span>
               </div>
             </div>
           </div>
@@ -258,29 +237,21 @@ export function ManufacturingStage2Interactive() {
 
         {/* Success rate bar chart */}
         <div className="mb-6">
-          <h4 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-dim)' }}>
+          <h4 className="text-sm font-semibold mb-3 text-slate-400">
             성공률 비교
           </h4>
           <div className="space-y-3">
             {text2cypherEvolution.map((evo, idx) => (
               <div key={idx} className="flex items-center gap-3">
-                <span
-                  className="text-xs font-mono w-20 text-right flex-shrink-0"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
+                <span className="text-xs font-mono w-20 text-right flex-shrink-0 text-slate-500">
                   {evo.stage}
                 </span>
-                <div
-                  className="flex-1 h-7 rounded-full overflow-hidden"
-                  style={{ background: 'var(--bg-secondary)' }}
-                >
+                <div className="flex-1 h-7 rounded-full overflow-hidden bg-slate-50">
                   <div
-                    className="h-full rounded-full flex items-center justify-end pr-3 text-xs font-bold"
+                    className="h-full rounded-full flex items-center justify-end pr-3 text-xs font-bold text-blue-500 transition-all duration-700 ease-out"
                     style={{
                       width: `${evo.successRate}%`,
                       background: `rgba(59,130,246,${0.2 + idx * 0.15})`,
-                      color: 'var(--accent-blue)',
-                      transition: 'width 0.8s ease-out',
                     }}
                   >
                     {evo.successRate}%
@@ -293,55 +264,43 @@ export function ManufacturingStage2Interactive() {
 
         {/* Example conversion */}
         <div>
-          <h4 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-dim)' }}>
+          <h4 className="text-sm font-semibold mb-3 text-slate-400">
             변환 예시
           </h4>
-          <div
-            className="rounded-xl overflow-hidden"
-            style={{ border: '1px solid var(--border)' }}
-          >
+          <div className="rounded-xl overflow-hidden border border-slate-200">
             {/* Natural language input */}
-            <div
-              className="p-4 border-b"
-              style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border)' }}
-            >
-              <span className="text-xs font-mono" style={{ color: 'var(--accent-cyan)' }}>
+            <div className="p-4 border-b bg-slate-50 border-slate-200">
+              <span className="text-xs font-mono text-sky-600">
                 자연어 입력
               </span>
-              <p className="text-sm mt-1 font-medium" style={{ color: 'var(--text-primary)' }}>
+              <p className="text-sm mt-1 font-medium text-slate-900">
                 &quot;{demoQuery}&quot;
               </p>
             </div>
             {/* Arrow */}
-            <div
-              className="flex items-center justify-center py-2"
-              style={{ background: 'var(--bg-card)' }}
-            >
-              <span style={{ color: 'var(--accent-blue)' }}>&darr; Text2Cypher &darr;</span>
+            <div className="flex items-center justify-center py-2 bg-white">
+              <span className="text-blue-500">&darr; Text2Cypher &darr;</span>
             </div>
             {/* Cypher output */}
-            <div className="p-4" style={{ background: 'var(--bg-code)' }}>
-              <span className="text-xs font-mono" style={{ color: 'var(--accent-purple)' }}>
+            <div className="p-4 bg-slate-100">
+              <span className="text-xs font-mono text-violet-500">
                 생성된 Cypher
               </span>
-              <pre
-                className="text-sm mt-2 leading-relaxed"
-                style={{ fontFamily: 'var(--font-code)', color: 'var(--text-primary)' }}
-              >
+              <pre className="text-sm mt-2 leading-relaxed font-mono text-slate-900">
                 <code>
-                  <span style={{ color: 'var(--accent-purple)', fontWeight: 600 }}>MATCH</span>{' '}
-                  (<span style={{ color: 'var(--accent-cyan)' }}>e</span>:<span style={{ color: 'var(--accent-orange)' }}>Equipment</span>{' '}
-                  {'{'}<span style={{ color: 'var(--accent-yellow)' }}>name: &apos;HP-01&apos;</span>{'}'})
-                  {'\n'}  {'<'}-[:<span style={{ color: 'var(--accent-orange)' }}>USES_EQUIPMENT</span>]-
-                  (<span style={{ color: 'var(--accent-cyan)' }}>p</span>:<span style={{ color: 'var(--accent-orange)' }}>Process</span>)
-                  {'\n'}  {'<'}-[:<span style={{ color: 'var(--accent-orange)' }}>CAUSED_BY_PROCESS</span>]-
-                  (<span style={{ color: 'var(--accent-cyan)' }}>d</span>:<span style={{ color: 'var(--accent-orange)' }}>Defect</span>)
-                  {'\n'}<span style={{ color: 'var(--accent-purple)', fontWeight: 600 }}>WHERE</span>{' '}
-                  d.detected_date {'>'} date() - duration({'{'}<span style={{ color: 'var(--accent-yellow)' }}>months: 1</span>{'}'})
-                  {'\n'}<span style={{ color: 'var(--accent-purple)', fontWeight: 600 }}>RETURN</span>{' '}
+                  <span className="text-violet-500 font-semibold">MATCH</span>{' '}
+                  (<span className="text-sky-600">e</span>:<span className="text-amber-600">Equipment</span>{' '}
+                  {'{'}<span className="text-amber-700">name: &apos;HP-01&apos;</span>{'}'})
+                  {'\n'}  {'<'}-[:<span className="text-amber-600">USES_EQUIPMENT</span>]-
+                  (<span className="text-sky-600">p</span>:<span className="text-amber-600">Process</span>)
+                  {'\n'}  {'<'}-[:<span className="text-amber-600">CAUSED_BY_PROCESS</span>]-
+                  (<span className="text-sky-600">d</span>:<span className="text-amber-600">Defect</span>)
+                  {'\n'}<span className="text-violet-500 font-semibold">WHERE</span>{' '}
+                  d.detected_date {'>'} date() - duration({'{'}<span className="text-amber-700">months: 1</span>{'}'})
+                  {'\n'}<span className="text-violet-500 font-semibold">RETURN</span>{' '}
                   d.name, d.severity, d.detected_date
-                  {'\n'}<span style={{ color: 'var(--accent-purple)', fontWeight: 600 }}>ORDER BY</span>{' '}
-                  d.detected_date <span style={{ color: 'var(--accent-purple)', fontWeight: 600 }}>DESC</span>;
+                  {'\n'}<span className="text-violet-500 font-semibold">ORDER BY</span>{' '}
+                  d.detected_date <span className="text-violet-500 font-semibold">DESC</span>;
                 </code>
               </pre>
             </div>
@@ -360,22 +319,16 @@ export function ManufacturingStage2Interactive() {
       >
         {/* Routing strategy diagram */}
         <div className="mb-6">
-          <h4 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-dim)' }}>
+          <h4 className="text-sm font-semibold mb-4 text-slate-400">
             질문 라우팅 전략
           </h4>
 
           {/* Router box */}
-          <div
-            className="p-4 rounded-xl mb-4 text-center"
-            style={{
-              background: 'rgba(139,92,246,0.08)',
-              border: '1px solid rgba(139,92,246,0.3)',
-            }}
-          >
-            <div className="text-sm font-semibold" style={{ color: 'var(--accent-purple)' }}>
+          <div className="p-4 rounded-xl mb-4 text-center bg-violet-50 border border-violet-300">
+            <div className="text-sm font-semibold text-violet-500">
               질문 분류기 (Query Router)
             </div>
-            <div className="text-xs mt-1" style={{ color: 'var(--text-dim)' }}>
+            <div className="text-xs mt-1 text-slate-400">
               LLM이 질문 유형을 분석하여 최적 검색 경로 결정
             </div>
           </div>
@@ -397,7 +350,7 @@ export function ManufacturingStage2Interactive() {
                     {strategy.questionType}
                   </span>
                 </div>
-                <p className="text-xs mb-3" style={{ color: 'var(--text-dim)' }}>
+                <p className="text-xs mb-3 text-slate-400">
                   {strategy.example}
                 </p>
                 <div className="flex items-center justify-between">
@@ -420,11 +373,8 @@ export function ManufacturingStage2Interactive() {
         </div>
 
         {/* How hybrid works */}
-        <div
-          className="p-5 rounded-xl"
-          style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)' }}
-        >
-          <h4 className="text-sm font-semibold mb-3" style={{ color: 'var(--text-dim)' }}>
+        <div className="p-5 rounded-xl bg-slate-50 border border-slate-200">
+          <h4 className="text-sm font-semibold mb-3 text-slate-400">
             하이브리드 검색 작동 원리
           </h4>
           <div className="space-y-3">
@@ -466,74 +416,45 @@ export function ManufacturingStage2Interactive() {
         accentColor="var(--accent-orange)"
       >
         {/* Mock UI layout */}
-        <div
-          className="rounded-xl overflow-hidden"
-          style={{ border: '1px solid var(--border)', minHeight: '400px' }}
-        >
-          <div className="flex" style={{ minHeight: '400px' }}>
+        <div className="rounded-xl overflow-hidden border border-slate-200 min-h-[400px]">
+          <div className="flex min-h-[400px]">
             {/* Sidebar */}
-            <div
-              className="w-64 p-4 border-r flex-shrink-0"
-              style={{
-                background: 'var(--bg-secondary)',
-                borderColor: 'var(--border)',
-              }}
-            >
-              <div
-                className="text-xs font-semibold mb-3"
-                style={{ color: 'var(--text-dim)' }}
-              >
+            <div className="w-64 p-4 border-r flex-shrink-0 bg-slate-50 border-slate-200">
+              <div className="text-xs font-semibold mb-3 text-slate-400">
                 MANUFACTURING GRAPHRAG
               </div>
               <div className="space-y-3">
                 <div>
-                  <label className="text-xs mb-1 block" style={{ color: 'var(--text-dim)' }}>
+                  <label className="text-xs mb-1 block text-slate-400">
                     질문 입력
                   </label>
-                  <div
-                    className="p-2 rounded-lg text-sm"
-                    style={{
-                      background: 'var(--bg-card)',
-                      border: '1px solid var(--border)',
-                      color: 'var(--text-primary)',
-                    }}
-                  >
+                  <div className="p-2 rounded-lg text-sm bg-white border border-slate-200 text-slate-900">
                     {demoQuery}
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs mb-1 block" style={{ color: 'var(--text-dim)' }}>
+                  <label className="text-xs mb-1 block text-slate-400">
                     검색 모드
                   </label>
                   <div className="space-y-1">
                     {['하이브리드', '그래프만', '벡터만'].map((mode, idx) => (
                       <div
                         key={mode}
-                        className="flex items-center gap-2 text-xs p-1.5 rounded"
-                        style={{
-                          background: idx === 0 ? 'rgba(14,165,233,0.1)' : 'transparent',
-                          color: idx === 0 ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                        }}
+                        className={`flex items-center gap-2 text-xs p-1.5 rounded ${
+                          idx === 0 ? 'bg-sky-50 text-sky-600' : 'bg-transparent text-slate-500'
+                        }`}
                       >
                         <div
-                          className="w-3 h-3 rounded-full border"
-                          style={{
-                            borderColor: idx === 0 ? 'var(--accent-cyan)' : 'var(--border)',
-                            background: idx === 0 ? 'var(--accent-cyan)' : 'transparent',
-                          }}
+                          className={`w-3 h-3 rounded-full border ${
+                            idx === 0 ? 'border-sky-600 bg-sky-600' : 'border-slate-200 bg-transparent'
+                          }`}
                         />
                         {mode}
                       </div>
                     ))}
                   </div>
                 </div>
-                <button
-                  className="w-full py-2 rounded-lg text-sm font-semibold"
-                  style={{
-                    background: 'var(--accent-cyan)',
-                    color: '#ffffff',
-                  }}
-                >
+                <button className="w-full py-2 rounded-lg text-sm font-semibold bg-sky-600 text-white">
                   질문하기
                 </button>
               </div>
@@ -542,89 +463,59 @@ export function ManufacturingStage2Interactive() {
             {/* Main content area */}
             <div className="flex-1 flex flex-col">
               {/* Graph visualization area */}
-              <div
-                className="flex-1 p-4 border-b"
-                style={{ borderColor: 'var(--border)' }}
-              >
-                <div
-                  className="text-xs font-semibold mb-2"
-                  style={{ color: 'var(--text-dim)' }}
-                >
+              <div className="flex-1 p-4 border-b border-slate-200">
+                <div className="text-xs font-semibold mb-2 text-slate-400">
                   GRAPH VISUALIZATION
                 </div>
-                <div
-                  className="h-full rounded-lg flex items-center justify-center"
-                  style={{
-                    background: 'var(--bg-code)',
-                    border: '1px dashed var(--border)',
-                    minHeight: '180px',
-                  }}
-                >
+                <div className="h-full rounded-lg flex items-center justify-center bg-slate-100 border border-dashed border-slate-200 min-h-[180px]">
                   {/* Simplified graph mockup */}
                   <svg width="300" height="150" viewBox="0 0 300 150">
                     {/* Edges */}
-                    <line x1="150" y1="30" x2="70" y2="75" stroke="var(--accent-cyan)" strokeWidth="1.5" opacity="0.6" />
-                    <line x1="150" y1="30" x2="230" y2="75" stroke="var(--accent-cyan)" strokeWidth="1.5" opacity="0.6" />
-                    <line x1="70" y1="75" x2="110" y2="125" stroke="var(--accent-red)" strokeWidth="2" opacity="0.8" />
-                    <line x1="70" y1="75" x2="30" y2="125" stroke="var(--accent-red)" strokeWidth="2" opacity="0.8" />
-                    <line x1="230" y1="75" x2="230" y2="125" stroke="var(--accent-blue)" strokeWidth="1.5" opacity="0.6" />
+                    <line x1="150" y1="30" x2="70" y2="75" stroke="#0ea5e9" strokeWidth="1.5" opacity="0.6" />
+                    <line x1="150" y1="30" x2="230" y2="75" stroke="#0ea5e9" strokeWidth="1.5" opacity="0.6" />
+                    <line x1="70" y1="75" x2="110" y2="125" stroke="#ef4444" strokeWidth="2" opacity="0.8" />
+                    <line x1="70" y1="75" x2="30" y2="125" stroke="#ef4444" strokeWidth="2" opacity="0.8" />
+                    <line x1="230" y1="75" x2="230" y2="125" stroke="#3b82f6" strokeWidth="1.5" opacity="0.6" />
 
                     {/* Nodes */}
                     <circle cx="150" cy="30" r="16" fill="#0ea5e9" fillOpacity="0.2" stroke="#0ea5e9" strokeWidth="1.5" />
-                    <text x="150" y="34" textAnchor="middle" fill="var(--text-primary)" fontSize="10">HP-01</text>
+                    <text x="150" y="34" textAnchor="middle" fill="#0f172a" fontSize="10">HP-01</text>
 
                     <circle cx="70" cy="75" r="16" fill="#0ea5e9" fillOpacity="0.2" stroke="#0ea5e9" strokeWidth="1.5" />
-                    <text x="70" y="79" textAnchor="middle" fill="var(--text-primary)" fontSize="9">열압착</text>
+                    <text x="70" y="79" textAnchor="middle" fill="#0f172a" fontSize="9">열압착</text>
 
                     <circle cx="230" cy="75" r="16" fill="#8b5cf6" fillOpacity="0.2" stroke="#8b5cf6" strokeWidth="1.5" />
-                    <text x="230" y="79" textAnchor="middle" fill="var(--text-primary)" fontSize="9">검사</text>
+                    <text x="230" y="79" textAnchor="middle" fill="#0f172a" fontSize="9">검사</text>
 
                     <circle cx="30" cy="125" r="14" fill="#ef4444" fillOpacity="0.2" stroke="#ef4444" strokeWidth="1.5" />
-                    <text x="30" y="129" textAnchor="middle" fill="var(--text-primary)" fontSize="8">박리</text>
+                    <text x="30" y="129" textAnchor="middle" fill="#0f172a" fontSize="8">박리</text>
 
                     <circle cx="110" cy="125" r="14" fill="#ef4444" fillOpacity="0.2" stroke="#ef4444" strokeWidth="1.5" />
-                    <text x="110" y="129" textAnchor="middle" fill="var(--text-primary)" fontSize="8">기포</text>
+                    <text x="110" y="129" textAnchor="middle" fill="#0f172a" fontSize="8">기포</text>
 
                     <circle cx="230" cy="125" r="14" fill="#7dc4a5" fillOpacity="0.2" stroke="#7dc4a5" strokeWidth="1.5" />
-                    <text x="230" y="129" textAnchor="middle" fill="var(--text-primary)" fontSize="8">접착제</text>
+                    <text x="230" y="129" textAnchor="middle" fill="#0f172a" fontSize="8">접착제</text>
                   </svg>
                 </div>
               </div>
 
               {/* Answer area */}
               <div className="p-4">
-                <div
-                  className="text-xs font-semibold mb-2"
-                  style={{ color: 'var(--text-dim)' }}
-                >
+                <div className="text-xs font-semibold mb-2 text-slate-400">
                   ANSWER
                 </div>
-                <div
-                  className="p-3 rounded-lg text-sm"
-                  style={{
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border)',
-                    color: 'var(--text-secondary)',
-                  }}
-                >
+                <div className="p-3 rounded-lg text-sm bg-slate-50 border border-slate-200 text-slate-500">
                   <p>
                     HP-01 설비에서 지난달 발생한 결함은{' '}
-                    <strong style={{ color: 'var(--accent-red)' }}>접착 박리</strong>(Critical)와{' '}
-                    <strong style={{ color: 'var(--accent-red)' }}>기포 발생</strong>(Major) 2건입니다.
-                    두 결함 모두 <strong style={{ color: 'var(--accent-cyan)' }}>열압착 공정</strong>에서
+                    <strong className="text-red-500">접착 박리</strong>(Critical)와{' '}
+                    <strong className="text-red-500">기포 발생</strong>(Major) 2건입니다.
+                    두 결함 모두 <strong className="text-sky-600">열압착 공정</strong>에서
                     발생했으며, 접착제(LOT-2024-C2)의 경화 온도 편차가 주요 원인으로 파악됩니다.
                   </p>
                 </div>
                 {/* Evidence path */}
-                <div
-                  className="mt-2 p-2 rounded-lg text-xs"
-                  style={{
-                    background: 'rgba(14,165,233,0.05)',
-                    border: '1px solid rgba(14,165,233,0.15)',
-                    color: 'var(--text-dim)',
-                  }}
-                >
-                  <span style={{ color: 'var(--accent-cyan)' }}>근거 경로:</span>{' '}
+                <div className="mt-2 p-2 rounded-lg text-xs bg-sky-50 border border-sky-200 text-slate-400">
+                  <span className="text-sky-600">근거 경로:</span>{' '}
                   HP-01 &rarr; 열압착 &rarr; 접착 박리 / 기포 발생 (CAUSED_BY_PROCESS)
                 </div>
               </div>
@@ -664,23 +555,16 @@ export function ManufacturingStage2Interactive() {
         {/* Key metrics */}
         <div className="grid md:grid-cols-2 gap-4 mb-6">
           {performanceData.map((item, idx) => (
-            <div
-              key={idx}
-              className="p-4 rounded-xl"
-              style={{
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border)',
-              }}
-            >
+            <div key={idx} className="p-4 rounded-xl bg-slate-50 border border-slate-200">
               <div className="flex items-baseline justify-between mb-1">
-                <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <span className="text-sm text-slate-500">
                   {item.metric}
                 </span>
-                <span className="text-xl font-bold" style={{ color: 'var(--accent-cyan)' }}>
+                <span className="text-xl font-bold text-sky-600">
                   {item.value}
                 </span>
               </div>
-              <p className="text-xs" style={{ color: 'var(--text-dim)' }}>
+              <p className="text-xs text-slate-400">
                 {item.detail}
               </p>
             </div>
@@ -688,11 +572,8 @@ export function ManufacturingStage2Interactive() {
         </div>
 
         {/* RAGAS results */}
-        <div
-          className="p-5 rounded-xl"
-          style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)' }}
-        >
-          <h4 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-dim)' }}>
+        <div className="p-5 rounded-xl bg-slate-50 border border-slate-200">
+          <h4 className="text-sm font-semibold mb-4 text-slate-400">
             RAGAS 평가 결과
           </h4>
           <div className="space-y-4">
@@ -700,23 +581,20 @@ export function ManufacturingStage2Interactive() {
               <div key={item.metric}>
                 <div className="flex items-center justify-between mb-1.5">
                   <div>
-                    <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+                    <span className="text-sm font-medium text-slate-900">
                       {item.metric}
                     </span>
-                    <span className="text-xs ml-2" style={{ color: 'var(--text-dim)' }}>
+                    <span className="text-xs ml-2 text-slate-400">
                       {item.description}
                     </span>
                   </div>
-                  <span className="text-sm font-bold font-mono" style={{ color: 'var(--accent-cyan)' }}>
+                  <span className="text-sm font-bold font-mono text-sky-600">
                     {item.score.toFixed(2)}
                   </span>
                 </div>
-                <div
-                  className="h-3 rounded-full overflow-hidden"
-                  style={{ background: 'var(--bg-card)' }}
-                >
+                <div className="h-3 rounded-full overflow-hidden bg-white">
                   <div
-                    className="h-full rounded-full"
+                    className="h-full rounded-full transition-all duration-700 ease-out"
                     style={{
                       width: `${item.score * 100}%`,
                       background: item.score >= 0.85
@@ -724,7 +602,6 @@ export function ManufacturingStage2Interactive() {
                         : item.score >= 0.8
                         ? 'rgba(139,92,246,0.5)'
                         : 'rgba(245,158,11,0.5)',
-                      transition: 'width 0.8s ease-out',
                     }}
                   />
                 </div>
@@ -734,20 +611,14 @@ export function ManufacturingStage2Interactive() {
         </div>
 
         {/* Summary */}
-        <div
-          className="mt-6 p-5 rounded-xl"
-          style={{
-            background: 'rgba(14,165,233,0.05)',
-            border: '1px solid var(--border-glow)',
-          }}
-        >
-          <p className="text-sm font-semibold mb-2" style={{ color: 'var(--accent-cyan)' }}>
+        <div className="mt-6 p-5 rounded-xl bg-sky-50 border border-slate-200">
+          <p className="text-sm font-semibold mb-2 text-sky-600">
             종합 평가
           </p>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            프로토타입 단계에서 <strong style={{ color: 'var(--accent-cyan)' }}>구조적 질문 92%</strong> 정확도를 달성했습니다.
-            RAGAS Answer Relevancy <strong style={{ color: 'var(--accent-cyan)' }}>0.91</strong>은 상용 수준에 근접한 성과입니다.
-            Context Recall(<strong style={{ color: 'var(--accent-orange)' }}>0.79</strong>)은 Stage 3에서 커뮤니티 요약 기법을 적용하여 개선할 예정입니다.
+          <p className="text-sm text-slate-500">
+            프로토타입 단계에서 <strong className="text-sky-600">구조적 질문 92%</strong> 정확도를 달성했습니다.
+            RAGAS Answer Relevancy <strong className="text-sky-600">0.91</strong>은 상용 수준에 근접한 성과입니다.
+            Context Recall(<strong className="text-amber-600">0.79</strong>)은 Stage 3에서 커뮤니티 요약 기법을 적용하여 개선할 예정입니다.
           </p>
         </div>
       </CollapsibleSection>
@@ -778,18 +649,19 @@ function CollapsibleSection({
     <section>
       <button
         onClick={onToggle}
-        className="w-full text-left p-5 rounded-xl transition-all"
+        className={`w-full text-left p-5 rounded-xl transition-all ${
+          isOpen ? 'bg-white' : 'bg-slate-50'
+        }`}
         style={{
-          background: isOpen ? 'var(--bg-card)' : 'var(--bg-secondary)',
           border: isOpen ? `1px solid ${accentColor}40` : '1px solid var(--border)',
         }}
       >
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-xl font-bold text-slate-900">
               {title}
             </h2>
-            <p className="text-sm mt-1" style={{ color: 'var(--text-dim)' }}>
+            <p className="text-sm mt-1 text-slate-400">
               {subtitle}
             </p>
           </div>
@@ -808,13 +680,7 @@ function CollapsibleSection({
         </div>
       </button>
       {isOpen && (
-        <div
-          className="mt-2 p-6 rounded-xl"
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-          }}
-        >
+        <div className="mt-2 p-6 rounded-xl bg-white border border-slate-200">
           {children}
         </div>
       )}
@@ -836,13 +702,7 @@ function ScaleCard({
   color: string;
 }) {
   return (
-    <div
-      className="p-4 rounded-xl"
-      style={{
-        background: 'var(--bg-secondary)',
-        border: '1px solid var(--border)',
-      }}
-    >
+    <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
       <h4 className="text-sm font-semibold mb-2" style={{ color }}>
         {title}
       </h4>
@@ -850,11 +710,11 @@ function ScaleCard({
         <span className="text-2xl font-bold" style={{ color }}>
           {stat}
         </span>
-        <span className="text-xs ml-1" style={{ color: 'var(--text-dim)' }}>
+        <span className="text-xs ml-1 text-slate-400">
           {statLabel}
         </span>
       </div>
-      <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+      <p className="text-xs text-slate-500">
         {description}
       </p>
     </div>
@@ -888,7 +748,7 @@ function HybridStep({
         <span className="text-sm font-semibold" style={{ color }}>
           {title}
         </span>
-        <p className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-sm mt-0.5 text-slate-500">
           {description}
         </p>
       </div>
@@ -916,7 +776,7 @@ function FeatureCard({
       <h4 className="text-sm font-semibold mb-2" style={{ color }}>
         {title}
       </h4>
-      <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+      <p className="text-xs text-slate-500">
         {description}
       </p>
     </div>

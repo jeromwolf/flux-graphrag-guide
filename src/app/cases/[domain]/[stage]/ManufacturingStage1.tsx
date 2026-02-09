@@ -125,13 +125,13 @@ ORDER BY inspection_count;`,
 
 // ── Entity count data ──
 const entityCounts = [
-  { type: 'Process', label: '공정', count: 8, color: 'var(--accent-cyan)' },
-  { type: 'Equipment', label: '설비', count: 5, color: 'var(--accent-blue)' },
-  { type: 'Defect', label: '결함', count: 4, color: 'var(--accent-red)' },
-  { type: 'Inspection', label: '검사', count: 3, color: 'var(--accent-purple)' },
-  { type: 'Component', label: '부품', count: 6, color: 'var(--accent-orange)' },
-  { type: 'Material', label: '자재', count: 5, color: '#7dc4a5' },
-  { type: 'Operator', label: '작업자', count: 4, color: 'var(--accent-yellow)' },
+  { type: 'Process', label: '공정', count: 8, colorClass: 'bg-sky-500', textColorClass: 'text-sky-500' },
+  { type: 'Equipment', label: '설비', count: 5, colorClass: 'bg-blue-500', textColorClass: 'text-blue-500' },
+  { type: 'Defect', label: '결함', count: 4, colorClass: 'bg-red-500', textColorClass: 'text-red-500' },
+  { type: 'Inspection', label: '검사', count: 3, colorClass: 'bg-violet-500', textColorClass: 'text-violet-500' },
+  { type: 'Component', label: '부품', count: 6, colorClass: 'bg-amber-600', textColorClass: 'text-amber-600' },
+  { type: 'Material', label: '자재', count: 5, colorClass: 'bg-emerald-400', textColorClass: 'text-emerald-400' },
+  { type: 'Operator', label: '작업자', count: 4, colorClass: 'bg-amber-700', textColorClass: 'text-amber-700' },
 ];
 
 // ── Comparison data ──
@@ -168,110 +168,84 @@ export function ManufacturingStage1Interactive() {
       >
         <div className="grid md:grid-cols-2 gap-6">
           {/* Entity count table */}
-          <div
-            className="p-5 rounded-xl"
-            style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)' }}
-          >
-            <h4 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-dim)' }}>
+          <div className="p-5 rounded-xl bg-slate-50 ring-card">
+            <h4 className="text-sm font-semibold mb-4 text-slate-400">
               엔티티 타입별 노드 수
             </h4>
             <div className="space-y-3">
               {entityCounts.map((entity) => (
                 <div key={entity.type} className="flex items-center gap-3">
-                  <div
-                    className="w-3 h-3 rounded-full flex-shrink-0"
-                    style={{ background: entity.color }}
-                  />
-                  <span className="text-sm flex-1" style={{ color: 'var(--text-primary)' }}>
+                  <div className={`w-3 h-3 rounded-full flex-shrink-0 ${entity.colorClass}`} />
+                  <span className="text-sm flex-1 text-slate-900">
                     {entity.type} ({entity.label})
                   </span>
                   <div className="flex items-center gap-2">
                     <div
-                      className="h-2 rounded-full"
-                      style={{
-                        width: `${(entity.count / 8) * 80}px`,
-                        background: entity.color,
-                        opacity: 0.6,
-                      }}
+                      className={`h-2 rounded-full opacity-60 ${entity.colorClass}`}
+                      style={{ width: `${(entity.count / 8) * 80}px` }}
                     />
-                    <span
-                      className="text-sm font-mono font-semibold w-6 text-right"
-                      style={{ color: entity.color }}
-                    >
+                    <span className={`text-sm font-mono font-semibold w-6 text-right ${entity.textColorClass}`}>
                       {entity.count}
                     </span>
                   </div>
                 </div>
               ))}
             </div>
-            <div
-              className="mt-4 pt-3 flex justify-between text-sm font-semibold"
-              style={{ borderTop: '1px solid var(--border)', color: 'var(--text-primary)' }}
-            >
+            <div className="mt-4 pt-3 flex justify-between text-sm font-semibold border-t border-slate-200 text-slate-900">
               <span>Total</span>
-              <span style={{ color: 'var(--accent-cyan)' }}>35 nodes</span>
+              <span className="text-sky-600">35 nodes</span>
             </div>
           </div>
 
           {/* Expanded relationship types */}
-          <div
-            className="p-5 rounded-xl"
-            style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)' }}
-          >
-            <h4 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-dim)' }}>
+          <div className="p-5 rounded-xl bg-slate-50 ring-card">
+            <h4 className="text-sm font-semibold mb-4 text-slate-400">
               확장된 관계 타입 (12개)
             </h4>
-            <div className="space-y-1.5 text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <div className="space-y-1.5 text-sm text-slate-500">
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>NEXT</span> - 순차 공정
+                <span className="text-sky-600">NEXT</span> - 순차 공정
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>USES_EQUIPMENT</span> - 장비 사용
+                <span className="text-sky-600">USES_EQUIPMENT</span> - 장비 사용
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>USES_MATERIAL</span> - 자재 사용
+                <span className="text-sky-600">USES_MATERIAL</span> - 자재 사용
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>USED_IN</span> - 자재 투입 공정
+                <span className="text-sky-600">USED_IN</span> - 자재 투입 공정
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>CAUSED_BY_PROCESS</span> - 공정 유발
+                <span className="text-sky-600">CAUSED_BY_PROCESS</span> - 공정 유발
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>CAUSED_BY_EQUIPMENT</span> - 장비 유발
+                <span className="text-sky-600">CAUSED_BY_EQUIPMENT</span> - 장비 유발
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>DETECTED_AT</span> - 검출 위치
+                <span className="text-sky-600">DETECTED_AT</span> - 검출 위치
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>INSPECTS</span> - 검사 대상
+                <span className="text-sky-600">INSPECTS</span> - 검사 대상
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>OPERATES</span> - 작업자 담당
+                <span className="text-sky-600">OPERATES</span> - 작업자 담당
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>PART_OF</span> - 부품 소속
+                <span className="text-sky-600">PART_OF</span> - 부품 소속
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>SUPPLIED_BY</span> - 자재 공급
+                <span className="text-sky-600">SUPPLIED_BY</span> - 자재 공급
               </p>
               <p>
-                <span style={{ color: 'var(--accent-cyan)' }}>MAINTAINS</span> - 설비 유지보수
+                <span className="text-sky-600">MAINTAINS</span> - 설비 유지보수
               </p>
             </div>
           </div>
         </div>
 
         {/* Stage 0 vs Stage 1 comparison */}
-        <div
-          className="mt-6 p-4 rounded-lg text-sm"
-          style={{
-            background: 'rgba(14,165,233,0.05)',
-            border: '1px solid rgba(14,165,233,0.2)',
-            color: 'var(--text-secondary)',
-          }}
-        >
-          <strong style={{ color: 'var(--accent-cyan)' }}>Stage 0 vs Stage 1:</strong>{' '}
+        <div className="mt-6 p-4 rounded-lg text-sm bg-sky-50/60 border border-sky-200 text-slate-500">
+          <strong className="text-sky-600">Stage 0 vs Stage 1:</strong>{' '}
           노드 7개 / 관계 7개 / 엔티티 5종 → 노드 35개 / 관계 52개 / 엔티티 7종. 작업자(Operator)와 자재(Material)를 추가하여 인과 분석의 깊이가 크게 향상됩니다.
         </div>
       </CollapsibleSection>
@@ -285,41 +259,17 @@ export function ManufacturingStage1Interactive() {
         onToggle={() => toggleSection('comparison')}
         accentColor="var(--accent-blue)"
       >
-        <div
-          className="rounded-xl overflow-hidden"
-          style={{ border: '1px solid var(--border)' }}
-        >
+        <div className="rounded-xl overflow-hidden ring-card">
           <table className="w-full text-sm" style={{ borderCollapse: 'separate', borderSpacing: 0 }}>
             <thead>
               <tr>
-                <th
-                  className="text-left px-5 py-3 font-semibold"
-                  style={{
-                    background: 'var(--bg-secondary)',
-                    borderBottom: '2px solid var(--border)',
-                    color: 'var(--text-dim)',
-                  }}
-                >
+                <th className="text-left px-5 py-3 font-semibold bg-slate-50 border-b-2 border-slate-200 text-slate-400">
                   항목
                 </th>
-                <th
-                  className="text-center px-5 py-3 font-semibold"
-                  style={{
-                    background: 'rgba(14,165,233,0.08)',
-                    borderBottom: '2px solid var(--accent-cyan)',
-                    color: 'var(--accent-cyan)',
-                  }}
-                >
+                <th className="text-center px-5 py-3 font-semibold bg-sky-50 border-b-2 border-sky-500 text-sky-600">
                   수작업 KG
                 </th>
-                <th
-                  className="text-center px-5 py-3 font-semibold"
-                  style={{
-                    background: 'rgba(139,92,246,0.08)',
-                    borderBottom: '2px solid var(--accent-purple)',
-                    color: 'var(--accent-purple)',
-                  }}
-                >
+                <th className="text-center px-5 py-3 font-semibold bg-violet-50 border-b-2 border-violet-500 text-violet-500">
                   LLM 자동 추출
                 </th>
               </tr>
@@ -328,17 +278,15 @@ export function ManufacturingStage1Interactive() {
               {comparisonRows.map((row, idx) => (
                 <tr
                   key={idx}
-                  style={{
-                    background: idx % 2 === 0 ? 'var(--bg-card)' : 'var(--bg-secondary)',
-                  }}
+                  className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'}
                 >
-                  <td className="px-5 py-3 font-medium" style={{ color: 'var(--text-primary)' }}>
+                  <td className="px-5 py-3 font-medium text-slate-900">
                     {row.metric}
                   </td>
-                  <td className="px-5 py-3 text-center" style={{ color: 'var(--accent-cyan)' }}>
+                  <td className="px-5 py-3 text-center text-sky-600">
                     {row.manual}
                   </td>
-                  <td className="px-5 py-3 text-center" style={{ color: 'var(--accent-purple)' }}>
+                  <td className="px-5 py-3 text-center text-violet-500">
                     {row.llm}
                   </td>
                 </tr>
@@ -348,25 +296,19 @@ export function ManufacturingStage1Interactive() {
         </div>
 
         {/* Hallucination warning */}
-        <div
-          className="mt-6 p-4 rounded-lg"
-          style={{
-            background: 'rgba(239,68,68,0.08)',
-            border: '1px solid rgba(239,68,68,0.2)',
-          }}
-        >
+        <div className="mt-6 p-4 rounded-lg bg-red-50 border border-red-200">
           <div className="flex items-start gap-3">
             <span className="text-lg flex-shrink-0" role="img" aria-label="warning">
               &#x26A0;&#xFE0F;
             </span>
             <div>
-              <p className="text-sm font-semibold mb-1" style={{ color: 'var(--accent-red)' }}>
+              <p className="text-sm font-semibold mb-1 text-red-500">
                 LLM 환각(Hallucination) 관계 발생
               </p>
-              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+              <p className="text-sm text-slate-500">
                 LLM이 추출한 61개 관계 중 9개(약 15%)가 원본 문서에 없는 허위 관계입니다.
                 예: &quot;연마 공정이 접착제를 사용한다&quot; (실제로는 열압착 공정에서만 사용).
-                이는 LLM 추출 후 <strong style={{ color: 'var(--accent-orange)' }}>전문가 검증</strong>이
+                이는 LLM 추출 후 <strong className="text-amber-600">전문가 검증</strong>이
                 필수적임을 보여줍니다.
               </p>
             </div>
@@ -387,25 +329,17 @@ export function ManufacturingStage1Interactive() {
           {qualityMetrics.map((m) => (
             <div key={m.metric}>
               <div className="flex justify-between mb-2 text-sm">
-                <span style={{ color: 'var(--text-primary)' }}>{m.metric}</span>
+                <span className="text-slate-900">{m.metric}</span>
               </div>
               {/* Manual bar */}
               <div className="flex items-center gap-3 mb-1.5">
-                <span
-                  className="text-xs font-mono w-14 text-right flex-shrink-0"
-                  style={{ color: 'var(--accent-cyan)' }}
-                >
+                <span className="text-xs font-mono w-14 text-right flex-shrink-0 text-sky-600">
                   수작업
                 </span>
-                <div className="flex-1 h-6 rounded-full overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
+                <div className="flex-1 h-6 rounded-full overflow-hidden bg-slate-50">
                   <div
-                    className="h-full rounded-full flex items-center justify-end pr-2 text-xs font-semibold"
-                    style={{
-                      width: `${m.manual}%`,
-                      background: 'rgba(14,165,233,0.3)',
-                      color: 'var(--accent-cyan)',
-                      transition: 'width 0.8s ease-out',
-                    }}
+                    className="h-full rounded-full flex items-center justify-end pr-2 text-xs font-semibold bg-sky-500/30 text-sky-600 transition-[width] duration-[800ms] ease-out"
+                    style={{ width: `${m.manual}%` }}
                   >
                     {m.manualLabel}
                   </div>
@@ -413,21 +347,13 @@ export function ManufacturingStage1Interactive() {
               </div>
               {/* LLM bar */}
               <div className="flex items-center gap-3">
-                <span
-                  className="text-xs font-mono w-14 text-right flex-shrink-0"
-                  style={{ color: 'var(--accent-purple)' }}
-                >
+                <span className="text-xs font-mono w-14 text-right flex-shrink-0 text-violet-500">
                   LLM
                 </span>
-                <div className="flex-1 h-6 rounded-full overflow-hidden" style={{ background: 'var(--bg-secondary)' }}>
+                <div className="flex-1 h-6 rounded-full overflow-hidden bg-slate-50">
                   <div
-                    className="h-full rounded-full flex items-center justify-end pr-2 text-xs font-semibold"
-                    style={{
-                      width: `${m.llm}%`,
-                      background: 'rgba(139,92,246,0.3)',
-                      color: 'var(--accent-purple)',
-                      transition: 'width 0.8s ease-out',
-                    }}
+                    className="h-full rounded-full flex items-center justify-end pr-2 text-xs font-semibold bg-violet-500/30 text-violet-500 transition-[width] duration-[800ms] ease-out"
+                    style={{ width: `${m.llm}%` }}
                   >
                     {m.llmLabel}
                   </div>
@@ -438,21 +364,15 @@ export function ManufacturingStage1Interactive() {
         </div>
 
         {/* Conclusion */}
-        <div
-          className="mt-6 p-5 rounded-xl"
-          style={{
-            background: 'rgba(14,165,233,0.05)',
-            border: '1px solid var(--border-glow)',
-          }}
-        >
-          <p className="text-sm font-semibold mb-2" style={{ color: 'var(--accent-cyan)' }}>
+        <div className="mt-6 p-5 rounded-xl bg-sky-50/60 border border-slate-200">
+          <p className="text-sm font-semibold mb-2 text-sky-600">
             결론: 최적 전략
           </p>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            <strong style={{ color: 'var(--accent-orange)' }}>LLM 추출 후 수작업 정제</strong>가 최적 전략입니다.
+          <p className="text-sm text-slate-500">
+            <strong className="text-amber-600">LLM 추출 후 수작업 정제</strong>가 최적 전략입니다.
             LLM의 높은 재현율(91%)로 빠르게 초안을 생성하고, 전문가가 정밀도를 보완하면
-            F1-Score <strong style={{ color: 'var(--accent-cyan)' }}>93%</strong> 이상을 달성할 수 있습니다.
-            소요 시간은 완전 수작업(4시간) 대비 <strong style={{ color: 'var(--accent-cyan)' }}>1.5시간</strong>으로 단축됩니다.
+            F1-Score <strong className="text-sky-600">93%</strong> 이상을 달성할 수 있습니다.
+            소요 시간은 완전 수작업(4시간) 대비 <strong className="text-sky-600">1.5시간</strong>으로 단축됩니다.
           </p>
         </div>
       </CollapsibleSection>
@@ -521,15 +441,8 @@ export function ManufacturingStage1Interactive() {
           />
         </div>
 
-        <div
-          className="mt-6 p-4 rounded-lg text-sm"
-          style={{
-            background: 'rgba(234,179,8,0.08)',
-            border: '1px solid rgba(234,179,8,0.2)',
-            color: 'var(--text-secondary)',
-          }}
-        >
-          <strong style={{ color: 'var(--accent-yellow)' }}>핵심 교훈:</strong>{' '}
+        <div className="mt-6 p-4 rounded-lg text-sm bg-amber-50 border border-amber-200 text-slate-500">
+          <strong className="text-amber-700">핵심 교훈:</strong>{' '}
           35개 노드 규모에서 수작업과 LLM 추출을 모두 경험하면, 이후 대규모 KG 구축 시 최적의 하이브리드 전략을 수립할 수 있습니다.
           &quot;정밀도는 전문가가, 커버리지는 LLM이&quot; 담당하는 역할 분담이 핵심입니다.
         </div>
@@ -561,27 +474,29 @@ function CollapsibleSection({
     <section>
       <button
         onClick={onToggle}
-        className="w-full text-left p-5 rounded-xl transition-all"
+        className={`w-full text-left p-5 rounded-xl transition-all ${
+          isOpen ? 'bg-white' : 'bg-slate-50'
+        }`}
         style={{
-          background: isOpen ? 'var(--bg-card)' : 'var(--bg-secondary)',
-          border: isOpen ? `1px solid ${accentColor}40` : '1px solid var(--border)',
+          border: isOpen ? `1px solid ${accentColor}40` : '1px solid rgb(226, 232, 240)',
         }}
       >
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
+            <h2 className="text-xl font-bold text-slate-900">
               {title}
             </h2>
-            <p className="text-sm mt-1" style={{ color: 'var(--text-dim)' }}>
+            <p className="text-sm mt-1 text-slate-400">
               {subtitle}
             </p>
           </div>
           <div
-            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform"
+            className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-transform ${
+              isOpen ? 'rotate-180' : 'rotate-0'
+            }`}
             style={{
               background: `${accentColor}15`,
               color: accentColor,
-              transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
             }}
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -591,13 +506,7 @@ function CollapsibleSection({
         </div>
       </button>
       {isOpen && (
-        <div
-          className="mt-2 p-6 rounded-xl"
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-          }}
-        >
+        <div className="mt-2 p-6 rounded-xl bg-white ring-card">
           {children}
         </div>
       )}
@@ -615,17 +524,11 @@ function LearningCard({
   items: string[];
 }) {
   return (
-    <div
-      className="p-5 rounded-xl"
-      style={{
-        background: 'var(--bg-secondary)',
-        border: '1px solid var(--border)',
-      }}
-    >
+    <div className="p-5 rounded-xl bg-slate-50 ring-card">
       <h3 className="font-semibold mb-3" style={{ color }}>
         {title}
       </h3>
-      <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+      <ul className="space-y-2 text-sm text-slate-500">
         {items.map((item, idx) => (
           <li key={idx}>
             <span style={{ color, marginRight: '8px' }}>&#x2022;</span>

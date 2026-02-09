@@ -131,12 +131,11 @@ export function ManufacturingStage0Interactive() {
           <h2 className="text-2xl font-bold">그래프 구조 (7개 노드)</h2>
           <button
             onClick={() => setShow3Hop(!show3Hop)}
-            className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
-            style={{
-              background: show3Hop ? 'rgba(14,165,233,0.15)' : 'rgba(0,0,0,0.02)',
-              border: show3Hop ? '1px solid var(--accent-cyan)' : '1px solid var(--border)',
-              color: show3Hop ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-            }}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
+              show3Hop
+                ? 'bg-sky-100 border border-sky-500 text-sky-600'
+                : 'bg-slate-50 border border-slate-200 text-slate-500'
+            }`}
           >
             {show3Hop ? '✓ 3-hop 추적 표시 중' : '3-hop 추적 보기'}
           </button>
@@ -148,15 +147,8 @@ export function ManufacturingStage0Interactive() {
           height={500}
         />
         {show3Hop && (
-          <div
-            className="mt-4 p-4 rounded-lg text-sm"
-            style={{
-              background: 'rgba(14,165,233,0.05)',
-              border: '1px solid rgba(14,165,233,0.2)',
-              color: 'var(--text-secondary)',
-            }}
-          >
-            <strong style={{ color: 'var(--accent-cyan)' }}>3-hop 경로:</strong> 접착 박리 (DEF-001) → 전단강도 시험 (INS-001) → 열압착 (PRC-003) → HP-01 (EQP-003)
+          <div className="mt-4 p-4 rounded-lg text-sm bg-sky-50 border border-sky-200 text-slate-600">
+            <strong className="text-sky-600">3-hop 경로:</strong> 접착 박리 (DEF-001) → 전단강도 시험 (INS-001) → 열압착 (PRC-003) → HP-01 (EQP-003)
           </div>
         )}
       </section>
