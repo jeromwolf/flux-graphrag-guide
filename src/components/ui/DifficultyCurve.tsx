@@ -42,14 +42,11 @@ export default function DifficultyCurve() {
   const totalSlides = curriculumMeta.reduce((sum, part) => sum + part.totalSlides, 0);
 
   return (
-    <div className="w-full p-8 rounded-2xl" style={{
-      background: 'var(--bg-card)',
-      border: '1px solid var(--border)',
-    }}>
-      <h3 className="text-xl font-bold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>
+    <div className="w-full p-8 rounded-2xl bg-white ring-card">
+      <h3 className="text-xl font-bold mb-2 text-center text-slate-900">
         학습 난이도 곡선
       </h3>
-      <p className="text-sm text-center mb-6" style={{ color: 'var(--text-secondary)' }}>
+      <p className="text-sm text-center mb-6 text-slate-500">
         7개 Part의 난이도 진행 과정
       </p>
 
@@ -61,26 +58,17 @@ export default function DifficultyCurve() {
         >
           <defs>
             <linearGradient id="curveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style={{ stopColor: 'var(--accent-cyan)', stopOpacity: 0.6 }} />
-              <stop offset="100%" style={{ stopColor: 'var(--accent-purple)', stopOpacity: 0.6 }} />
+              <stop offset="0%" stopColor="#0ea5e9" stopOpacity={0.6} />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0.6} />
             </linearGradient>
             <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style={{ stopColor: 'var(--accent-cyan)', stopOpacity: 0.3 }} />
-              <stop offset="100%" style={{ stopColor: 'var(--accent-purple)', stopOpacity: 0.05 }} />
+              <stop offset="0%" stopColor="#0ea5e9" stopOpacity={0.3} />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0.05} />
             </linearGradient>
           </defs>
 
-          <path
-            d={areaD}
-            fill="url(#areaGradient)"
-          />
-
-          <path
-            d={pathD}
-            fill="none"
-            stroke="url(#curveGradient)"
-            strokeWidth="3"
-          />
+          <path d={areaD} fill="url(#areaGradient)" />
+          <path d={pathD} fill="none" stroke="url(#curveGradient)" strokeWidth="3" />
 
           {points.map((point, i) => (
             <g key={i}>
@@ -88,30 +76,31 @@ export default function DifficultyCurve() {
                 cx={point.x}
                 cy={point.y}
                 r={hoveredIndex === i ? 8 : 6}
-                fill="var(--accent-cyan)"
-                stroke="var(--bg-card)"
+                fill="#0ea5e9"
+                stroke="white"
                 strokeWidth="2"
-                style={{ cursor: 'pointer', transition: 'all 0.2s' }}
+                className="cursor-pointer transition-all duration-200"
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
               />
-
               <text
                 x={point.x}
                 y={height - padding.bottom + 20}
                 textAnchor="middle"
-                style={{ fill: 'var(--text-secondary)', fontSize: '12px', fontWeight: 500 }}
+                fill="#475569"
+                fontSize="12"
+                fontWeight="500"
               >
                 Part {point.part}
               </text>
-
               <text
                 x={point.x}
                 y={height - padding.bottom + 35}
                 textAnchor="middle"
-                style={{ fill: 'var(--text-dim)', fontSize: '10px' }}
+                fill="#64748b"
+                fontSize="10"
               >
-                {'⭐'.repeat(point.difficulty)}
+                Lv.{point.difficulty}
               </text>
 
               {hoveredIndex === i && (
@@ -122,23 +111,13 @@ export default function DifficultyCurve() {
                     width="240"
                     height="50"
                     rx="6"
-                    fill="var(--bg-secondary)"
-                    stroke="var(--border)"
+                    fill="#f8fafc"
+                    stroke="#e2e8f0"
                   />
-                  <text
-                    x={point.x}
-                    y={point.y - 40}
-                    textAnchor="middle"
-                    style={{ fill: 'var(--accent-cyan)', fontSize: '11px', fontWeight: 600 }}
-                  >
+                  <text x={point.x} y={point.y - 40} textAnchor="middle" fill="#0ea5e9" fontSize="11" fontWeight="600">
                     {point.title}
                   </text>
-                  <text
-                    x={point.x}
-                    y={point.y - 25}
-                    textAnchor="middle"
-                    style={{ fill: 'var(--text-secondary)', fontSize: '9px' }}
-                  >
+                  <text x={point.x} y={point.y - 25} textAnchor="middle" fill="#475569" fontSize="9">
                     {point.milestone.slice(0, 40)}...
                   </text>
                 </g>
@@ -146,22 +125,18 @@ export default function DifficultyCurve() {
             </g>
           ))}
 
-          <text
-            x={padding.left - 10}
-            y={padding.top - 15}
-            style={{ fill: 'var(--text-dim)', fontSize: '11px' }}
-          >
+          <text x={padding.left - 10} y={padding.top - 15} fill="#64748b" fontSize="11">
             난이도
           </text>
         </svg>
       </div>
 
-      <div className="flex justify-center gap-8 text-sm" style={{ color: 'var(--text-secondary)' }}>
-        <span>총 <strong style={{ color: 'var(--accent-cyan)' }}>{totalHours}시간</strong></span>
+      <div className="flex justify-center gap-8 text-sm text-slate-500">
+        <span>총 <strong className="text-sky-600">{totalHours}시간</strong></span>
         <span className="opacity-50">·</span>
-        <span><strong style={{ color: 'var(--accent-cyan)' }}>{totalSlides}</strong> 슬라이드</span>
+        <span><strong className="text-sky-600">{totalSlides}</strong> 슬라이드</span>
         <span className="opacity-50">·</span>
-        <span><strong style={{ color: 'var(--accent-cyan)' }}>{curriculumMeta.length}</strong> Milestones</span>
+        <span><strong className="text-sky-600">{curriculumMeta.length}</strong> Milestones</span>
       </div>
     </div>
   );

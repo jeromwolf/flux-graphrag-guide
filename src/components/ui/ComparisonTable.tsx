@@ -11,25 +11,21 @@ interface ComparisonTableProps {
   rows: TableRow[];
 }
 
-const statusColors = {
-  pass: 'var(--accent-cyan)',
-  fail: 'var(--accent-red)',
-  warn: 'var(--accent-yellow)',
-  normal: 'var(--text-secondary)',
+const statusClasses = {
+  pass: 'text-sky-600',
+  fail: 'text-red-500',
+  warn: 'text-amber-600',
+  normal: 'text-slate-600',
 };
 
 export function ComparisonTable({ headers, rows }: ComparisonTableProps) {
   return (
-    <div className="my-6 rounded-xl overflow-hidden" style={{ border: '1px solid var(--border)' }}>
+    <div className="my-6 rounded-xl overflow-hidden ring-card">
       <table className="w-full border-collapse">
         <thead>
           <tr>
             {headers.map((header, i) => (
-              <th key={i} className="px-4 py-3 text-left text-xs font-semibold tracking-wide" style={{
-                background: 'rgba(14,165,233,0.08)',
-                color: 'var(--accent-cyan)',
-                borderBottom: '1px solid var(--border)',
-              }}>
+              <th key={i} className="px-4 py-3 text-left text-xs font-semibold tracking-wide bg-sky-50 text-sky-600 border-b border-slate-200">
                 {header}
               </th>
             ))}
@@ -37,16 +33,11 @@ export function ComparisonTable({ headers, rows }: ComparisonTableProps) {
         </thead>
         <tbody>
           {rows.map((row, rowIdx) => (
-            <tr key={rowIdx}>
+            <tr key={rowIdx} className="border-b border-slate-50 last:border-b-0">
               {row.cells.map((cell, cellIdx) => (
                 <td
                   key={cellIdx}
-                  className="px-4 py-3 text-sm align-top"
-                  style={{
-                    borderBottom: rowIdx < rows.length - 1 ? '1px solid rgba(0,0,0,0.02)' : 'none',
-                    color: statusColors[cell.status || 'normal'],
-                    fontWeight: cell.bold || cellIdx === 0 ? 500 : 400,
-                  }}
+                  className={`px-4 py-3 text-sm align-top ${statusClasses[cell.status || 'normal']} ${cell.bold || cellIdx === 0 ? 'font-medium' : ''}`}
                 >
                   {cell.text}
                 </td>

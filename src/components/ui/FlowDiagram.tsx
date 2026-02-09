@@ -15,37 +15,28 @@ interface FlowDiagramProps {
   label?: string;
 }
 
-const nodeStyles: Record<NodeType, { bg: string; color: string; border: string; radius: string }> = {
-  entity: { bg: 'rgba(14,165,233,0.15)', color: 'var(--accent-cyan)', border: 'rgba(14,165,233,0.3)', radius: '10px' },
-  relation: { bg: 'rgba(234,179,8,0.12)', color: 'var(--accent-yellow)', border: 'rgba(234,179,8,0.3)', radius: '20px' },
-  fail: { bg: 'rgba(239,68,68,0.12)', color: 'var(--accent-red)', border: 'rgba(239,68,68,0.3)', radius: '10px' },
-  dim: { bg: 'rgba(0,0,0,0.02)', color: 'var(--text-dim)', border: 'rgba(0,0,0,0.04)', radius: '10px' },
+const nodeClasses: Record<NodeType, string> = {
+  entity: 'bg-sky-100 text-sky-700 border-sky-200 rounded-[10px]',
+  relation: 'bg-amber-50 text-amber-700 border-amber-200 rounded-[20px]',
+  fail: 'bg-red-50 text-red-600 border-red-200 rounded-[10px]',
+  dim: 'bg-slate-50 text-slate-400 border-slate-100 rounded-[10px]',
 };
 
 export function FlowDiagram({ rows, label }: FlowDiagramProps) {
   return (
-    <div className="my-6 p-6 rounded-xl text-center" style={{
-      background: 'var(--bg-secondary)',
-      border: '1px solid var(--border)',
-    }}>
+    <div className="my-6 p-6 rounded-xl text-center bg-slate-50 ring-card">
       {rows.map((row, rowIdx) => (
         <div key={rowIdx} className="flex items-center justify-center flex-wrap gap-2 mb-3 last:mb-0">
           {row.nodes.map((node, nodeIdx) => {
             if (node.type === 'arrow') {
               return (
-                <span key={nodeIdx} className="text-lg" style={{ color: 'var(--text-dim)' }}>
+                <span key={nodeIdx} className="text-lg text-slate-400">
                   {node.text}
                 </span>
               );
             }
-            const style = nodeStyles[node.type];
             return (
-              <div key={nodeIdx} className="px-4 py-2 text-sm font-semibold whitespace-nowrap" style={{
-                background: style.bg,
-                color: style.color,
-                border: `1px solid ${style.border}`,
-                borderRadius: style.radius,
-              }}>
+              <div key={nodeIdx} className={`px-4 py-2 text-sm font-semibold whitespace-nowrap border ${nodeClasses[node.type]}`}>
                 {node.text}
                 {node.sub && (
                   <div className="text-xs font-normal mt-0.5 opacity-80">{node.sub}</div>
@@ -56,7 +47,7 @@ export function FlowDiagram({ rows, label }: FlowDiagramProps) {
         </div>
       ))}
       {label && (
-        <p className="mt-4 text-xs italic" style={{ color: 'var(--text-dim)' }}>{label}</p>
+        <p className="mt-4 text-xs italic text-slate-400">{label}</p>
       )}
     </div>
   );

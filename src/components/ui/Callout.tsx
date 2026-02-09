@@ -1,3 +1,5 @@
+import { Key, Lightbulb, AlertTriangle } from 'lucide-react';
+
 type CalloutType = 'key' | 'tip' | 'warn';
 
 interface CalloutProps {
@@ -5,33 +7,38 @@ interface CalloutProps {
   children: React.ReactNode;
 }
 
-const calloutStyles: Record<CalloutType, { bg: string; border: string; color: string }> = {
+const calloutConfig: Record<CalloutType, {
+  icon: React.ReactNode;
+  bg: string;
+  border: string;
+  text: string;
+}> = {
   key: {
-    bg: 'rgba(14,165,233,0.08)',
-    border: 'rgba(14,165,233,0.3)',
-    color: 'var(--accent-cyan)',
+    icon: <Key className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />,
+    bg: 'bg-sky-50',
+    border: 'border-sky-200',
+    text: 'text-sky-700',
   },
   tip: {
-    bg: 'rgba(14,165,233,0.06)',
-    border: 'rgba(14,165,233,0.15)',
-    color: 'var(--accent-cyan)',
+    icon: <Lightbulb className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />,
+    bg: 'bg-sky-50/60',
+    border: 'border-sky-100',
+    text: 'text-sky-600',
   },
   warn: {
-    bg: 'rgba(239,68,68,0.06)',
-    border: 'rgba(239,68,68,0.15)',
-    color: 'var(--accent-red)',
+    icon: <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />,
+    bg: 'bg-red-50',
+    border: 'border-red-200',
+    text: 'text-red-600',
   },
 };
 
 export function Callout({ type, children }: CalloutProps) {
-  const style = calloutStyles[type];
+  const config = calloutConfig[type];
   return (
-    <div className="my-6 p-4 rounded-xl text-sm leading-relaxed" style={{
-      background: style.bg,
-      border: `1px solid ${style.border}`,
-      color: style.color,
-    }}>
-      {children}
+    <div className={`my-6 p-4 rounded-xl text-sm leading-relaxed flex items-start gap-3 border ${config.bg} ${config.border} ${config.text}`}>
+      {config.icon}
+      <div>{children}</div>
     </div>
   );
 }
