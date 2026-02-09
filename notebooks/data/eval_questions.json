@@ -1,0 +1,242 @@
+[
+  {
+    "id": "q-easy-01",
+    "question": "브레이크패드 열간 프레스 공정에서 사용하는 장비는 무엇인가요?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "HP-500T 유압 프레스",
+    "ground_truth_cypher": "MATCH (p:Process {name: '열간 프레스'})-[:USES_EQUIPMENT]->(e:Equipment) RETURN e.name"
+  },
+  {
+    "id": "q-easy-02",
+    "question": "배합 공정에서 사용하는 믹서의 모델명은?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "뢰디게 믹서 FM-130D",
+    "ground_truth_cypher": "MATCH (p:Process {name: '배합'})-[:USES_EQUIPMENT]->(e:Equipment) RETURN e.name, e.model"
+  },
+  {
+    "id": "q-easy-03",
+    "question": "브레이크패드 생산 공정은 총 몇 단계인가요?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "5단계 (배합, 예비성형, 열간 프레스, 후경화, 연마)",
+    "ground_truth_cypher": "MATCH (p:Process)-[:PART_OF]->(prod:Product {name: '브레이크패드'}) RETURN count(p), collect(p.name)"
+  },
+  {
+    "id": "q-easy-04",
+    "question": "2025년 1분기 브레이크패드 불량률은 얼마인가요?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "2.3% (1,035개 / 45,000개)",
+    "ground_truth_cypher": "MATCH (r:QualityReport {period: '2025-Q1'})-[:REPORTS_ON]->(p:Product {name: '브레이크패드'}) RETURN r.defect_rate"
+  },
+  {
+    "id": "q-easy-05",
+    "question": "가장 많이 발생한 불량 유형은 무엇인가요?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "박리(Delamination) 불량 420개 (40.6%)",
+    "ground_truth_cypher": "MATCH (d:Defect) RETURN d.name, d.count ORDER BY d.count DESC LIMIT 1"
+  },
+  {
+    "id": "q-easy-06",
+    "question": "열간 프레스 공정의 온도 조건은?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "150도",
+    "ground_truth_cypher": "MATCH (p:Process {name: '열간 프레스'}) RETURN p.temperature"
+  },
+  {
+    "id": "q-easy-07",
+    "question": "페놀수지를 공급하는 업체는 어디인가요?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "(주)코오롱인더스트리",
+    "ground_truth_cypher": "MATCH (m:Material {name: '페놀수지'})<-[:SUPPLIES]-(s:Supplier) RETURN s.name"
+  },
+  {
+    "id": "q-easy-08",
+    "question": "HP-500T 유압 프레스의 최대 가압력은?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "500톤",
+    "ground_truth_cypher": "MATCH (e:Equipment {model: 'HP-500T'}) RETURN e.max_pressure"
+  },
+  {
+    "id": "q-easy-09",
+    "question": "후경화 공정에서 사용하는 설비는?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "터널형 경화로 CO-2000 ((주)대한열처리 제조)",
+    "ground_truth_cypher": "MATCH (p:Process {name: '후경화'})-[:USES_EQUIPMENT]->(e:Equipment) RETURN e.name, e.model, e.manufacturer"
+  },
+  {
+    "id": "q-easy-10",
+    "question": "HP-500T 유압 프레스를 제조한 회사는?",
+    "difficulty": "easy",
+    "expected_hops": 1,
+    "ground_truth_answer": "(주)한국프레스",
+    "ground_truth_cypher": "MATCH (e:Equipment {model: 'HP-500T'})<-[:MANUFACTURES]-(s:Supplier) RETURN s.name"
+  },
+  {
+    "id": "q-medium-01",
+    "question": "열간 프레스 공정에서 사용하는 장비의 제조사는 어디인가요?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "(주)한국프레스",
+    "ground_truth_cypher": "MATCH (p:Process {name: '열간 프레스'})-[:USES_EQUIPMENT]->(e:Equipment)<-[:MANUFACTURES]-(s:Supplier) RETURN s.name"
+  },
+  {
+    "id": "q-medium-02",
+    "question": "박리 불량이 발생한 공정에서 사용하는 원재료는 무엇인가요?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "페놀수지, 아라미드 섬유, 마찰조정제, 충전재 등 (배합 후 열간 프레스에서 성형)",
+    "ground_truth_cypher": "MATCH (d:Defect {name: '박리'})-[:OCCURS_IN]->(p:Process)-[:USES_MATERIAL]->(m:Material) RETURN collect(m.name)"
+  },
+  {
+    "id": "q-medium-03",
+    "question": "온도 센서 TS-HP-U03이 설치된 장비를 사용하는 공정은?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "열간 프레스 공정",
+    "ground_truth_cypher": "MATCH (s:Sensor {id: 'TS-HP-U03'})-[:INSTALLED_IN]->(e:Equipment)<-[:USES_EQUIPMENT]-(p:Process) RETURN p.name"
+  },
+  {
+    "id": "q-medium-04",
+    "question": "코오롱인더스트리가 공급하는 원재료를 사용하는 공정은?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "배합(Mixing) 공정",
+    "ground_truth_cypher": "MATCH (s:Supplier {name: '코오롱인더스트리'})-[:SUPPLIES]->(m:Material)<-[:USES_MATERIAL]-(p:Process) RETURN p.name"
+  },
+  {
+    "id": "q-medium-05",
+    "question": "유압 프레스의 유압 시스템 제조사가 만든 펌프 시리즈는?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "Bosch-Rexroth사의 A10VSO 시리즈",
+    "ground_truth_cypher": "MATCH (e:Equipment {model: 'HP-500T'})-[:HAS_COMPONENT]->(c:Component)<-[:MANUFACTURES]-(s:Supplier) RETURN s.name, c.model"
+  },
+  {
+    "id": "q-medium-06",
+    "question": "불량률이 가장 높은 불량 유형이 발생하는 공정의 온도 조건은?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "150도 (열간 프레스 공정)",
+    "ground_truth_cypher": "MATCH (d:Defect)-[:OCCURS_IN]->(p:Process) WITH d, p ORDER BY d.count DESC LIMIT 1 RETURN p.name, p.temperature"
+  },
+  {
+    "id": "q-medium-07",
+    "question": "(주)한국프레스가 납품하는 설비 목록은?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "유압 프레스(HP-500T), 연마기(GM-300)",
+    "ground_truth_cypher": "MATCH (s:Supplier {name: '한국프레스'})-[:MANUFACTURES]->(e:Equipment) RETURN collect(e.name), collect(e.model)"
+  },
+  {
+    "id": "q-medium-08",
+    "question": "아라미드 섬유의 대체재로 검토 중인 소재를 만드는 회사는?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "(주)효성첨단소재 (탄소섬유)",
+    "ground_truth_cypher": "MATCH (m:Material {name: '아라미드 섬유'})-[:HAS_ALTERNATIVE]->(alt:Material)<-[:SUPPLIES]-(s:Supplier) RETURN s.name, alt.name"
+  },
+  {
+    "id": "q-medium-09",
+    "question": "교정 주기가 변경된 센서가 설치된 장비의 정기 점검 항목은?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "열판 온도 센서 교정(3개월), 유압유 교환(6개월), 실린더 패킹 교체(12개월), 안전밸브 검사(6개월)",
+    "ground_truth_cypher": "MATCH (s:Sensor {id: 'TS-HP-U03'})-[:INSTALLED_IN]->(e:Equipment)-[:HAS_MAINTENANCE]->(m:Maintenance) RETURN collect(m.item), collect(m.interval)"
+  },
+  {
+    "id": "q-medium-10",
+    "question": "마찰조정제의 원산지 국가와 리드타임은?",
+    "difficulty": "medium",
+    "expected_hops": 2,
+    "ground_truth_answer": "인도 (Satya Cashew), 리드타임 45일",
+    "ground_truth_cypher": "MATCH (m:Material {name: '마찰조정제'})<-[:SUPPLIES]-(s:Supplier) RETURN s.name, s.country, s.lead_time"
+  },
+  {
+    "id": "q-hard-01",
+    "question": "박리 불량의 근본 원인이 된 센서가 설치된 장비를 만든 회사가 납품하는 다른 장비는?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "연마기 GM-300 ((주)한국프레스가 HP-500T 외에 납품)",
+    "ground_truth_cypher": "MATCH (d:Defect {name: '박리'})-[:CAUSED_BY]->(s:Sensor)-[:INSTALLED_IN]->(e1:Equipment)<-[:MANUFACTURES]-(sup:Supplier)-[:MANUFACTURES]->(e2:Equipment) WHERE e1 <> e2 RETURN e2.name, e2.model"
+  },
+  {
+    "id": "q-hard-02",
+    "question": "배합 공정에서 사용하는 페놀수지 공급사가 함께 공급하는 다른 원재료는 어떤 공정에서 쓰이나요?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "아라미드 섬유, 배합(Mixing) 공정에서 사용 (코오롱인더스트리가 페놀수지와 아라미드 섬유 모두 공급)",
+    "ground_truth_cypher": "MATCH (p1:Process {name: '배합'})-[:USES_MATERIAL]->(m1:Material {name: '페놀수지'})<-[:SUPPLIES]-(s:Supplier)-[:SUPPLIES]->(m2:Material)<-[:USES_MATERIAL]-(p2:Process) WHERE m1 <> m2 RETURN m2.name, p2.name"
+  },
+  {
+    "id": "q-hard-03",
+    "question": "박리 불량 근본원인 분석에서 밝혀진 시스템 전환이 영향을 미친 센서의 교정 주기 변경 전후 차이는?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "SAP PM 모듈 전환 시 교정 일정 누락 -> 센서 TS-HP-U03 교정 만료 -> 교정 주기 6개월에서 3개월로 단축",
+    "ground_truth_cypher": "MATCH (rc:RootCause {name: 'CMMS 마이그레이션 누락'})-[:CAUSED]->(s:Sensor {id: 'TS-HP-U03'})-[:HAS_CALIBRATION]->(c:Calibration) RETURN rc.description, c.old_interval, c.new_interval"
+  },
+  {
+    "id": "q-hard-04",
+    "question": "열간 프레스 장비의 유압 펌프 제조사(Bosch-Rexroth)가 사용하는 유압유 등급과 교환 주기는?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "ISO VG 46 등급, 6개월 교환 주기",
+    "ground_truth_cypher": "MATCH (p:Process {name: '열간 프레스'})-[:USES_EQUIPMENT]->(e:Equipment)-[:HAS_COMPONENT]->(c:Component {manufacturer: 'Bosch-Rexroth'})-[:REQUIRES]->(oil:Material) RETURN oil.grade, e.oil_change_interval"
+  },
+  {
+    "id": "q-hard-05",
+    "question": "공급 리스크가 있는 원재료의 대체재를 만드는 회사의 소재와, 해당 원재료를 기존에 공급하던 일본 업체 이름은?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "대체재: (주)효성첨단소재의 탄소섬유, 기존 일본 공급사: 테이진(Teijin)",
+    "ground_truth_cypher": "MATCH (m:Material {name: '아라미드 섬유'})-[:HAS_ALTERNATIVE]->(alt:Material)<-[:SUPPLIES]-(alt_sup:Supplier), (m)<-[:SUPPLIES]-(jp_sup:Supplier {country: 'Japan'}) RETURN alt.name, alt_sup.name, jp_sup.name"
+  },
+  {
+    "id": "q-hard-06",
+    "question": "두께 편차 불량과 박리 불량이 모두 발생하는 공정의 장비를 만든 회사의 본사 소재지는?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "경기도 화성시 ((주)한국프레스 본사, HP-500T 유압 프레스 제조)",
+    "ground_truth_cypher": "MATCH (d1:Defect {name: '박리'})-[:OCCURS_IN]->(p:Process)<-[:OCCURS_IN]-(d2:Defect {name: '두께 편차'}), (p)-[:USES_EQUIPMENT]->(e:Equipment)<-[:MANUFACTURES]-(s:Supplier) RETURN s.name, s.location"
+  },
+  {
+    "id": "q-hard-07",
+    "question": "5-Why 분석의 근본 원인(CMMS 전환)으로 인해 교정이 누락된 센서가 측정하는 물리량과, 해당 센서가 속한 존(Zone)은?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "온도(K타입 열전대), 상부 열판 3번 존(Zone-3)",
+    "ground_truth_cypher": "MATCH (rc:RootCause)-[:CAUSED]->(cal:CalibrationFailure)-[:AFFECTS]->(s:Sensor {id: 'TS-HP-U03'}) RETURN s.type, s.zone, s.measurement_type"
+  },
+  {
+    "id": "q-hard-08",
+    "question": "브레이크패드 연마 공정에서 사용하는 연마기와 열간 프레스를 모두 제조하는 회사가 맺은 계약 유형은?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "연간 유지보수 계약(AMC) - (주)한국프레스가 HP-500T(열간 프레스)와 GM-300(연마기) 모두 납품하며 AMC 체결",
+    "ground_truth_cypher": "MATCH (s:Supplier)-[:MANUFACTURES]->(e1:Equipment)<-[:USES_EQUIPMENT]-(p1:Process {name: '연마'}), (s)-[:MANUFACTURES]->(e2:Equipment)<-[:USES_EQUIPMENT]-(p2:Process {name: '열간 프레스'}), (s)-[:HAS_CONTRACT]->(c:Contract) RETURN s.name, c.type"
+  },
+  {
+    "id": "q-hard-09",
+    "question": "인도에서 수입하는 원재료가 사용되는 공정의 다음 공정에서 발생하는 주요 불량의 원인 장비 센서 개수는?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "12개 (마찰조정제는 배합 공정 사용 -> 다음은 예비성형/열간 프레스 -> 박리 불량 원인 HP-500T에 K타입 열전대 12개 장착)",
+    "ground_truth_cypher": "MATCH (s:Supplier {country: 'India'})-[:SUPPLIES]->(m:Material)<-[:USES_MATERIAL]-(p1:Process)-[:NEXT]->(p2:Process)-[:USES_EQUIPMENT]->(e:Equipment)-[:HAS_SENSOR]->(sensor:Sensor) RETURN count(sensor)"
+  },
+  {
+    "id": "q-hard-10",
+    "question": "재발방지 대책으로 도입된 자동 알림 시스템이 적용되는 센서가 포함된 장비의 열판 크기와, 해당 장비를 사용하는 공정의 압력 조건은?",
+    "difficulty": "hard",
+    "expected_hops": 3,
+    "ground_truth_answer": "열판 크기 800mm x 600mm, 압력 250kgf/cm2 (HP-500T 유압 프레스, 열간 프레스 공정)",
+    "ground_truth_cypher": "MATCH (action:CorrectiveAction {type: '자동 알림'})-[:APPLIES_TO]->(s:Sensor)-[:INSTALLED_IN]->(e:Equipment)<-[:USES_EQUIPMENT]-(p:Process) RETURN e.plate_size, p.pressure"
+  }
+]

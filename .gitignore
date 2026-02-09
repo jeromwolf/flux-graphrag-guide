@@ -33,6 +33,10 @@ yarn-error.log*
 
 # env files
 .env*.local
+notebooks/.env
+
+# jupyter
+.ipynb_checkpoints/
 
 # vercel
 .vercel
