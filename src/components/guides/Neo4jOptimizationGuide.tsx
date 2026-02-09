@@ -2,13 +2,7 @@ import { Callout } from '@/components/ui/Callout';
 
 export default function Neo4jOptimizationGuide() {
   return (
-    <div
-      className="border-t p-6 space-y-6"
-      style={{
-        borderColor: 'var(--border)',
-        background: 'var(--bg-secondary)',
-      }}
-    >
+    <div className="border-t border-slate-200 p-6 space-y-6 bg-slate-50">
       <Callout type="key">
         <strong>핵심 원칙:</strong> Neo4j 최적화의 80%는 인덱스 전략에서 결정됩니다.
         <br />
@@ -16,88 +10,49 @@ export default function Neo4jOptimizationGuide() {
       </Callout>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           1. Composite Index
         </h4>
-        <div
-          className="p-4 rounded-lg space-y-3"
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-          }}
-        >
-          <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            <strong style={{ color: 'var(--text-primary)' }}>언제:</strong> 자주 함께 검색되는 속성 조합이 있을 때
+        <div className="p-4 rounded-lg space-y-3 bg-white ring-card">
+          <div className="text-sm text-slate-500">
+            <strong className="text-slate-900">언제:</strong> 자주 함께 검색되는 속성 조합이 있을 때
           </div>
-          <div
-            className="p-3 rounded font-mono text-xs"
-            style={{
-              background: 'rgba(0,0,0,0.04)',
-              color: 'var(--accent-cyan)',
-            }}
-          >
+          <div className="p-3 rounded font-mono text-xs bg-slate-100 text-sky-600">
             CREATE INDEX FOR (p:Process) ON (p.name, p.department)
           </div>
-          <div className="text-xs" style={{ color: 'var(--text-dim)' }}>
+          <div className="text-xs text-slate-400">
             단일 속성 인덱스 2개보다 Composite Index 1개가 훨씬 빠릅니다.
           </div>
         </div>
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           2. Fulltext Index
         </h4>
-        <div
-          className="p-4 rounded-lg space-y-3"
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-          }}
-        >
-          <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            <strong style={{ color: 'var(--text-primary)' }}>언제:</strong> 텍스트 검색이 필요할 때 (한국어 포함)
+        <div className="p-4 rounded-lg space-y-3 bg-white ring-card">
+          <div className="text-sm text-slate-500">
+            <strong className="text-slate-900">언제:</strong> 텍스트 검색이 필요할 때 (한국어 포함)
           </div>
-          <div
-            className="p-3 rounded font-mono text-xs"
-            style={{
-              background: 'rgba(0,0,0,0.04)',
-              color: 'var(--accent-cyan)',
-            }}
-          >
+          <div className="p-3 rounded font-mono text-xs bg-slate-100 text-sky-600">
             CREATE FULLTEXT INDEX FOR (d:Defect) ON EACH [d.description]
           </div>
-          <div className="text-xs" style={{ color: 'var(--text-dim)' }}>
+          <div className="text-xs text-slate-400">
             CONTAINS 연산보다 10배 이상 빠릅니다. 한국어 형태소 분석은 별도 플러그인 필요.
           </div>
         </div>
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           3. APOC 쿼리 최적화
         </h4>
         <div className="space-y-3">
-          <div
-            className="p-4 rounded-lg"
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-            }}
-          >
-            <div className="font-semibold mb-2" style={{ color: 'var(--accent-cyan)' }}>
+          <div className="p-4 rounded-lg bg-white ring-card">
+            <div className="font-semibold mb-2 text-sky-600">
               apoc.periodic.iterate
             </div>
-            <div className="text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
+            <div className="text-sm mb-2 text-slate-500">
               대용량 배치 작업을 청크 단위로 분할하여 메모리 초과를 방지합니다.
             </div>
             <div
@@ -110,17 +65,11 @@ export default function Neo4jOptimizationGuide() {
               {`CALL apoc.periodic.iterate(\n  "MATCH (n:Process) RETURN n",\n  "SET n.updated = timestamp()",\n  {batchSize: 1000}\n)`}
             </div>
           </div>
-          <div
-            className="p-4 rounded-lg"
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-            }}
-          >
-            <div className="font-semibold mb-2" style={{ color: 'var(--accent-cyan)' }}>
+          <div className="p-4 rounded-lg bg-white ring-card">
+            <div className="font-semibold mb-2 text-sky-600">
               apoc.path.expandConfig
             </div>
-            <div className="text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
+            <div className="text-sm mb-2 text-slate-500">
               경로 탐색의 범위를 제한하여 불필요한 그래프 탐색을 방지합니다.
             </div>
             <div
@@ -137,10 +86,7 @@ export default function Neo4jOptimizationGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           4. 메모리 튜닝 공식
         </h4>
         <div className="overflow-x-auto">
@@ -153,12 +99,7 @@ export default function Neo4jOptimizationGuide() {
                 {['노드 수', 'Heap (초기)', 'Heap (최대)', 'Pagecache', 'Total RAM'].map((header) => (
                   <th
                     key={header}
-                    className="text-left px-4 py-3 font-semibold"
-                    style={{
-                      background: 'rgba(14,165,233,0.08)',
-                      borderBottom: '2px solid var(--accent-cyan)',
-                      color: 'var(--accent-cyan)',
-                    }}
+                    className="text-left px-4 py-3 font-semibold bg-sky-50 border-b-2 border-b-sky-600 text-sky-600"
                   >
                     {header}
                   </th>
@@ -174,21 +115,21 @@ export default function Neo4jOptimizationGuide() {
               ].map((row, idx) => (
                 <tr
                   key={idx}
-                  style={{ borderBottom: '1px solid var(--border)' }}
+                  className="border-b border-slate-200"
                 >
-                  <td className="px-4 py-3 font-bold" style={{ color: 'var(--accent-yellow)' }}>
+                  <td className="px-4 py-3 font-bold text-amber-700">
                     {row.nodes}
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--text-primary)' }}>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-900">
                     {row.heapInit}
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--text-primary)' }}>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-900">
                     {row.heapMax}
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--accent-cyan)' }}>
+                  <td className="px-4 py-3 font-mono text-xs text-sky-600">
                     {row.pagecache}
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-500">
                     {row.ram}
                   </td>
                 </tr>
@@ -202,55 +143,34 @@ export default function Neo4jOptimizationGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           5. 쿼리 프로파일링
         </h4>
         <div className="space-y-3">
-          <div
-            className="p-4 rounded-lg"
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-            }}
-          >
+          <div className="p-4 rounded-lg bg-white ring-card">
             <div className="flex items-center gap-4 mb-3">
               <div>
-                <code
-                  className="px-2 py-1 rounded text-xs font-mono"
-                  style={{
-                    background: 'rgba(14,165,233,0.1)',
-                    color: 'var(--accent-cyan)',
-                  }}
-                >
+                <code className="px-2 py-1 rounded text-xs font-mono bg-sky-50 text-sky-600">
                   PROFILE
                 </code>
-                <span className="text-sm ml-2" style={{ color: 'var(--text-secondary)' }}>
+                <span className="text-sm ml-2 text-slate-500">
                   쿼리를 실행하고 실제 db hits, 행 수를 표시
                 </span>
               </div>
             </div>
             <div className="flex items-center gap-4">
               <div>
-                <code
-                  className="px-2 py-1 rounded text-xs font-mono"
-                  style={{
-                    background: 'rgba(234,179,8,0.1)',
-                    color: 'var(--accent-yellow)',
-                  }}
-                >
+                <code className="px-2 py-1 rounded text-xs font-mono bg-amber-50 text-amber-700">
                   EXPLAIN
                 </code>
-                <span className="text-sm ml-2" style={{ color: 'var(--text-secondary)' }}>
+                <span className="text-sm ml-2 text-slate-500">
                   실행 계획만 표시 (실제 실행하지 않음)
                 </span>
               </div>
             </div>
           </div>
-          <div className="text-sm space-y-2" style={{ color: 'var(--text-secondary)' }}>
-            <p><strong style={{ color: 'var(--text-primary)' }}>db hits 줄이기 전략:</strong></p>
+          <div className="text-sm space-y-2 text-slate-500">
+            <p><strong className="text-slate-900">db hits 줄이기 전략:</strong></p>
             <ul className="list-disc list-inside space-y-1 ml-2">
               <li>인덱스를 활용하는 WHERE 조건 우선 배치</li>
               <li>불필요한 MATCH 패턴 제거</li>
@@ -262,21 +182,12 @@ export default function Neo4jOptimizationGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           6. 대용량 데이터 적재
         </h4>
         <div className="space-y-3">
-          <div
-            className="p-4 rounded-lg"
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-            }}
-          >
-            <div className="font-semibold mb-2" style={{ color: 'var(--accent-cyan)' }}>
+          <div className="p-4 rounded-lg bg-white ring-card">
+            <div className="font-semibold mb-2 text-sky-600">
               UNWIND 배치 삽입
             </div>
             <div
@@ -289,14 +200,8 @@ export default function Neo4jOptimizationGuide() {
               {`UNWIND $batch AS row\nMERGE (p:Process {id: row.id})\nSET p.name = row.name, p.type = row.type`}
             </div>
           </div>
-          <div
-            className="p-4 rounded-lg"
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-            }}
-          >
-            <div className="font-semibold mb-2" style={{ color: 'var(--accent-cyan)' }}>
+          <div className="p-4 rounded-lg bg-white ring-card">
+            <div className="font-semibold mb-2 text-sky-600">
               apoc.load.json
             </div>
             <div
@@ -316,10 +221,7 @@ export default function Neo4jOptimizationGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           7. 캐시 전략
         </h4>
         <div className="space-y-3">
@@ -337,16 +239,12 @@ export default function Neo4jOptimizationGuide() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="flex gap-3 p-4 rounded-lg"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-              }}
+              className="flex gap-3 p-4 rounded-lg bg-white ring-card"
             >
               <span className="text-xl">{item.icon}</span>
               <div>
                 <div className="font-semibold mb-1">{item.title}</div>
-                <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-sm text-slate-500">
                   {item.description}
                 </div>
               </div>

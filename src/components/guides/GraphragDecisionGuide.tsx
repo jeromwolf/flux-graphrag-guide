@@ -2,13 +2,7 @@ import { Callout } from '@/components/ui/Callout';
 
 export default function GraphragDecisionGuide() {
   return (
-    <div
-      className="border-t p-6 space-y-6"
-      style={{
-        borderColor: 'var(--border)',
-        background: 'var(--bg-secondary)',
-      }}
-    >
+    <div className="border-t border-slate-200 p-6 space-y-6 bg-slate-50">
       <Callout type="key">
         <strong>핵심 원칙:</strong> "1-hop 관계로 해결되면 벡터 검색으로 충분합니다."
         <br />
@@ -16,10 +10,7 @@ export default function GraphragDecisionGuide() {
       </Callout>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           도입 결정 5단계 프로세스
         </h4>
         <div className="space-y-4">
@@ -57,24 +48,16 @@ export default function GraphragDecisionGuide() {
           ].map((item) => (
             <div
               key={item.step}
-              className="flex gap-4 p-4 rounded-lg"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-              }}
+              className="flex gap-4 p-4 rounded-lg bg-white ring-card"
             >
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0"
-                style={{
-                  background: 'var(--accent-cyan)',
-                  color: 'var(--bg-primary)',
-                }}
+                className="w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 bg-sky-600 text-white"
               >
                 {item.step}
               </div>
               <div>
                 <div className="font-semibold mb-1">{item.title}</div>
-                <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-sm text-slate-500">
                   {item.description}
                 </div>
               </div>
@@ -84,10 +67,7 @@ export default function GraphragDecisionGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           사용 vs 미사용 판단 매트릭스
         </h4>
         <div className="overflow-x-auto">
@@ -97,34 +77,13 @@ export default function GraphragDecisionGuide() {
           >
             <thead>
               <tr>
-                <th
-                  className="text-left px-4 py-3 font-semibold"
-                  style={{
-                    background: 'rgba(14,165,233,0.08)',
-                    borderBottom: '2px solid var(--accent-cyan)',
-                    color: 'var(--accent-cyan)',
-                  }}
-                >
+                <th className="text-left px-4 py-3 font-semibold bg-sky-50 border-b-2 border-b-sky-600 text-sky-600">
                   상황
                 </th>
-                <th
-                  className="text-left px-4 py-3 font-semibold"
-                  style={{
-                    background: 'rgba(14,165,233,0.08)',
-                    borderBottom: '2px solid var(--accent-cyan)',
-                    color: 'var(--accent-cyan)',
-                  }}
-                >
+                <th className="text-left px-4 py-3 font-semibold bg-sky-50 border-b-2 border-b-sky-600 text-sky-600">
                   GraphRAG 필요
                 </th>
-                <th
-                  className="text-left px-4 py-3 font-semibold"
-                  style={{
-                    background: 'rgba(239,68,68,0.08)',
-                    borderBottom: '2px solid var(--accent-red)',
-                    color: 'var(--accent-red)',
-                  }}
-                >
+                <th className="text-left px-4 py-3 font-semibold bg-red-50 border-b-2 border-b-red-500 text-red-500">
                   벡터 검색 충분
                 </th>
               </tr>
@@ -159,20 +118,15 @@ export default function GraphragDecisionGuide() {
               ].map((row, idx) => (
                 <tr
                   key={idx}
-                  style={{
-                    borderBottom: '1px solid var(--border)',
-                  }}
+                  className="border-b border-slate-200"
                 >
-                  <td
-                    className="px-4 py-3 font-medium"
-                    style={{ color: 'var(--text-primary)' }}
-                  >
+                  <td className="px-4 py-3 font-medium text-slate-900">
                     {row.situation}
                   </td>
-                  <td className="px-4 py-3" style={{ color: 'var(--accent-cyan)' }}>
+                  <td className="px-4 py-3 text-sky-600">
                     {row.graphrag}
                   </td>
-                  <td className="px-4 py-3" style={{ color: 'var(--accent-red)' }}>
+                  <td className="px-4 py-3 text-red-500">
                     {row.vector}
                   </td>
                 </tr>
@@ -183,19 +137,10 @@ export default function GraphragDecisionGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           Quick Assessment 체크리스트
         </h4>
-        <div
-          className="p-4 rounded-lg space-y-2 text-sm"
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border)',
-          }}
-        >
+        <div className="p-4 rounded-lg space-y-2 text-sm bg-white ring-card">
           <div className="flex items-start gap-2">
             <input type="checkbox" className="mt-1" />
             <label>사용자 질문이 2단계 이상의 관계 탐색을 요구한다</label>
@@ -228,10 +173,7 @@ export default function GraphragDecisionGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           GraphRAG가 필요 없는 케이스
         </h4>
         <div className="space-y-3">
@@ -259,18 +201,14 @@ export default function GraphragDecisionGuide() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="flex gap-3 p-3 rounded-lg"
-              style={{
-                background: 'rgba(239,68,68,0.06)',
-                border: '1px solid rgba(239,68,68,0.15)',
-              }}
+              className="flex gap-3 p-3 rounded-lg bg-red-50 border border-red-200"
             >
               <span className="text-xl">{item.icon}</span>
               <div>
-                <div className="font-semibold" style={{ color: 'var(--accent-red)' }}>
+                <div className="font-semibold text-red-500">
                   {item.title}
                 </div>
-                <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-sm text-slate-500">
                   {item.description}
                 </div>
               </div>

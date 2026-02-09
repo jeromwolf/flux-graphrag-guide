@@ -2,13 +2,7 @@ import { Callout } from '@/components/ui/Callout';
 
 export default function OntologyDesignGuide() {
   return (
-    <div
-      className="border-t p-6 space-y-6"
-      style={{
-        borderColor: 'var(--border)',
-        background: 'var(--bg-secondary)',
-      }}
-    >
+    <div className="border-t border-slate-200 p-6 space-y-6 bg-slate-50">
       <Callout type="warn">
         <strong>관계는 동사형으로!</strong> 명사형 관계는 나중에 혼란의 원인이 됩니다.
         <br />
@@ -16,10 +10,7 @@ export default function OntologyDesignGuide() {
       </Callout>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           9가지 관계 설계 패턴
         </h4>
         <div className="overflow-x-auto">
@@ -32,12 +23,7 @@ export default function OntologyDesignGuide() {
                 {['#', '관계 타입', '의미', '예시'].map((header) => (
                   <th
                     key={header}
-                    className="text-left px-4 py-3 font-semibold"
-                    style={{
-                      background: 'rgba(14,165,233,0.08)',
-                      borderBottom: '2px solid var(--accent-cyan)',
-                      color: 'var(--accent-cyan)',
-                    }}
+                    className="text-left px-4 py-3 font-semibold bg-sky-50 border-b-2 border-b-sky-600 text-sky-600"
                   >
                     {header}
                   </th>
@@ -58,26 +44,20 @@ export default function OntologyDesignGuide() {
               ].map((row) => (
                 <tr
                   key={row.num}
-                  style={{ borderBottom: '1px solid var(--border)' }}
+                  className="border-b border-slate-200"
                 >
-                  <td className="px-4 py-3 font-bold" style={{ color: 'var(--accent-cyan)' }}>
+                  <td className="px-4 py-3 font-bold text-sky-600">
                     {row.num}
                   </td>
                   <td className="px-4 py-3">
-                    <code
-                      className="px-2 py-0.5 rounded text-xs font-mono"
-                      style={{
-                        background: 'rgba(14,165,233,0.1)',
-                        color: 'var(--accent-cyan)',
-                      }}
-                    >
+                    <code className="px-2 py-0.5 rounded text-xs font-mono bg-sky-50 text-sky-600">
                       {row.type}
                     </code>
                   </td>
-                  <td className="px-4 py-3" style={{ color: 'var(--text-secondary)' }}>
+                  <td className="px-4 py-3 text-slate-500">
                     {row.meaning}
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--text-primary)' }}>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-900">
                     {row.example}
                   </td>
                 </tr>
@@ -88,10 +68,7 @@ export default function OntologyDesignGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           Prefix 표준화 전략
         </h4>
         <Callout type="tip">
@@ -107,12 +84,7 @@ export default function OntologyDesignGuide() {
                 {['Prefix', '엔티티', '설명', '예시 ID'].map((header) => (
                   <th
                     key={header}
-                    className="text-left px-4 py-3 font-semibold"
-                    style={{
-                      background: 'rgba(14,165,233,0.08)',
-                      borderBottom: '2px solid var(--accent-cyan)',
-                      color: 'var(--accent-cyan)',
-                    }}
+                    className="text-left px-4 py-3 font-semibold bg-sky-50 border-b-2 border-b-sky-600 text-sky-600"
                   >
                     {header}
                   </th>
@@ -133,26 +105,20 @@ export default function OntologyDesignGuide() {
               ].map((row, idx) => (
                 <tr
                   key={idx}
-                  style={{ borderBottom: '1px solid var(--border)' }}
+                  className="border-b border-slate-200"
                 >
                   <td className="px-4 py-3">
-                    <code
-                      className="px-2 py-0.5 rounded text-xs font-mono font-bold"
-                      style={{
-                        background: 'rgba(234,179,8,0.1)',
-                        color: 'var(--accent-yellow)',
-                      }}
-                    >
+                    <code className="px-2 py-0.5 rounded text-xs font-mono font-bold bg-amber-50 text-amber-700">
                       {row.prefix}
                     </code>
                   </td>
-                  <td className="px-4 py-3 font-medium" style={{ color: 'var(--text-primary)' }}>
+                  <td className="px-4 py-3 font-medium text-slate-900">
                     {row.entity}
                   </td>
-                  <td className="px-4 py-3" style={{ color: 'var(--text-secondary)' }}>
+                  <td className="px-4 py-3 text-slate-500">
                     {row.desc}
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--accent-cyan)' }}>
+                  <td className="px-4 py-3 font-mono text-xs text-sky-600">
                     {row.example}
                   </td>
                 </tr>
@@ -163,13 +129,10 @@ export default function OntologyDesignGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           Meta-Dictionary 구조
         </h4>
-        <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-sm mb-4 text-slate-500">
           온톨로지를 체계적으로 관리하기 위한 메타 사전입니다. 모든 엔티티, 속성, 관계, 검증 규칙을 한 곳에서 관리합니다.
         </p>
         <div className="overflow-x-auto">
@@ -182,12 +145,7 @@ export default function OntologyDesignGuide() {
                 {['Entity Type', 'Properties', 'Relations', 'Validation Rules'].map((header) => (
                   <th
                     key={header}
-                    className="text-left px-4 py-3 font-semibold"
-                    style={{
-                      background: 'rgba(14,165,233,0.08)',
-                      borderBottom: '2px solid var(--accent-cyan)',
-                      color: 'var(--accent-cyan)',
-                    }}
+                    className="text-left px-4 py-3 font-semibold bg-sky-50 border-b-2 border-b-sky-600 text-sky-600"
                   >
                     {header}
                   </th>
@@ -223,18 +181,18 @@ export default function OntologyDesignGuide() {
               ].map((row, idx) => (
                 <tr
                   key={idx}
-                  style={{ borderBottom: '1px solid var(--border)' }}
+                  className="border-b border-slate-200"
                 >
-                  <td className="px-4 py-3 font-bold" style={{ color: 'var(--accent-cyan)' }}>
+                  <td className="px-4 py-3 font-bold text-sky-600">
                     {row.entity}
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs" style={{ color: 'var(--text-primary)' }}>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-900">
                     {row.properties}
                   </td>
-                  <td className="px-4 py-3 text-xs" style={{ color: 'var(--text-secondary)' }}>
+                  <td className="px-4 py-3 text-xs text-slate-500">
                     {row.relations}
                   </td>
-                  <td className="px-4 py-3 text-xs" style={{ color: 'var(--accent-yellow)' }}>
+                  <td className="px-4 py-3 text-xs text-amber-700">
                     {row.rules}
                   </td>
                 </tr>
@@ -245,10 +203,7 @@ export default function OntologyDesignGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           도메인별 온톨로지 템플릿
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -280,22 +235,18 @@ export default function OntologyDesignGuide() {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="p-4 rounded-lg"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-              }}
+              className="p-4 rounded-lg bg-white ring-card"
             >
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-xl">{item.icon}</span>
                 <span className="font-bold">{item.domain}</span>
               </div>
-              <div className="text-xs space-y-1" style={{ color: 'var(--text-secondary)' }}>
+              <div className="text-xs space-y-1 text-slate-500">
                 <div>
-                  <span style={{ color: 'var(--accent-cyan)' }}>엔티티:</span> {item.entities}
+                  <span className="text-sky-600">엔티티:</span> {item.entities}
                 </div>
                 <div>
-                  <span style={{ color: 'var(--accent-yellow)' }}>핵심 관계:</span> {item.keyRelation}
+                  <span className="text-amber-700">핵심 관계:</span> {item.keyRelation}
                 </div>
               </div>
             </div>

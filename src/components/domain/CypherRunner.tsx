@@ -51,14 +51,14 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
       if (match[1]) {
         // Keyword
         elements.push(
-          <span key={`kw-${match.index}`} style={{ color: 'var(--accent-purple)', fontWeight: 600 }}>
+          <span key={`kw-${match.index}`} className="text-violet-500 font-semibold">
             {match[1]}
           </span>
         );
       } else if (match[2]) {
         // String literal
         elements.push(
-          <span key={`str-${match.index}`} style={{ color: 'var(--accent-yellow)' }}>
+          <span key={`str-${match.index}`} className="text-yellow-500">
             {match[2]}
           </span>
         );
@@ -68,8 +68,8 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
         const [varName, label] = inner.split(':');
         elements.push(
           <span key={`node-${match.index}`}>
-            (<span style={{ color: 'var(--accent-cyan)' }}>{varName}</span>:
-            <span style={{ color: 'var(--accent-orange)' }}>{label}</span>)
+            (<span className="text-sky-600">{varName}</span>:
+            <span className="text-amber-600">{label}</span>)
           </span>
         );
       } else if (match[4]) {
@@ -78,8 +78,8 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
         const [varName, relType] = inner.split(':');
         elements.push(
           <span key={`rel-${match.index}`}>
-            [<span style={{ color: 'var(--accent-cyan)' }}>{varName}</span>:
-            <span style={{ color: 'var(--accent-orange)' }}>{relType}</span>]
+            [<span className="text-sky-600">{varName}</span>:
+            <span className="text-amber-600">{relType}</span>]
           </span>
         );
       }
@@ -96,23 +96,12 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
   };
 
   return (
-    <div
-      className="rounded-xl overflow-hidden"
-      style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border)',
-      }}
+    <div className="rounded-xl overflow-hidden bg-white ring-card"
     >
       <div className="flex" style={{ minHeight: '500px' }}>
         {/* Sidebar */}
-        <div
-          className="w-64 border-r p-4 space-y-2"
-          style={{
-            background: 'var(--bg-secondary)',
-            borderColor: 'var(--border)',
-          }}
-        >
-          <div className="text-xs font-semibold mb-3" style={{ color: 'var(--text-dim)' }}>
+        <div className="w-64 border-r p-4 space-y-2 bg-slate-50 border-slate-200">
+          <div className="text-xs font-semibold mb-3 text-slate-400">
             QUERIES
           </div>
           {queries.map((query) => {
@@ -121,12 +110,11 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
               <button
                 key={query.id}
                 onClick={() => setActiveId(query.id)}
-                className="w-full text-left p-3 rounded-lg transition-all text-sm"
-                style={{
-                  background: isActive ? 'rgba(14,165,233,0.1)' : 'transparent',
-                  border: isActive ? '1px solid rgba(14,165,233,0.3)' : '1px solid transparent',
-                  color: isActive ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                }}
+                className={`w-full text-left p-3 rounded-lg transition-all text-sm ${
+                  isActive
+                    ? 'bg-sky-50 border border-sky-200 text-sky-600'
+                    : 'bg-transparent border border-transparent text-slate-500'
+                }`}
               >
                 <div className="font-semibold">{query.title}</div>
                 <div className="text-xs mt-1 opacity-70">{query.description}</div>
@@ -138,43 +126,30 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
         {/* Main area */}
         <div className="flex-1 flex flex-col">
           {/* Query code */}
-          <div
-            className="p-6 border-b"
-            style={{
-              background: 'var(--bg-code)',
-              borderColor: 'var(--border)',
-            }}
-          >
+          <div className="p-6 border-b bg-slate-100 border-slate-200">
             <div className="flex items-center justify-between mb-3">
-              <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+              <div className="text-sm font-semibold text-slate-900">
                 {activeQuery.title}
               </div>
               <button
                 onClick={handleCopy}
-                className="px-3 py-1 text-xs rounded transition-all"
-                style={{
-                  background: copied ? 'rgba(14,165,233,0.15)' : 'rgba(0,0,0,0.02)',
-                  border: copied ? '1px solid rgba(14,165,233,0.3)' : '1px solid var(--border)',
-                  color: copied ? 'var(--accent-cyan)' : 'var(--text-secondary)',
-                }}
+                className={`px-3 py-1 text-xs rounded transition-all ${
+                  copied
+                    ? 'bg-sky-50 border border-sky-200 text-sky-600'
+                    : 'bg-slate-50 border border-slate-200 text-slate-500'
+                }`}
               >
                 {copied ? '✓ Copied' : 'Copy Cypher'}
               </button>
             </div>
-            <pre
-              className="text-sm leading-relaxed overflow-x-auto"
-              style={{
-                fontFamily: 'var(--font-code)',
-                color: 'var(--text-primary)',
-              }}
-            >
+            <pre className="text-sm leading-relaxed overflow-x-auto font-mono text-slate-900">
               <code>{renderCypherTokens(activeQuery.cypher)}</code>
             </pre>
           </div>
 
           {/* Results */}
           <div className="flex-1 p-6 overflow-auto">
-            <div className="text-xs font-semibold mb-3" style={{ color: 'var(--text-dim)' }}>
+            <div className="text-xs font-semibold mb-3 text-slate-400">
               RESULTS ({activeQuery.result.rows.length} rows)
             </div>
             <div className="overflow-x-auto">
@@ -184,12 +159,7 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
                     {activeQuery.result.columns.map((col, idx) => (
                       <th
                         key={idx}
-                        className="text-left px-4 py-2 font-semibold"
-                        style={{
-                          background: 'rgba(14,165,233,0.08)',
-                          borderBottom: '2px solid var(--accent-cyan)',
-                          color: 'var(--accent-cyan)',
-                        }}
+                        className="text-left px-4 py-2 font-semibold bg-sky-50 border-b-2 border-sky-600 text-sky-600"
                       >
                         {col}
                       </th>
@@ -198,20 +168,9 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
                 </thead>
                 <tbody>
                   {activeQuery.result.rows.map((row, rowIdx) => (
-                    <tr
-                      key={rowIdx}
-                      style={{
-                        borderBottom: '1px solid var(--border)',
-                      }}
-                    >
+                    <tr key={rowIdx} className="border-b border-slate-200">
                       {row.map((cell, cellIdx) => (
-                        <td
-                          key={cellIdx}
-                          className="px-4 py-2"
-                          style={{
-                            color: 'var(--text-primary)',
-                          }}
-                        >
+                        <td key={cellIdx} className="px-4 py-2 text-slate-900">
                           {cell}
                         </td>
                       ))}
@@ -223,16 +182,9 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
 
             {/* Learning point */}
             {activeQuery.learningPoint && (
-              <div
-                className="mt-6 p-4 rounded-lg text-sm"
-                style={{
-                  background: 'rgba(234,179,8,0.08)',
-                  border: '1px solid rgba(234,179,8,0.2)',
-                  color: 'var(--accent-yellow)',
-                }}
-              >
+              <div className="mt-6 p-4 rounded-lg text-sm bg-yellow-50 border border-yellow-200 text-yellow-600">
                 <div className="font-semibold mb-2">💡 Learning Point</div>
-                <div style={{ color: 'var(--text-primary)' }}>{activeQuery.learningPoint}</div>
+                <div className="text-slate-900">{activeQuery.learningPoint}</div>
               </div>
             )}
           </div>

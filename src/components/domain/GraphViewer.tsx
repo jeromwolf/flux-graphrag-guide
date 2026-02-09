@@ -59,12 +59,7 @@ export function GraphViewer({
     (highlightPath.includes(edge.source) && highlightPath.includes(edge.target));
 
   return (
-    <div
-      className="rounded-xl overflow-hidden"
-      style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border)',
-      }}
+    <div className="rounded-xl overflow-hidden bg-white ring-card"
     >
       <svg
         role="img"
@@ -138,7 +133,7 @@ export function GraphViewer({
                   x={(sourceNode.x + targetNode.x) / 2}
                   y={(sourceNode.y + targetNode.y) / 2 - 5}
                   textAnchor="middle"
-                  fill="var(--text-secondary)"
+                  className="fill-slate-500"
                   fontSize="11"
                   fontFamily="var(--font-body)"
                 >
@@ -187,7 +182,7 @@ export function GraphViewer({
               <text
                 y={12}
                 textAnchor="middle"
-                fill="var(--text-primary)"
+                className="fill-slate-900"
                 fontSize="12"
                 fontWeight="500"
                 fontFamily="var(--font-body)"
@@ -211,7 +206,7 @@ export function GraphViewer({
                   <text
                     y={50}
                     textAnchor="middle"
-                    fill="var(--text-secondary)"
+                    className="fill-slate-500"
                     fontSize="10"
                     fontFamily="var(--font-body)"
                   >

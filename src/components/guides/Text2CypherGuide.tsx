@@ -2,13 +2,7 @@ import { Callout } from '@/components/ui/Callout';
 
 export default function Text2CypherGuide() {
   return (
-    <div
-      className="border-t p-6 space-y-6"
-      style={{
-        borderColor: 'var(--border)',
-        background: 'var(--bg-secondary)',
-      }}
-    >
+    <div className="border-t border-slate-200 p-6 space-y-6 bg-slate-50">
       <Callout type="key">
         <strong>핵심 원칙:</strong> Text2Cypher의 성공률은 스키마 정보의 품질에 비례합니다.
         <br />
@@ -16,10 +10,7 @@ export default function Text2CypherGuide() {
       </Callout>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           Text2Cypher 3단계 진화
         </h4>
         <div className="space-y-4">
@@ -48,18 +39,10 @@ export default function Text2CypherGuide() {
           ].map((item) => (
             <div
               key={item.step}
-              className="flex gap-4 p-4 rounded-lg"
-              style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border)',
-              }}
+              className="flex gap-4 p-4 rounded-lg bg-white ring-card"
             >
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0"
-                style={{
-                  background: 'var(--accent-cyan)',
-                  color: 'var(--bg-primary)',
-                }}
+                className="w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 bg-sky-600 text-white"
               >
                 {item.step}
               </div>
@@ -67,16 +50,13 @@ export default function Text2CypherGuide() {
                 <div className="flex items-center gap-3 mb-1">
                   <span className="font-semibold">{item.title}</span>
                   <span
-                    className="text-xs px-2 py-0.5 rounded font-bold"
-                    style={{
-                      background: 'rgba(0,0,0,0.02)',
-                      color: item.rateColor,
-                    }}
+                    className="text-xs px-2 py-0.5 rounded font-bold bg-slate-50"
+                    style={{ color: item.rateColor }}
                   >
                     성공률 {item.rate}
                   </span>
                 </div>
-                <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-sm text-slate-500">
                   {item.description}
                 </div>
               </div>
@@ -86,10 +66,7 @@ export default function Text2CypherGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           실패하는 쿼리 패턴 12가지
         </h4>
         <div className="overflow-x-auto">
@@ -102,12 +79,7 @@ export default function Text2CypherGuide() {
                 {['#', '실패 패턴', '설명'].map((header) => (
                   <th
                     key={header}
-                    className="text-left px-4 py-3 font-semibold"
-                    style={{
-                      background: 'rgba(239,68,68,0.08)',
-                      borderBottom: '2px solid var(--accent-red)',
-                      color: 'var(--accent-red)',
-                    }}
+                    className="text-left px-4 py-3 font-semibold bg-red-50 border-b-2 border-b-red-500 text-red-500"
                   >
                     {header}
                   </th>
@@ -131,15 +103,15 @@ export default function Text2CypherGuide() {
               ].map((row) => (
                 <tr
                   key={row.num}
-                  style={{ borderBottom: '1px solid var(--border)' }}
+                  className="border-b border-slate-200"
                 >
-                  <td className="px-4 py-3 font-bold" style={{ color: 'var(--accent-red)' }}>
+                  <td className="px-4 py-3 font-bold text-red-500">
                     {row.num}
                   </td>
-                  <td className="px-4 py-3 font-medium" style={{ color: 'var(--text-primary)' }}>
+                  <td className="px-4 py-3 font-medium text-slate-900">
                     {row.pattern}
                   </td>
-                  <td className="px-4 py-3" style={{ color: 'var(--text-secondary)' }}>
+                  <td className="px-4 py-3 text-slate-500">
                     {row.desc}
                   </td>
                 </tr>
@@ -150,19 +122,13 @@ export default function Text2CypherGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           Agent 기반 자가 수정
         </h4>
-        <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-sm mb-4 text-slate-500">
           Agent 방식은 Cypher 생성 후 실행 결과를 피드백으로 활용하여 자가 수정을 반복합니다.
         </p>
-        <div className="flex flex-wrap items-center gap-2 p-4 rounded-lg" style={{
-          background: 'var(--bg-card)',
-          border: '1px solid var(--border)',
-        }}>
+        <div className="flex flex-wrap items-center gap-2 p-4 rounded-lg bg-white ring-card">
           {[
             { label: '질문 입력', icon: '💬' },
             { label: '→', icon: '' },
@@ -178,14 +144,7 @@ export default function Text2CypherGuide() {
           ].map((step, idx) => (
             <span
               key={idx}
-              className={step.icon ? 'text-xs px-3 py-2 rounded-lg font-medium' : 'text-lg'}
-              style={step.icon ? {
-                background: 'rgba(14,165,233,0.08)',
-                color: 'var(--accent-cyan)',
-                border: '1px solid rgba(14,165,233,0.15)',
-              } : {
-                color: 'var(--text-dim)',
-              }}
+              className={step.icon ? 'text-xs px-3 py-2 rounded-lg font-medium bg-sky-50 text-sky-600 border border-sky-200' : 'text-lg text-slate-400'}
             >
               {step.icon && <span className="mr-1">{step.icon}</span>}
               {step.label}
@@ -199,10 +158,7 @@ export default function Text2CypherGuide() {
       </section>
 
       <section>
-        <h4
-          className="text-xl font-bold mb-4"
-          style={{ color: 'var(--accent-cyan)' }}
-        >
+        <h4 className="text-xl font-bold mb-4 text-sky-600">
           Few-shot 예제 선정법
         </h4>
         <div className="space-y-3">
@@ -242,17 +198,13 @@ export default function Text2CypherGuide() {
               }}
             >
               <div
-                className="w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0"
-                style={{
-                  background: 'var(--accent-cyan)',
-                  color: 'var(--bg-primary)',
-                }}
+                className="w-8 h-8 rounded-full flex items-center justify-center font-bold flex-shrink-0 bg-sky-600 text-white"
               >
                 {item.num}
               </div>
               <div>
                 <div className="font-semibold mb-1">{item.title}</div>
-                <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-sm text-slate-500">
                   {item.description}
                 </div>
               </div>
