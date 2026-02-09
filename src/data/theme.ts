@@ -15,7 +15,7 @@ export const colors = {
   white: '#FFFFFF',
   textPrimary: '#0f172a',
   textSecondary: '#475569',
-  textDim: '#94a3b8',
+  textDim: '#64748b',
   border: '#e2e8f0',
   borderGlow: 'rgba(14, 165, 233, 0.25)',
 } as const;
@@ -36,10 +36,10 @@ export const sectionColors = [
 ] as const;
 
 export const tagStyles = {
-  theory: { bg: 'rgba(59,130,246,0.15)', color: colors.blue, label: '📘 이론' },
-  demo: { bg: 'rgba(239,68,68,0.15)', color: colors.red, label: '🔴 데모' },
-  practice: { bg: 'rgba(14,165,233,0.15)', color: colors.accent, label: '🟢 실습' },
-  discussion: { bg: 'rgba(139,92,246,0.15)', color: colors.purple, label: '💬 토론' },
+  theory: { bg: 'rgba(59,130,246,0.15)', color: colors.blue, label: '이론' },
+  demo: { bg: 'rgba(239,68,68,0.15)', color: colors.red, label: '데모' },
+  practice: { bg: 'rgba(14,165,233,0.15)', color: colors.accent, label: '실습' },
+  discussion: { bg: 'rgba(139,92,246,0.15)', color: colors.purple, label: '토론' },
 } as const;
 
 export type SlideTag = keyof typeof tagStyles;
