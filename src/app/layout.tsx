@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Noto_Sans_KR, Playfair_Display, JetBrains_Mono } from 'next/font/google';
+import { BookOpen, Github } from 'lucide-react';
 import '@/styles/globals.css';
 
 const notoSansKR = Noto_Sans_KR({
@@ -51,39 +52,32 @@ export default function RootLayout({
 
 function Navbar() {
   return (
-    <nav aria-label="메인 내비게이션" className="sticky top-0 z-50 border-b" style={{
-      background: 'rgba(255,255,255,0.92)',
-      backdropFilter: 'blur(20px)',
-      borderColor: 'var(--border)',
-    }}>
+    <nav aria-label="메인 내비게이션" className="sticky top-0 z-50 border-b border-slate-200 bg-white/92 backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 group">
+          <BookOpen className="w-5 h-5 text-sky-500 group-hover:text-sky-600 transition-colors" />
           <span className="text-xl font-bold gradient-text">
             GraphRAG Guide
           </span>
         </Link>
         <div className="flex items-center gap-8">
-          <Link href="/curriculum" className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+          <Link href="/curriculum" className="text-sm font-medium text-slate-600 hover:text-sky-600 transition-colors">
             커리큘럼
           </Link>
-          <Link href="/cases" className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+          <Link href="/cases" className="text-sm font-medium text-slate-600 hover:text-sky-600 transition-colors">
             도메인 케이스
           </Link>
-          <Link href="/guides" className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+          <Link href="/guides" className="text-sm font-medium text-slate-600 hover:text-sky-600 transition-colors">
             실전 가이드
           </Link>
           <a
-            href="https://github.com/topics/graphrag"
+            href="https://github.com/jeromwolf/flux-graphrag-guide"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-sm px-4 py-1.5 rounded-full font-medium"
-            style={{
-              background: 'rgba(14,165,233,0.1)',
-              border: '1px solid rgba(14,165,233,0.25)',
-              color: 'var(--accent-cyan)',
-            }}
+            className="text-slate-400 hover:text-slate-700 transition-colors"
+            aria-label="GitHub"
           >
-            GitHub
+            <Github className="w-5 h-5" />
           </a>
         </div>
       </div>
@@ -93,21 +87,23 @@ function Navbar() {
 
 function Footer() {
   return (
-    <footer className="py-12 text-center" style={{
-      borderTop: '1px solid var(--border)',
-      color: 'var(--text-dim)',
-      fontSize: '0.8rem',
-    }}>
-      <p>깊이가 곧 가치 · Root Bricks Co., Ltd.</p>
-      <p className="mt-1">
-        <a href="https://fde-academy.ai.kr" style={{ color: 'var(--text-dim)' }}>
-          FDE Academy
-        </a>
-        {' · '}
-        <a href="#" style={{ color: 'var(--text-dim)' }}>AI ON 유튜브</a>
-        {' · '}
-        <a href="#" style={{ color: 'var(--text-dim)' }}>온톨로지 랩</a>
-      </p>
+    <footer className="border-t border-slate-200 py-10 px-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <BookOpen className="w-4 h-4 text-sky-500" />
+          <span className="text-sm font-semibold text-slate-700">GraphRAG Guide</span>
+          <span className="text-xs text-slate-400">· 깊이가 곧 가치</span>
+        </div>
+        <div className="flex items-center gap-6 text-xs text-slate-400">
+          <span>Root Bricks Co., Ltd.</span>
+          <a href="https://fde-academy.ai.kr" className="hover:text-sky-600 transition-colors">
+            FDE Academy
+          </a>
+          <a href="https://github.com/jeromwolf/flux-graphrag-guide" className="hover:text-sky-600 transition-colors">
+            GitHub
+          </a>
+        </div>
+      </div>
     </footer>
   );
 }
