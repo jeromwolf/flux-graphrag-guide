@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { ArrowLeft, FileText } from 'lucide-react';
 import { domainsMeta } from '@/data/domain-meta';
 import { ManufacturingStage0Interactive } from './ManufacturingStage0';
 import { ManufacturingStage1Interactive } from './ManufacturingStage1';
@@ -56,24 +57,16 @@ export default async function StagePage({ params }: { params: Promise<{ domain: 
       {/* Back Link */}
       <Link
         href={`/cases/${domain.id}`}
-        className="inline-flex items-center gap-2 mb-8 text-sm hover:gap-3 transition-all"
-        style={{ color: 'var(--accent-cyan)' }}
+        className="inline-flex items-center gap-2 mb-8 text-sm hover:gap-3 transition-all text-sky-500"
       >
-        <span>←</span>
+        <ArrowLeft className="w-4 h-4" />
         <span>{domain.name} 도메인으로</span>
       </Link>
 
       {/* Hero */}
       <div className="mb-12">
         <div className="flex items-center gap-3 mb-6">
-          <span
-            className="text-sm font-mono px-3 py-1.5 rounded"
-            style={{
-              background: 'rgba(14,165,233,0.1)',
-              color: 'var(--accent-cyan)',
-              border: '1px solid rgba(14,165,233,0.2)'
-            }}
-          >
+          <span className="text-sm font-mono px-3 py-1.5 rounded bg-sky-50 text-sky-600 border border-sky-100">
             Stage {stage.stage}
           </span>
           <h1
@@ -91,27 +84,18 @@ export default async function StagePage({ params }: { params: Promise<{ domain: 
           {domain.stages.map((s, idx) => (
             <div
               key={s.stage}
-              className="flex-1 h-2 rounded-full transition-all"
-              style={{
-                background: s.stage <= stageNum ? 'var(--accent-cyan)' : 'var(--bg-secondary)',
-              }}
+              className={`flex-1 h-2 rounded-full transition-all ${s.stage <= stageNum ? 'bg-sky-500' : 'bg-slate-100'}`}
             />
           ))}
         </div>
 
         {/* Milestone */}
-        <div
-          className="p-5 rounded-xl"
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border-glow)',
-          }}
-        >
-          <span className="text-xs font-mono" style={{ color: 'var(--accent-purple)' }}>
+        <div className="p-5 rounded-xl ring-card bg-white border-l-[3px] border-l-sky-500">
+          <span className="text-xs font-mono text-violet-500">
             마일스톤
           </span>
           <p className="text-lg font-semibold mt-2">{stage.milestone}</p>
-          <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm mt-2 text-slate-500">
             {stage.curriculumParts} · 노드 {stage.nodes}
           </p>
         </div>
@@ -329,15 +313,9 @@ function ManufacturingStage0Content() {
 
 function PlaceholderContent() {
   return (
-    <div
-      className="p-12 rounded-xl text-center"
-      style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border)',
-      }}
-    >
+    <div className="p-12 rounded-xl text-center ring-card bg-white">
       <p className="text-xl font-semibold mb-2">콘텐츠 준비 중</p>
-      <p style={{ color: 'var(--text-secondary)' }}>
+      <p className="text-slate-500">
         이 단계의 실습 콘텐츠는 곧 공개됩니다.
       </p>
     </div>
@@ -411,18 +389,13 @@ function DownloadLink({ href, title, description }: { href: string; title: strin
   return (
     <a
       href={href}
-      className="p-4 rounded-xl transition-all hover:-translate-y-0.5"
-      style={{
-        background: 'var(--bg-card)',
-        border: '1px solid var(--border)',
-        display: 'block',
-      }}
+      className="block p-4 rounded-xl transition-all hover:-translate-y-0.5 ring-card bg-white"
     >
       <div className="flex items-center gap-2 mb-1">
-        <span className="text-lg">📄</span>
+        <FileText className="w-5 h-5 text-sky-500" />
         <span className="font-mono text-sm font-semibold">{title}</span>
       </div>
-      <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{description}</p>
+      <p className="text-xs text-slate-500">{description}</p>
     </a>
   );
 }

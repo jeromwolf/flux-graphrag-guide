@@ -1,5 +1,13 @@
 import Link from 'next/link';
 import { domainsMeta } from '@/data/domain-meta';
+import { Factory, Wallet, Scale, Globe } from 'lucide-react';
+
+const domainIcons: Record<string, React.ReactNode> = {
+  manufacturing: <Factory className="w-8 h-8 text-sky-500" />,
+  finance: <Wallet className="w-8 h-8 text-sky-500" />,
+  legal: <Scale className="w-8 h-8 text-sky-500" />,
+  'it-telecom': <Globe className="w-8 h-8 text-sky-500" />,
+};
 
 export const metadata = {
   title: '도메인 유스케이스',
@@ -10,12 +18,10 @@ export default function CasesPage() {
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
       <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-5xl font-black mb-4 gradient-text" style={{
-          fontFamily: 'var(--font-title)',
-        }}>
+        <h1 className="text-4xl md:text-5xl font-black mb-4 gradient-text" style={{ fontFamily: 'var(--font-title)' }}>
           도메인 유스케이스
         </h1>
-        <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-lg text-slate-500">
           4개 도메인 × 4단계 = 16개 실습 프로젝트
         </p>
       </div>
@@ -24,35 +30,23 @@ export default function CasesPage() {
         {domainsMeta.map((domain) => (
           <div
             key={domain.id}
-            className="p-6 md:p-8 rounded-2xl"
-            style={{
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              opacity: domain.status === 'coming-soon' ? 0.6 : 1,
-            }}
+            className={`p-6 md:p-8 rounded-2xl ring-card bg-white ${domain.status === 'coming-soon' ? 'opacity-60' : ''}`}
           >
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">{domain.icon}</span>
+              {domainIcons[domain.id] || <Globe className="w-8 h-8 text-sky-500" />}
               <div>
                 <h2 className="text-2xl font-bold">{domain.name} ({domain.nameEn})</h2>
-                <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{domain.description}</p>
+                <p className="text-sm text-slate-500">{domain.description}</p>
               </div>
               {domain.status === 'coming-soon' && (
-                <span className="ml-auto text-xs px-3 py-1 rounded-full" style={{
-                  background: 'rgba(234,179,8,0.1)',
-                  color: 'var(--accent-yellow)',
-                  border: '1px solid rgba(234,179,8,0.2)',
-                }}>
+                <span className="ml-auto text-xs px-3 py-1 rounded-full bg-amber-50 text-amber-600 border border-amber-200">
                   Coming Soon
                 </span>
               )}
             </div>
 
-            <div className="p-4 rounded-lg mb-6" style={{
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border)',
-            }}>
-              <span className="text-xs font-mono" style={{ color: 'var(--accent-cyan)' }}>핵심 질의 ({domain.queryHops}-hop)</span>
+            <div className="p-4 rounded-lg mb-6 bg-slate-50 ring-card">
+              <span className="text-xs font-mono text-sky-600">핵심 질의 ({domain.queryHops}-hop)</span>
               <p className="font-semibold mt-1">&quot;{domain.coreQuery}&quot;</p>
             </div>
 
@@ -61,11 +55,11 @@ export default function CasesPage() {
               {domain.stages.map((stage) => {
                 const content = (
                   <>
-                    <div className="text-xs font-mono mb-1" style={{ color: 'var(--accent-cyan)' }}>
+                    <div className="text-xs font-mono mb-1 text-sky-600">
                       Stage {stage.stage}
                     </div>
                     <div className="font-semibold text-sm mb-1">{stage.name}</div>
-                    <div className="text-xs" style={{ color: 'var(--text-dim)' }}>
+                    <div className="text-xs text-slate-400">
                       노드 {stage.nodes} · {stage.curriculumParts}
                     </div>
                   </>
@@ -74,24 +68,14 @@ export default function CasesPage() {
                   <Link
                     key={stage.stage}
                     href={`/cases/${domain.id}/stage-${stage.stage}`}
-                    className="p-4 rounded-xl transition-all hover:-translate-y-0.5"
-                    style={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border)',
-                    }}
+                    className="p-4 rounded-xl transition-all hover:-translate-y-0.5 bg-slate-50 ring-card ring-card-hover"
                   >
                     {content}
                   </Link>
                 ) : (
                   <div
                     key={stage.stage}
-                    className="p-4 rounded-xl"
-                    style={{
-                      background: 'var(--bg-secondary)',
-                      border: '1px solid var(--border)',
-                      opacity: 0.5,
-                      cursor: 'default',
-                    }}
+                    className="p-4 rounded-xl bg-slate-50 ring-card opacity-50 cursor-default"
                   >
                     {content}
                   </div>
