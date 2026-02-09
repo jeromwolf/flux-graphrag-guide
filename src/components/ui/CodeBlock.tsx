@@ -26,7 +26,7 @@ export function CodeBlock({ language, code, showLineNumbers = false }: CodeBlock
         </span>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600 transition-colors"
+          className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-700 transition-colors"
           aria-label="코드 복사"
         >
           {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}

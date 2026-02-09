@@ -61,20 +61,20 @@ function Navbar() {
           </span>
         </Link>
         <div className="flex items-center gap-8">
-          <Link href="/curriculum" className="text-sm font-medium text-slate-600 hover:text-sky-600 transition-colors">
+          <Link href="/curriculum" className="text-base font-medium text-slate-700 hover:text-sky-600 transition-colors">
             커리큘럼
           </Link>
-          <Link href="/cases" className="text-sm font-medium text-slate-600 hover:text-sky-600 transition-colors">
+          <Link href="/cases" className="text-base font-medium text-slate-700 hover:text-sky-600 transition-colors">
             도메인 케이스
           </Link>
-          <Link href="/guides" className="text-sm font-medium text-slate-600 hover:text-sky-600 transition-colors">
+          <Link href="/guides" className="text-base font-medium text-slate-700 hover:text-sky-600 transition-colors">
             실전 가이드
           </Link>
           <a
             href="https://github.com/jeromwolf/flux-graphrag-guide"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-slate-400 hover:text-slate-700 transition-colors"
+            className="text-slate-500 hover:text-slate-900 transition-colors"
             aria-label="GitHub"
           >
             <Github className="w-5 h-5" />
@@ -92,9 +92,9 @@ function Footer() {
         <div className="flex items-center gap-3">
           <BookOpen className="w-4 h-4 text-sky-500" />
           <span className="text-sm font-semibold text-slate-700">GraphRAG Guide</span>
-          <span className="text-xs text-slate-400">· 깊이가 곧 가치</span>
+          <span className="text-xs text-slate-500">· 깊이가 곧 가치</span>
         </div>
-        <div className="flex items-center gap-6 text-xs text-slate-400">
+        <div className="flex items-center gap-6 text-xs text-slate-500">
           <span>Root Bricks Co., Ltd.</span>
           <a href="https://fde-academy.ai.kr" className="hover:text-sky-600 transition-colors">
             FDE Academy

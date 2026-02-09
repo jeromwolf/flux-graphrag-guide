@@ -101,7 +101,7 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
       <div className="flex" style={{ minHeight: '500px' }}>
         {/* Sidebar */}
         <div className="w-64 border-r p-4 space-y-2 bg-slate-50 border-slate-200">
-          <div className="text-xs font-semibold mb-3 text-slate-400">
+          <div className="text-xs font-semibold mb-3 text-slate-500">
             QUERIES
           </div>
           {queries.map((query) => {
@@ -113,7 +113,7 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
                 className={`w-full text-left p-3 rounded-lg transition-all text-sm ${
                   isActive
                     ? 'bg-sky-50 border border-sky-200 text-sky-600'
-                    : 'bg-transparent border border-transparent text-slate-500'
+                    : 'bg-transparent border border-transparent text-slate-700'
                 }`}
               >
                 <div className="font-semibold">{query.title}</div>
@@ -136,7 +136,7 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
                 className={`px-3 py-1 text-xs rounded transition-all ${
                   copied
                     ? 'bg-sky-50 border border-sky-200 text-sky-600'
-                    : 'bg-slate-50 border border-slate-200 text-slate-500'
+                    : 'bg-slate-50 border border-slate-200 text-slate-700'
                 }`}
               >
                 {copied ? '✓ Copied' : 'Copy Cypher'}
@@ -149,7 +149,7 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
 
           {/* Results */}
           <div className="flex-1 p-6 overflow-auto">
-            <div className="text-xs font-semibold mb-3 text-slate-400">
+            <div className="text-xs font-semibold mb-3 text-slate-500">
               RESULTS ({activeQuery.result.rows.length} rows)
             </div>
             <div className="overflow-x-auto">

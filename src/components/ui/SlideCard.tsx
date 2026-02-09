@@ -20,13 +20,13 @@ export function SlideCard({ id, tag, title, children }: SlideCardProps) {
   return (
     <div id={id} className="mb-8 p-6 md:p-8 rounded-2xl ring-card transition-colors">
       <span
-        className="inline-flex items-center gap-1.5 font-mono text-xs font-medium px-2.5 py-1 rounded-md mb-4 tracking-wide"
+        className="inline-flex items-center gap-1.5 font-mono text-sm font-medium px-2.5 py-1 rounded-md mb-4 tracking-wide"
         style={{ background: style.bg, color: style.color }}
       >
         {tagIcons[tag]}
         {style.label}
       </span>
-      <h3 className="text-lg font-bold mb-4 leading-snug text-slate-900">
+      <h3 className="text-xl font-bold mb-4 leading-snug text-slate-900">
         {title}
       </h3>
       {children}

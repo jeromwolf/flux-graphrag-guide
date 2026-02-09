@@ -18,14 +18,14 @@ export default function CurriculumPage() {
         <h1 className="text-4xl md:text-5xl font-black mb-4 gradient-text" style={{ fontFamily: 'var(--font-title)' }}>
           커리큘럼
         </h1>
-        <p className="text-lg text-slate-500">
+        <p className="text-lg text-slate-700">
           온톨로지 설계부터 프로덕션 배포까지, 단계별로 학습합니다
         </p>
       </div>
 
       {/* Difficulty Curve */}
       <div className="mb-16 p-6 rounded-2xl bg-white ring-card">
-        <h3 className="text-sm font-semibold mb-4 text-slate-500">
+        <h3 className="text-sm font-semibold mb-4 text-slate-700">
           난이도 곡선
         </h3>
         <div className="flex items-end gap-2 h-32">
@@ -70,15 +70,15 @@ export default function CurriculumPage() {
                   <span className="text-sm font-mono text-sky-600">
                     Part {part.part}: {part.subtitle}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-sm text-slate-400">
+                  <span className="inline-flex items-center gap-1 text-sm text-slate-500">
                     <Clock className="w-3.5 h-3.5" />
                     {part.duration}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-sm text-slate-400">
+                  <span className="inline-flex items-center gap-1 text-sm text-slate-500">
                     <Signal className="w-3.5 h-3.5" />
                     Lv.{part.difficulty}
                   </span>
-                  <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-500">
+                  <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700">
                     {part.totalSlides}슬라이드
                   </span>
                 </div>
@@ -89,7 +89,7 @@ export default function CurriculumPage() {
                 </h2>
 
                 {/* Description */}
-                <p className="text-sm mb-3 text-slate-500">
+                <p className="text-sm mb-3 text-slate-700">
                   {part.description}
                 </p>
 
@@ -102,7 +102,7 @@ export default function CurriculumPage() {
                 {/* Sections */}
                 <div className="flex flex-wrap gap-2 mt-3">
                   {part.sections.map((sec) => (
-                    <span key={sec.id} className="text-xs px-2 py-1 rounded bg-slate-100 border border-slate-200 text-slate-500">
+                    <span key={sec.id} className="text-xs px-2 py-1 rounded bg-slate-100 border border-slate-200 text-slate-700">
                       {sec.title} · {sec.time}
                     </span>
                   ))}

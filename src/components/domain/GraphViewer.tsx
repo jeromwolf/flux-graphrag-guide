@@ -133,7 +133,7 @@ export function GraphViewer({
                   x={(sourceNode.x + targetNode.x) / 2}
                   y={(sourceNode.y + targetNode.y) / 2 - 5}
                   textAnchor="middle"
-                  className="fill-slate-500"
+                  className="fill-slate-700"
                   fontSize="11"
                   fontFamily="var(--font-body)"
                 >
@@ -206,7 +206,7 @@ export function GraphViewer({
                   <text
                     y={50}
                     textAnchor="middle"
-                    className="fill-slate-500"
+                    className="fill-slate-700"
                     fontSize="10"
                     fontFamily="var(--font-body)"
                   >

@@ -46,7 +46,7 @@ export default function DifficultyCurve() {
       <h3 className="text-xl font-bold mb-2 text-center text-slate-900">
         학습 난이도 곡선
       </h3>
-      <p className="text-sm text-center mb-6 text-slate-500">
+      <p className="text-sm text-center mb-6 text-slate-700">
         7개 Part의 난이도 진행 과정
       </p>
 
@@ -131,7 +131,7 @@ export default function DifficultyCurve() {
         </svg>
       </div>
 
-      <div className="flex justify-center gap-8 text-sm text-slate-500">
+      <div className="flex justify-center gap-8 text-sm text-slate-700">
         <span>총 <strong className="text-sky-600">{totalHours}시간</strong></span>
         <span className="opacity-50">·</span>
         <span><strong className="text-sky-600">{totalSlides}</strong> 슬라이드</span>

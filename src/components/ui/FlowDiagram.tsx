@@ -19,7 +19,7 @@ const nodeClasses: Record<NodeType, string> = {
   entity: 'bg-sky-100 text-sky-700 border-sky-200 rounded-[10px]',
   relation: 'bg-amber-50 text-amber-700 border-amber-200 rounded-[20px]',
   fail: 'bg-red-50 text-red-600 border-red-200 rounded-[10px]',
-  dim: 'bg-slate-50 text-slate-400 border-slate-100 rounded-[10px]',
+  dim: 'bg-slate-50 text-slate-500 border-slate-100 rounded-[10px]',
 };
 
 export function FlowDiagram({ rows, label }: FlowDiagramProps) {
@@ -30,7 +30,7 @@ export function FlowDiagram({ rows, label }: FlowDiagramProps) {
           {row.nodes.map((node, nodeIdx) => {
             if (node.type === 'arrow') {
               return (
-                <span key={nodeIdx} className="text-lg text-slate-400">
+                <span key={nodeIdx} className="text-lg text-slate-500">
                   {node.text}
                 </span>
               );
@@ -47,7 +47,7 @@ export function FlowDiagram({ rows, label }: FlowDiagramProps) {
         </div>
       ))}
       {label && (
-        <p className="mt-4 text-xs italic text-slate-400">{label}</p>
+        <p className="mt-4 text-xs italic text-slate-500">{label}</p>
       )}
     </div>
   );

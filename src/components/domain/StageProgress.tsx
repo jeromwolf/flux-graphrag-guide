@@ -46,13 +46,13 @@ export function StageProgress({ currentStage, stages }: StageProgressProps) {
                 <div className="mt-3 text-center">
                   <div
                     className={`text-sm font-semibold ${
-                      isCurrent ? 'text-sky-600' : isFuture ? 'text-slate-400' : 'text-slate-500'
+                      isCurrent ? 'text-sky-600' : isFuture ? 'text-slate-400' : 'text-slate-700'
                     }`}
                   >
                     {stage.name}
                   </div>
                   <div
-                    className={`text-xs mt-1 px-2 py-0.5 rounded-full inline-block text-slate-400 ${
+                    className={`text-xs mt-1 px-2 py-0.5 rounded-full inline-block text-slate-500 ${
                       isCurrent ? 'bg-sky-50' : 'bg-slate-50'
                     }`}
                   >

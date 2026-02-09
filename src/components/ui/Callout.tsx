@@ -36,7 +36,7 @@ const calloutConfig: Record<CalloutType, {
 export function Callout({ type, children }: CalloutProps) {
   const config = calloutConfig[type];
   return (
-    <div className={`my-6 p-4 rounded-xl text-sm leading-relaxed flex items-start gap-3 border ${config.bg} ${config.border} ${config.text}`}>
+    <div className={`my-6 p-4 rounded-xl text-base leading-relaxed flex items-start gap-3 border ${config.bg} ${config.border} ${config.text}`}>
       {config.icon}
       <div>{children}</div>
     </div>

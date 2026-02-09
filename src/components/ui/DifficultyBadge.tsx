@@ -11,9 +11,9 @@ export function DifficultyBadge({ level, showLabel = false }: DifficultyBadgePro
   return (
     <span className="inline-flex items-center gap-1.5 text-xs">
       <Signal className="w-3.5 h-3.5 text-sky-500" />
-      <span className="font-medium text-slate-500">Lv.{level}</span>
+      <span className="font-medium text-slate-700">Lv.{level}</span>
       {showLabel && (
-        <span className="text-slate-400">
+        <span className="text-slate-500">
           {labels[level - 1] || ''}
         </span>
       )}

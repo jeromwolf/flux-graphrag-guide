@@ -16,15 +16,15 @@ export default function CurriculumLayout({ children }: { children: React.ReactNo
       <aside className="hidden lg:block w-64 border-r border-slate-200 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto bg-slate-50/80">
         <div className="p-4">
           <div className="mb-6">
-            <h2 className="text-sm font-bold mb-1 text-slate-900">
+            <h2 className="text-base font-bold mb-1 text-slate-900">
               커리큘럼
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-sm text-slate-700">
               7개 Part · 11시간
             </p>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="space-y-2">
             {curriculumMeta.map((part) => {
               const isActive = activePartNum === part.part;
 
@@ -48,18 +48,18 @@ export default function CurriculumLayout({ children }: { children: React.ReactNo
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <div className={`text-xs font-semibold mb-1 ${
+                      <div className={`text-sm font-semibold mb-1 ${
                         isActive ? 'text-sky-700' : 'text-slate-700'
                       }`}>
                         {part.title}
                       </div>
-                      <div className="flex items-center gap-2 text-[0.65rem] text-slate-400">
+                      <div className="flex items-center gap-2 text-xs text-slate-700">
                         <span className="inline-flex items-center gap-0.5">
-                          <Clock className="w-2.5 h-2.5" />
+                          <Clock className="w-3 h-3" />
                           {part.duration}
                         </span>
                         <span className="inline-flex items-center gap-0.5">
-                          <Signal className="w-2.5 h-2.5" />
+                          <Signal className="w-3 h-3" />
                           Lv.{part.difficulty}
                         </span>
                       </div>
@@ -88,13 +88,13 @@ export default function CurriculumLayout({ children }: { children: React.ReactNo
                     : 'bg-slate-50 border-b-2 border-b-transparent'
                 }`}
               >
-                <div className={`text-xs font-semibold whitespace-nowrap ${
-                  isActive ? 'text-sky-600' : 'text-slate-500'
+                <div className={`text-sm font-semibold whitespace-nowrap ${
+                  isActive ? 'text-sky-600' : 'text-slate-700'
                 }`}>
                   Part {part.part}
                 </div>
-                <div className="flex items-center gap-0.5 text-[0.6rem] mt-0.5 text-slate-400">
-                  <Signal className="w-2 h-2" />
+                <div className="flex items-center gap-0.5 text-xs mt-0.5 text-slate-700">
+                  <Signal className="w-2.5 h-2.5" />
                   Lv.{part.difficulty}
                 </div>
               </Link>

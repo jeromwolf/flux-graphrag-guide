@@ -46,7 +46,7 @@ export default function HomePage() {
             Knowledge Graph +<br />GraphRAG 실무 가이드
           </h1>
 
-          <p className="text-xl mb-8 text-slate-500 font-light">
+          <p className="text-xl mb-8 text-slate-700 font-light">
             벡터 RAG의 한계를 넘어, 온톨로지 설계부터 프로덕션 배포까지
           </p>
 
@@ -75,10 +75,10 @@ export default function HomePage() {
             ].map((card) => (
               <div key={card.title} className="p-6 rounded-xl ring-card bg-white">
                 <div className="mb-3">{card.icon}</div>
-                <h3 className="text-lg font-bold mb-2 text-sky-600">
+                <h3 className="text-xl font-bold mb-2 text-sky-600">
                   {card.title}
                 </h3>
-                <p className="text-sm text-slate-500">
+                <p className="text-base text-slate-700">
                   {card.desc}
                 </p>
               </div>
@@ -93,7 +93,7 @@ export default function HomePage() {
           <p className="text-2xl font-bold mb-4 text-amber-600">
             &quot;1-hop이면 벡터로 충분. Multi-hop이 필요하니까 GraphRAG를 쓰는 것&quot;
           </p>
-          <p className="text-slate-500">
+          <p className="text-lg text-slate-700">
             GraphRAG부터 시작하지 마세요. 문제 정의부터 하세요.
           </p>
         </div>
@@ -116,7 +116,7 @@ export default function HomePage() {
             {techStack.map((tech) => (
               <span
                 key={tech.name}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-sky-50 border border-sky-100 text-slate-600"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-base font-medium bg-sky-50 border border-sky-100 text-slate-700"
               >
                 <span className="text-sky-500">{tech.icon}</span>
                 <span>{tech.name}</span>
@@ -132,7 +132,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold mb-2 text-center text-slate-900" style={{ fontFamily: 'var(--font-title)' }}>
             커리큘럼
           </h2>
-          <p className="text-center mb-12 text-slate-500">
+          <p className="text-center mb-12 text-lg text-slate-600">
             7개 Part · 11시간 · 온톨로지 설계부터 프로덕션까지
           </p>
 
@@ -146,25 +146,25 @@ export default function HomePage() {
               >
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="text-sm font-mono px-2 py-0.5 rounded bg-sky-50 text-sky-600">
+                    <span className="text-base font-mono px-2 py-0.5 rounded bg-sky-50 text-sky-600">
                       Part {part.part}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-sm text-slate-400">
+                    <span className="inline-flex items-center gap-1 text-sm text-slate-500">
                       <Clock className="w-3.5 h-3.5" />
                       {part.duration}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-sm text-slate-400">
+                    <span className="inline-flex items-center gap-1 text-sm text-slate-500">
                       <Signal className="w-3.5 h-3.5" />
                       Lv.{part.difficulty}
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold mb-2">
+                  <h3 className="text-xl font-bold mb-2">
                     {part.title}
                   </h3>
-                  <p className="text-sm mb-4 text-slate-500">
+                  <p className="text-base mb-4 text-slate-700">
                     {part.description}
                   </p>
-                  <p className="text-xs pt-3 text-slate-400 border-t border-slate-100">
+                  <p className="text-sm pt-3 text-slate-500 border-t border-slate-100">
                     {part.milestone}
                   </p>
                 </div>
@@ -180,7 +180,7 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold mb-2 text-center text-slate-900" style={{ fontFamily: 'var(--font-title)' }}>
             도메인 유스케이스
           </h2>
-          <p className="text-center mb-12 text-slate-500">
+          <p className="text-center mb-12 text-lg text-slate-600">
             4개 도메인 × 4단계 = 16개 실습 프로젝트
           </p>
 
@@ -190,20 +190,20 @@ export default function HomePage() {
                 <>
                   <div className="flex items-center gap-3 mb-3">
                     {domainIcons[domain.id] || <Globe className="w-6 h-6 text-sky-500" />}
-                    <h3 className="text-lg font-bold">{domain.name}</h3>
-                    <span className="text-xs px-2 py-0.5 rounded-full ml-auto bg-sky-50 text-sky-600 border border-sky-100">
+                    <h3 className="text-xl font-bold">{domain.name}</h3>
+                    <span className="text-sm px-2 py-0.5 rounded-full ml-auto bg-sky-50 text-sky-600 border border-sky-100">
                       {domain.queryHops}-hop
                     </span>
                     {domain.status === 'coming-soon' && (
-                      <span className="text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">
+                      <span className="text-sm px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">
                         Coming Soon
                       </span>
                     )}
                   </div>
-                  <p className="text-sm mb-3 text-slate-500">
+                  <p className="text-base mb-3 text-slate-700">
                     {domain.description}
                   </p>
-                  <div className="p-3 rounded-lg text-sm mb-4 bg-slate-50 text-sky-600">
+                  <div className="p-3 rounded-lg text-base mb-4 bg-slate-50 text-sky-600">
                     핵심 질의: &quot;{domain.coreQuery}&quot;
                   </div>
                   <div className="flex gap-1">
@@ -219,7 +219,7 @@ export default function HomePage() {
                       />
                     ))}
                   </div>
-                  <p className="text-xs mt-2 text-slate-400">
+                  <p className="text-sm mt-2 text-slate-500">
                     {domain.status === 'active' ? 'Stage 0 이용 가능' : '준비 중'}
                   </p>
                 </>
@@ -246,7 +246,7 @@ export default function HomePage() {
         <h2 className="text-3xl font-bold mb-4 text-slate-900" style={{ fontFamily: 'var(--font-title)' }}>
           Ready to Start?
         </h2>
-        <p className="text-lg mb-8 text-slate-500">
+        <p className="text-lg mb-8 text-slate-700">
           GraphRAG 실무 여정을 지금 시작하세요
         </p>
         <div className="flex justify-center gap-4 mb-6">
@@ -257,7 +257,7 @@ export default function HomePage() {
             제조 데모 보기
           </Link>
         </div>
-        <p className="text-sm text-slate-400">
+        <p className="text-base text-slate-500">
           이미 기초를 아시나요? <Link href="/curriculum/part3" className="underline hover:no-underline text-sky-500">Part 3부터 시작하세요</Link>
           <ArrowRight className="w-3.5 h-3.5 inline ml-1" />
         </p>
@@ -265,7 +265,7 @@ export default function HomePage() {
           <p className="text-sm font-bold mb-1 text-sky-500">
             깊이가 곧 가치
           </p>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-500">
             Root Bricks Co., Ltd. · FDE Academy
           </p>
         </div>
