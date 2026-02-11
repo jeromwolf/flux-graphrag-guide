@@ -30,6 +30,64 @@ export const part3Content: SectionContent[] = [
         }
       },
       {
+        id: '1-1b',
+        tag: 'practice',
+        title: 'PathRAG 스타일 프롬프트 템플릿',
+        script: '실제 PathRAG 스타일의 프롬프트 템플릿을 보겠습니다. 이 템플릿은 4개 섹션으로 구성됩니다. SYSTEM 섹션에서 LLM의 역할을 정의하고, SCHEMA 섹션에서 추출할 엔티티/관계 타입을 명시합니다. EXAMPLES 섹션에서 few-shot 예시를 제공하고, OUTPUT FORMAT 섹션에서 출력 형식을 고정합니다. 특히 SCHEMA 섹션이 핵심인데, 여기에 Part 2에서 만든 온톨로지를 그대로 넣어줍니다. 이 템플릿을 사용하면 LLM이 우리가 정의한 스키마에 맞춰서만 추출하기 때문에 온톨로지 일관성이 유지됩니다.',
+        code: {
+          language: 'python',
+          code: `# PathRAG 스타일 프롬프트 템플릿
+EXTRACTION_PROMPT = """
+## SYSTEM
+당신은 Knowledge Graph 엔티티/관계 추출 전문가입니다.
+주어진 텍스트에서 엔티티와 관계를 정확히 추출하세요.
+
+## SCHEMA (허용된 타입만 사용)
+엔티티 타입: {entity_types}
+관계 타입: {relation_types}
+관계 제약:
+{relation_constraints}
+
+## EXAMPLES
+입력: "삼성전자가 AI 반도체 HBM4를 개발했다"
+출력:
+{{
+  "entities": [
+    {{"name": "삼성전자", "type": "Company"}},
+    {{"name": "HBM4", "type": "Product"}}
+  ],
+  "relationships": [
+    {{"source": "삼성전자", "relation": "PRODUCES",
+      "target": "HBM4"}}
+  ]
+}}
+
+## OUTPUT FORMAT
+반드시 위 JSON 형식으로만 출력하세요.
+허용된 타입 외의 엔티티/관계는 추출하지 마세요.
+
+## INPUT TEXT
+{text}
+"""
+
+# 템플릿에 변수 채우기
+prompt = EXTRACTION_PROMPT.format(
+    entity_types="Company, Person, Product, Fund, Technology",
+    relation_types="INVESTED_IN, PRODUCES, WORKS_AT, USES_TECH, ...",
+    relation_constraints="""
+    - INVESTED_IN: Fund → Company
+    - PRODUCES: Company → Product
+    - WORKS_AT: Person → Company
+    - USES_TECH: Company → Technology""",
+    text=article_text
+)`
+        },
+        callout: {
+          type: 'key',
+          text: 'SCHEMA 섹션에 온톨로지를 명시 → LLM이 허용된 타입만 추출 → 일관성 보장'
+        }
+      },
+      {
         id: '1-2',
         tag: 'theory',
         title: '구체화 > 일반화 원칙',
@@ -127,6 +185,42 @@ response = client.chat.completions.create(
         callout: {
           type: 'key',
           text: '질문과 추출 대상이 정렬되지 않으면 아무리 많은 데이터를 추출해도 쓸모없습니다.'
+        }
+      },
+      {
+        id: '1-5',
+        tag: 'theory',
+        title: '프롬프트 접근법 — 논문 참고 → 비교 → 튜닝',
+        script: 'LLM 추출 프롬프트를 처음부터 만들 필요는 없습니다. 3단계 접근법을 사용하세요. 1단계는 논문 참고입니다. PathRAG, GraphRAG, LightRAG 같은 논문에서 사용한 프롬프트를 그대로 가져옵니다. 이미 검증된 구조니까요. 2단계는 비교입니다. 가져온 프롬프트를 우리 도메인에 적용해보고, 결과를 비교합니다. 어떤 프롬프트가 우리 도메인에 더 잘 맞는지 확인하는 거죠. 3단계는 튜닝입니다. 가장 좋았던 프롬프트를 기반으로, 우리 도메인에 맞게 Meta-Dictionary를 추가하고, few-shot 예시를 조정합니다. 이렇게 하면 처음부터 만드는 것보다 훨씬 빠르고 정확합니다.',
+        table: {
+          headers: ['단계', '내용', '핵심 포인트'],
+          rows: [
+            {
+              cells: [
+                { text: '1. 논문 참고', bold: true },
+                { text: 'PathRAG, GraphRAG 등 검증된 프롬프트 수집' },
+                { text: '바퀴를 재발명하지 마라' }
+              ]
+            },
+            {
+              cells: [
+                { text: '2. 비교', bold: true },
+                { text: '우리 도메인에 적용 후 결과 비교' },
+                { text: '도메인별 차이가 크다' }
+              ]
+            },
+            {
+              cells: [
+                { text: '3. 튜닝', bold: true },
+                { text: 'Meta-Dictionary 추가, few-shot 조정' },
+                { text: '도메인 적합성 최대화' }
+              ]
+            }
+          ]
+        },
+        callout: {
+          type: 'tip',
+          text: '처음부터 만들지 마세요. 논문 프롬프트 → 비교 → 도메인 튜닝이 가장 효율적입니다.'
         }
       }
     ]

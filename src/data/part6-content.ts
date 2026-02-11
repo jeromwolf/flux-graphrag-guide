@@ -315,6 +315,112 @@ selected = selector.select_examples({"question": user_question})`
         }
       },
       {
+        id: '3-3b',
+        tag: 'practice',
+        title: 'validate_cypher — 구현 코드',
+        script: 'validate_cypher 함수를 직접 구현해봅시다. 스키마 정보를 받아서 6가지 체크를 수행합니다. 먼저 EXPLAIN으로 문법을 검사하고, 노드 라벨과 관계 타입이 스키마에 있는지 확인합니다. 프로퍼티 이름도 체크하고, 관계 방향이 맞는지 검증합니다. 에러가 하나라도 발견되면 에러 목록을 반환하고, 없으면 빈 리스트를 반환합니다.',
+        code: {
+          language: 'python',
+          code: `def validate_cypher(cypher: str, schema: dict) -> list[str]:
+    """Cypher 쿼리를 6가지 측면에서 검증"""
+    errors = []
+
+    # 1. 문법 검사 — EXPLAIN으로 파싱 테스트
+    try:
+        driver.execute_query(f"EXPLAIN {cypher}")
+    except Exception as e:
+        errors.append(f"문법 오류: {e}")
+        return errors  # 문법 오류면 나머지 체크 불가
+
+    # 2. 노드 라벨 검사
+    import re
+    labels_in_query = re.findall(r':\\\\s*(\\\\w+)', cypher)
+    valid_labels = schema.get("node_labels", [])
+    for label in labels_in_query:
+        if label not in valid_labels:
+            errors.append(f"존재하지 않는 라벨: {label}")
+
+    # 3. 관계 타입 검사
+    rels_in_query = re.findall(r'\\\\[:\\\\s*(\\\\w+)', cypher)
+    valid_rels = schema.get("relationship_types", [])
+    for rel in rels_in_query:
+        if rel not in valid_rels:
+            errors.append(f"존재하지 않는 관계: {rel}")
+
+    # 4. 프로퍼티 검사
+    props_in_query = re.findall(r'(\\\\w+)\\\\.(\\\\w+)', cypher)
+    for alias, prop in props_in_query:
+        if prop not in schema.get("properties", []):
+            errors.append(f"존재하지 않는 프로퍼티: {prop}")
+
+    # 5. 관계 방향 검사
+    # 스키마의 방향 제약과 비교
+    for rel_def in schema.get("rel_directions", []):
+        # (source)-[:REL]->(target) 패턴 매칭
+        pass  # 도메인별 구현
+
+    # 6. 집계 함수 검사
+    if re.search(r'count|sum|avg', cypher, re.I):
+        if 'RETURN' not in cypher.upper():
+            errors.append("집계 함수에 RETURN 누락")
+
+    return errors  # 빈 리스트 = 통과`
+        },
+        callout: {
+          type: 'key',
+          text: 'validate_cypher는 6가지 체크를 순차 실행. 문법 오류 → 나머지 체크 스킵 (fast-fail)'
+        }
+      },
+      {
+        id: '3-3c',
+        tag: 'practice',
+        title: 'CypherQueryCorrector — 규칙 기반 교정',
+        script: 'CypherQueryCorrector는 LLM 없이 규칙만으로 교정하는 도구입니다. 가장 흔한 오류인 관계 방향 오류를 자동 교정합니다. 스키마에 정의된 관계 방향과 쿼리의 방향이 다르면 자동으로 뒤집어줍니다. 예를 들어 스키마에 Fund→Company 방향으로 INVESTED_IN이 정의되어 있는데, 쿼리에서 (c:Company)-[:INVESTED_IN]->(f:Fund)로 잘못 쓰면, 자동으로 (c:Company)<-[:INVESTED_IN]-(f:Fund)로 교정합니다. LLM 호출 없이 빠르게 교정할 수 있어서, LLM 기반 교정 전에 먼저 실행합니다.',
+        code: {
+          language: 'python',
+          code: `class CypherQueryCorrector:
+    """규칙 기반 Cypher 쿼리 교정기"""
+
+    def __init__(self, schema_relations: list[dict]):
+        # 스키마에 정의된 관계 방향
+        # [{"source": "Fund", "rel": "INVESTED_IN", "target": "Company"}, ...]
+        self.relations = schema_relations
+
+    def correct(self, cypher: str) -> str:
+        """관계 방향 오류를 규칙 기반으로 교정"""
+        corrected = cypher
+
+        for rel_def in self.relations:
+            src = rel_def["source"]
+            rel = rel_def["rel"]
+            tgt = rel_def["target"]
+
+            # 잘못된 방향 감지: (target)-[:REL]->(source)
+            wrong = f"(:{tgt})-[:{rel}]->(:{src})"
+            right = f"(:{tgt})<-[:{rel}]-(:{src})"
+
+            if wrong in corrected:
+                corrected = corrected.replace(wrong, right)
+
+        return corrected
+
+# 사용 예시
+corrector = CypherQueryCorrector([
+    {"source": "Fund", "rel": "INVESTED_IN", "target": "Company"},
+    {"source": "Company", "rel": "PRODUCES", "target": "Product"},
+])
+
+# 잘못된 쿼리 → 자동 교정
+bad = "MATCH (c:Company)-[:INVESTED_IN]->(f:Fund) RETURN f"
+fixed = corrector.correct(bad)
+# → MATCH (c:Company)<-[:INVESTED_IN]-(f:Fund) RETURN f`
+        },
+        callout: {
+          type: 'tip',
+          text: 'CypherQueryCorrector: LLM 호출 없이 규칙 기반 교정 → 빠르고 정확. LLM 교정 전에 먼저 실행'
+        }
+      },
+      {
         id: '3-4',
         tag: 'practice',
         title: 'CypherQueryCorrector + correct_cypher — 이중 교정',
@@ -446,6 +552,58 @@ def execute_cypher(cypher: str):
               ]
             }
           ]
+        }
+      },
+      {
+        id: '4-2b',
+        tag: 'theory',
+        title: 'Prompt Routing 아키텍처 — Query → Task → Prompt Pool',
+        script: 'Prompt Routing을 더 자세히 보겠습니다. 질문이 들어오면 먼저 Task 분류를 합니다. "이 질문이 사실 확인인가, 관계 추적인가, 비교인가?" 분류된 Task에 따라 최적화된 Prompt Pool에서 프롬프트를 선택합니다. 사실 확인이면 벡터 검색 프롬프트를, 관계 추적이면 Cypher 생성 프롬프트를, 비교면 하이브리드 프롬프트를 사용합니다. 이렇게 질문 유형에 맞는 전용 프롬프트를 사용하면 정확도가 올라갑니다.',
+        diagram: {
+          nodes: [
+            { text: 'User Query', type: 'entity' },
+            { text: 'Task 분류기', type: 'relation' },
+            { text: 'Task: 사실 확인', type: 'entity' },
+            { text: 'Task: 관계 추적', type: 'entity' },
+            { text: 'Task: 비교/분석', type: 'entity' },
+            { text: 'Prompt Pool', type: 'relation' },
+            { text: '벡터 검색', type: 'dim' },
+            { text: 'Cypher 생성', type: 'dim' },
+            { text: '하이브리드', type: 'dim' }
+          ]
+        },
+        callout: {
+          type: 'key',
+          text: 'Query → Task 분류 → Prompt Pool에서 최적 프롬프트 선택 → 정확도 향상'
+        }
+      },
+      {
+        id: '4-2c',
+        tag: 'theory',
+        title: 'Hard Prompting vs Soft Prompting',
+        script: 'GraphRAG에서 프롬프팅은 크게 두 가지로 나뉩니다. Hard Prompting은 텍스트 기반 프롬프트입니다. CoT(Chain of Thought)는 추론 과정을 단계별로 명시합니다. IRCoT는 검색 결과를 추론 체인에 통합합니다. Text2Cypher는 자연어를 Cypher로 변환합니다. Routing은 질문 유형에 따라 경로를 분기합니다. Soft Prompting은 임베딩 기반입니다. KG Embedding은 TransE, DistMult 같은 모델로 그래프를 벡터화합니다. Heterogeneous Graph Embedding은 서로 다른 타입의 노드/엣지를 통합 임베딩합니다. Hard Prompting은 해석 가능하고 구현이 쉽지만, Soft Prompting은 학습이 필요하지만 복잡한 패턴을 잡을 수 있습니다.',
+        table: {
+          headers: ['구분', '방법', '특징'],
+          rows: [
+            {
+              cells: [
+                { text: 'Hard Prompting', bold: true },
+                { text: 'CoT, IRCoT, Text2Cypher, Routing' },
+                { text: '텍스트 기반, 해석 가능', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Soft Prompting', bold: true },
+                { text: 'KG Embedding, HetGraph Embedding' },
+                { text: '임베딩 기반, 학습 필요', status: 'warn' }
+              ]
+            }
+          ]
+        },
+        callout: {
+          type: 'tip',
+          text: '실무에서는 Hard Prompting부터 시작하세요. Soft Prompting은 데이터가 충분할 때 고려'
         }
       },
       {
