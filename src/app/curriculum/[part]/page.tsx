@@ -29,14 +29,14 @@ const tagClasses: Record<string, string> = {
 
 const calloutIcons: Record<string, React.ReactNode> = {
   key: <Key className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />,
-  tip: <Lightbulb className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />,
-  warn: <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />,
+  tip: <Lightbulb className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />,
+  warn: <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />,
 };
 
 const calloutClasses: Record<string, string> = {
   key: 'bg-sky-50 border-sky-200 text-sky-700',
-  tip: 'bg-blue-50 border-blue-100 text-blue-600',
-  warn: 'bg-amber-50 border-amber-200 text-amber-700',
+  tip: 'bg-sky-50/60 border-sky-100 text-sky-600',
+  warn: 'bg-red-50 border-red-200 text-red-600',
 };
 
 function CurriculumSlideCard({ slide }: { slide: SlideContent }) {
@@ -246,7 +246,7 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
       </header>
 
       {/* Timeline Nav */}
-      <nav className="sticky top-16 z-40 overflow-x-auto bg-white/92 backdrop-blur-xl border-b border-slate-200">
+      <nav className="sticky top-[7.5rem] lg:top-16 z-40 overflow-x-auto bg-white/92 backdrop-blur-xl border-b border-slate-200">
         <div className="flex max-w-4xl mx-auto px-4">
           {meta.sections.map((sec) => (
             <a
@@ -281,12 +281,23 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
             </div>
 
             <div>
-              {(contentMap[partNum] || [])
-                .find(s => s.sectionId === sec.id)
-                ?.slides.map(slide => (
-                  <CurriculumSlideCard key={slide.id} slide={slide} />
-                ))
-              }
+              {(() => {
+                const sectionSlides = (contentMap[partNum] || []).find(s => s.sectionId === sec.id)?.slides || [];
+                const totalSlides = (contentMap[partNum] || []).reduce((sum, s) => sum + s.slides.length, 0);
+                const slidesBeforeThis = (contentMap[partNum] || [])
+                  .filter(s => s.sectionId < sec.id)
+                  .reduce((sum, s) => sum + s.slides.length, 0);
+                return sectionSlides.map((slide, slideIdx) => (
+                  <div key={slide.id} className="relative">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs font-mono text-slate-400">
+                        {slidesBeforeThis + slideIdx + 1} / {totalSlides}
+                      </span>
+                    </div>
+                    <CurriculumSlideCard slide={slide} />
+                  </div>
+                ));
+              })()}
             </div>
           </section>
         ))}
