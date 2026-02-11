@@ -30,14 +30,16 @@ export default function CurriculumPage() {
         </h3>
         <div className="flex items-end gap-2 h-32">
           {curriculumMeta.map((part) => (
-            <div key={part.part} className="flex-1 flex flex-col items-center gap-1">
-              <div
-                className="w-full rounded-t-lg transition-all bg-gradient-to-t from-sky-500 to-blue-500"
-                style={{
-                  height: `${part.difficulty * 25}%`,
-                  opacity: 0.5 + part.difficulty * 0.125,
-                }}
-              />
+            <div key={part.part} className="flex-1 flex flex-col items-center gap-1 h-full">
+              <div className="w-full flex-1 relative">
+                <div
+                  className="absolute bottom-0 left-0 right-0 rounded-t-lg bg-gradient-to-t from-sky-500 to-blue-500"
+                  style={{
+                    height: `${part.difficulty * 25}%`,
+                    opacity: 0.5 + part.difficulty * 0.125,
+                  }}
+                />
+              </div>
               <span className="text-[0.65rem] font-mono text-slate-400">
                 P{part.part}
               </span>
