@@ -127,6 +127,37 @@ export const part7Content: SectionContent[] = [
         }
       },
       {
+        id: '1-3b',
+        tag: 'theory',
+        title: 'Multi-hop + Common Knowledge 메트릭',
+        script: '평가에서 흔히 놓치는 게 Common Knowledge 메트릭입니다. Multi-hop 질문은 여러 관계를 따라가야 하는 질문이고, Common Knowledge는 그래프에 명시되지 않은 일반 상식이 필요한 질문입니다. 예를 들어 "반도체를 만드는 한국 기업은?"은 Common Knowledge입니다. 그래프에 "반도체 제조 기업" 관계가 없어도 상식적으로 답할 수 있어야 해요. Multi-hop은 그래프 구조가 잘 되어있으면 잘 답할 수 있지만, Common Knowledge는 LLM의 사전 지식에 의존합니다. 그래서 평가할 때 두 유형을 분리해서 측정해야 합니다. Multi-hop 성능이 높은데 Common Knowledge가 낮으면, LLM의 일반 지식 활용을 개선해야 하는 거죠.',
+        table: {
+          headers: ['메트릭', '정의', '의존 대상', '개선 방법'],
+          rows: [
+            {
+              cells: [
+                { text: 'Multi-hop', bold: true },
+                { text: '여러 관계를 따라가는 추론' },
+                { text: '그래프 구조', status: 'pass' },
+                { text: '온톨로지 + 관계 품질' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Common Knowledge', bold: true },
+                { text: '그래프에 없는 일반 상식 활용' },
+                { text: 'LLM 사전 지식', status: 'warn' },
+                { text: 'LLM 선택 + 프롬프트' }
+              ]
+            }
+          ]
+        },
+        callout: {
+          type: 'key',
+          text: '평가 시 Multi-hop과 Common Knowledge를 분리 측정해야 정확한 병목 파악 가능'
+        }
+      },
+      {
         id: '1-4',
         tag: 'practice',
         title: '평가 데이터셋 설계',
@@ -160,6 +191,45 @@ results = evaluate(
         callout: {
           type: 'tip',
           text: '난이도별 균형 있게 구성, Golden answer 필수'
+        }
+      },
+      {
+        id: '1-4b',
+        tag: 'theory',
+        title: 'Baseline 비교 — 벡터 RAG vs GraphRAG',
+        script: 'GraphRAG가 정말 좋은지 판단하려면 Baseline 비교가 필수입니다. 벡터 RAG를 Baseline으로 설정하고, 같은 질문셋으로 두 시스템을 비교합니다. Easy 질문에서는 벡터 RAG도 잘 합니다. 정확도 차이가 5% 이내일 수 있어요. Medium 질문에서부터 차이가 나기 시작합니다. 벡터 RAG는 관련 청크를 찾지만 관계를 추론하지 못합니다. Hard 질문에서 GraphRAG의 가치가 드러납니다. 벡터 RAG는 거의 불가능한 Multi-hop 추론을 GraphRAG는 처리합니다. 이 비교 데이터가 있어야 "우리 프로젝트에 GraphRAG가 필요한가?"를 데이터로 판단할 수 있습니다.',
+        table: {
+          headers: ['난이도', '벡터 RAG (Baseline)', 'GraphRAG', '차이'],
+          rows: [
+            {
+              cells: [
+                { text: 'Easy (1-hop)', bold: true },
+                { text: '~90%', status: 'pass' },
+                { text: '~92%', status: 'pass' },
+                { text: '+2% (미미)' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Medium (2-hop)', bold: true },
+                { text: '~65%', status: 'warn' },
+                { text: '~85%', status: 'pass' },
+                { text: '+20% (유의미)' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Hard (Multi-hop)', bold: true },
+                { text: '~30%', status: 'fail' },
+                { text: '~80%', status: 'pass' },
+                { text: '+50% (압도적)' }
+              ]
+            }
+          ]
+        },
+        callout: {
+          type: 'key',
+          text: 'Baseline 비교 필수 — Hard 질문이 많은 도메인일수록 GraphRAG ROI가 높음'
         }
       },
       {
@@ -301,6 +371,132 @@ results = evaluate(
               ]
             }
           ]
+        }
+      },
+      {
+        id: '3-1b',
+        tag: 'theory',
+        title: 'GDBMS 선정 — 상세 기준 분석',
+        script: '각 기준을 더 자세히 살펴봅시다. 생태계에서는 DB-engines 랭킹을 확인하세요. Neo4j가 2024년 기준 1위이고 2위와 격차가 큽니다. LangChain, LlamaIndex와의 공식 연동도 중요합니다. Neo4j는 공식 패키지가 있지만 다른 GDBMS는 커뮤니티 수준인 경우가 많아요. 성능에서는 LDBC 벤치마크가 표준입니다. 특히 GraphRAG에서 중요한 연산인 get_neighbors의 복잡도를 보세요. Neo4j는 인접 리스트 기반이라 O(d)입니다. d는 해당 노드의 degree(연결 수)예요. 반면 매트릭스 기반 저장소는 O(V)로, 전체 노드 수에 비례합니다. 노드가 100만 개인데 연결이 10개면 O(10) vs O(100만)이니 엄청난 차이죠. 적합성에서는 저장 방식을 보세요. LPG(Labeled Property Graph) vs RDF, Cypher vs SPARQL. GraphRAG에는 LPG + Cypher 조합이 가장 자연스럽습니다.',
+        table: {
+          headers: ['기준', '세부 항목', 'Neo4j', '비고'],
+          rows: [
+            {
+              cells: [
+                { text: '생태계', bold: true },
+                { text: 'DB-engines 랭킹' },
+                { text: '1위 (격차 큼)', status: 'pass' },
+                { text: '2위 대비 점수 2배+' }
+              ]
+            },
+            {
+              cells: [
+                { text: '', bold: false },
+                { text: 'LangChain 연동' },
+                { text: '공식 패키지', status: 'pass' },
+                { text: 'langchain-neo4j' }
+              ]
+            },
+            {
+              cells: [
+                { text: '', bold: false },
+                { text: 'LlamaIndex 연동' },
+                { text: '공식 지원', status: 'pass' },
+                { text: 'PropertyGraphIndex' }
+              ]
+            },
+            {
+              cells: [
+                { text: '성능', bold: true },
+                { text: 'LDBC 벤치마크' },
+                { text: '검증 완료', status: 'pass' },
+                { text: 'SNB Interactive' }
+              ]
+            },
+            {
+              cells: [
+                { text: '', bold: false },
+                { text: 'get_neighbors 복잡도' },
+                { text: 'O(d) — 인접 리스트', status: 'pass' },
+                { text: 'd=degree, 매트릭스는 O(V)' }
+              ]
+            },
+            {
+              cells: [
+                { text: '', bold: false },
+                { text: '그래프 표현 방식' },
+                { text: 'Native Graph Storage' },
+                { text: 'Index-free adjacency' }
+              ]
+            },
+            {
+              cells: [
+                { text: '적합성', bold: true },
+                { text: '데이터 모델' },
+                { text: 'LPG (Labeled Property Graph)', status: 'pass' },
+                { text: 'RDF보다 직관적' }
+              ]
+            },
+            {
+              cells: [
+                { text: '', bold: false },
+                { text: '쿼리 언어' },
+                { text: 'Cypher', status: 'pass' },
+                { text: '패턴 매칭에 최적' }
+              ]
+            }
+          ]
+        },
+        callout: {
+          type: 'key',
+          text: 'get_neighbors O(d) vs O(V) — GraphRAG에서 가장 중요한 성능 지표. 인접 리스트 기반이 필수'
+        }
+      },
+      {
+        id: '3-1c',
+        tag: 'theory',
+        title: '그래프 표현 방식과 성능 차이',
+        script: '그래프를 저장하는 방법에 따라 성능이 크게 달라집니다. 4가지 표현 방식이 있습니다. Adjacency Matrix는 노드 x 노드 행렬로, 공간은 O(V²)이고 이웃 탐색은 O(V)입니다. Edge List는 (source, target) 쌍의 리스트로, 공간은 O(E)이고 이웃 탐색은 O(E)입니다. Adjacency List(연결 리스트)는 각 노드별 이웃 목록으로, 공간은 O(V+E)이고 이웃 탐색은 O(d)입니다. CSR(Compressed Sparse Row)은 압축된 행 표현으로, 공간은 O(V+E)이고 이웃 탐색은 O(d)입니다. Neo4j는 Adjacency List 기반의 Native Graph Storage를 사용해서 get_neighbors가 O(d)입니다. GraphRAG에서 서브그래프 탐색이 핵심이므로, 이 O(d) 특성이 결정적입니다.',
+        table: {
+          headers: ['표현 방식', '공간', 'get_neighbors', 'GraphRAG 적합성'],
+          rows: [
+            {
+              cells: [
+                { text: 'Adjacency Matrix', bold: true },
+                { text: 'O(V²)' },
+                { text: 'O(V)', status: 'fail' },
+                { text: '부적합 (대규모 불가)' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Edge List', bold: true },
+                { text: 'O(E)' },
+                { text: 'O(E)', status: 'warn' },
+                { text: '단순하지만 느림' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Adjacency List', bold: true },
+                { text: 'O(V+E)' },
+                { text: 'O(d)', status: 'pass' },
+                { text: '최적 (Neo4j)' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'CSR', bold: true },
+                { text: 'O(V+E)' },
+                { text: 'O(d)', status: 'pass' },
+                { text: '분석용 최적' }
+              ]
+            }
+          ]
+        },
+        callout: {
+          type: 'key',
+          text: 'O(d) vs O(V) — 100만 노드, 평균 degree 10이면: O(10) vs O(1,000,000). 10만 배 차이'
         }
       },
       {
