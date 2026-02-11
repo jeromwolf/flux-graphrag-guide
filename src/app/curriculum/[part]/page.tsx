@@ -101,11 +101,19 @@ function CurriculumSlideCard({ slide }: { slide: SlideContent }) {
             <tbody>
               {slide.table.rows.map((row, ri) => (
                 <tr key={ri}>
-                  {row.cells.map((cell, ci) => (
-                    <td key={ci} className={`px-3 py-2 border-b border-slate-100 ${cell.bold ? 'text-slate-800 font-semibold' : 'text-slate-700'}`}>
-                      {cell.text}
-                    </td>
-                  ))}
+                  {row.cells.map((cell, ci) => {
+                    const statusClasses: Record<string, string> = {
+                      pass: 'bg-emerald-50 text-emerald-700',
+                      fail: 'bg-red-50 text-red-600',
+                      warn: 'bg-amber-50 text-amber-700',
+                    };
+                    const statusClass = cell.status ? statusClasses[cell.status] || '' : '';
+                    return (
+                      <td key={ci} className={`px-3 py-2 border-b border-slate-100 ${cell.bold ? 'font-semibold' : ''} ${statusClass || (cell.bold ? 'text-slate-800' : 'text-slate-700')}`}>
+                        {cell.text}
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>
