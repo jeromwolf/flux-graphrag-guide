@@ -6,6 +6,7 @@ import { part4Content } from '@/data/part4-content';
 import { part5Content } from '@/data/part5-content';
 import { part6Content } from '@/data/part6-content';
 import { part7Content } from '@/data/part7-content';
+import { CodeBlock } from '@/components/ui/CodeBlock';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Trophy, Clock, Signal, Target, ArrowRight, Monitor, Mic, Key, Lightbulb, AlertTriangle } from 'lucide-react';
@@ -55,9 +56,19 @@ function CurriculumSlideCard({ slide }: { slide: SlideContent }) {
           <Mic className="w-3.5 h-3.5" />
           대본
         </div>
-        <p className="text-base leading-relaxed text-slate-700">
-          {slide.script}
-        </p>
+        <div className="text-base leading-relaxed text-slate-700 space-y-2">
+          {slide.script.split(/(?<=\.\s)(?=[A-Z가-힣"'"])/).reduce((paragraphs: string[], sentence) => {
+            const lastIdx = paragraphs.length - 1;
+            if (lastIdx < 0 || paragraphs[lastIdx].length > 120) {
+              paragraphs.push(sentence);
+            } else {
+              paragraphs[lastIdx] += sentence;
+            }
+            return paragraphs;
+          }, []).map((para, idx) => (
+            <p key={idx}>{para.trim()}</p>
+          ))}
+        </div>
       </div>
 
       {/* Visual */}
@@ -75,14 +86,7 @@ function CurriculumSlideCard({ slide }: { slide: SlideContent }) {
 
       {/* Code */}
       {slide.code && (
-        <div className="mb-4 rounded-lg overflow-hidden ring-card">
-          <div className="px-3 py-1.5 text-sm font-mono bg-slate-50 text-slate-500 border-b border-slate-100">
-            {slide.code.language}
-          </div>
-          <pre className="p-3 text-sm overflow-x-auto bg-slate-50 text-slate-700" style={{ fontFamily: 'var(--font-code)' }}>
-            <code>{slide.code.code}</code>
-          </pre>
-        </div>
+        <CodeBlock language={slide.code.language} code={slide.code.code} />
       )}
 
       {/* Table */}
@@ -124,19 +128,28 @@ function CurriculumSlideCard({ slide }: { slide: SlideContent }) {
       {/* Diagram */}
       {slide.diagram && (
         <div className="mb-4 p-4 rounded-lg bg-blue-50/50 border border-blue-100">
-          <div className="flex flex-wrap gap-2 items-center">
-            {slide.diagram.nodes.map((node, i) => {
+          <div className="flex flex-wrap gap-2 items-center justify-center">
+            {slide.diagram.nodes.flatMap((node, i) => {
               const nodeClasses: Record<string, string> = {
                 entity: 'bg-sky-100 border-sky-200 text-sky-700 font-semibold',
-                relation: 'bg-blue-50 border-blue-200 text-slate-600',
+                relation: 'bg-amber-50 border-amber-200 text-amber-700',
                 fail: 'bg-red-50 border-red-200 text-red-500',
-                dim: 'bg-transparent border-transparent text-slate-500',
+                dim: 'bg-slate-50 border-slate-100 text-slate-500 text-xs',
               };
-              return (
-                <div key={i} className={`px-2 py-1 rounded text-sm border ${nodeClasses[node.type] || nodeClasses.dim}`}>
+              const prevNode = i > 0 ? slide.diagram!.nodes[i - 1] : null;
+              const showArrow = i > 0 && node.type !== 'dim' && prevNode?.type !== 'dim';
+              const elements = [];
+              if (showArrow) {
+                elements.push(
+                  <span key={`arrow-${i}`} className="text-slate-400 text-lg mx-1">{'\u2192'}</span>
+                );
+              }
+              elements.push(
+                <div key={i} className={`px-3 py-1.5 rounded-lg text-sm border ${nodeClasses[node.type] || nodeClasses.dim}`}>
                   {node.text}
                 </div>
               );
+              return elements;
             })}
           </div>
         </div>
