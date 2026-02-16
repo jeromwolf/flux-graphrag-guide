@@ -1,6 +1,6 @@
 # GraphRAG 실습 노트북
 
-커리큘럼 7개 Part에 대응하는 실습 노트북입니다. 이론으로 배운 내용을 직접 코드로 실행하며 체득합니다.
+커리큘럼 13개 Part에 대응하는 실습 노트북입니다. 이론으로 배운 내용을 직접 코드로 실행하며 체득합니다.
 
 ## 사전 준비
 
@@ -12,7 +12,14 @@
 
 ## Neo4j 설치 (Docker Compose)
 
-프로젝트 루트에 `docker-compose.yml`을 생성합니다.
+`notebooks/` 디렉토리에 `docker-compose.yml` 파일이 준비되어 있습니다. 아래 명령어로 Neo4j를 실행하세요.
+
+```bash
+cd notebooks
+docker compose up -d
+```
+
+또는 직접 `docker-compose.yml` 파일을 생성하려면:
 
 ```yaml
 services:
@@ -55,13 +62,19 @@ docker compose up -d
 
 | 번호 | 노트북 | 커리큘럼 | 소요시간 |
 |------|--------|----------|----------|
-| 01 | `01_why_graphrag.ipynb` | Part 1 - 왜 GraphRAG인가? | 2시간 |
-| 02 | `02_manual_kg.ipynb` | Part 2 - 수작업 KG | 2시간 |
-| 03 | `03_llm_extraction.ipynb` | Part 3 - LLM 자동화 | 2시간 |
-| 04 | `04_entity_resolution.ipynb` | Part 4 - Entity Resolution | 1시간 |
-| 05 | `05_multimodal_vlm.ipynb` | Part 5 - 멀티모달 VLM | 2시간 |
-| 06 | `06_search_pipeline.ipynb` | Part 6 - 통합 + 검색 | 1.5시간 |
-| 07 | `07_production_guide.ipynb` | Part 7 - 실무 적용 가이드 | 1시간 |
+| 01 | `part1_neo4j_basics.ipynb` | Part 1 - 왜 GraphRAG인가? | 2시간 |
+| 02 | `part2_manual_kg.ipynb` | Part 2 - 수작업 KG | 2시간 |
+| 03 | `part3_llm_extraction.ipynb` | Part 3 - LLM 자동화 | 2시간 |
+| 04 | `part4_entity_resolution.ipynb` | Part 4 - Entity Resolution | 1시간 |
+| 05 | `part5_multimodal_table.ipynb` | Part 5 - 멀티모달 VLM | 2시간 |
+| 06 | `part6_text2cypher_rag.ipynb` | Part 6 - 통합 + 검색 | 1.5시간 |
+| 07 | `part7_evaluation_production.ipynb` | Part 7 - 실무 적용 가이드 | 1시간 |
+| 08 | `part8_framework_comparison.ipynb` | Part 8 - 프레임워크 비교 분석 | 2시간 |
+| 09 | `part9_graph_algorithms.ipynb` | Part 9 - 그래프 알고리즘 + RAG | 2시간 |
+| 10 | `part10_agentic_graphrag.ipynb` | Part 10 - Agentic GraphRAG | 2시간 |
+| 11 | `part11_debugging_optimization.ipynb` | Part 11 - 디버깅 & 최적화 | 2시간 |
+| 12 | `part12_enterprise.ipynb` | Part 12 - 엔터프라이즈 GraphRAG | 2시간 |
+| 13 | `part13_capstone.ipynb` | Part 13 - 캡스톤 프로젝트 | 3시간 |
 
 ## 실행
 

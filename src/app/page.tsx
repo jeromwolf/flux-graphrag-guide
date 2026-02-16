@@ -2,14 +2,9 @@ import Link from 'next/link';
 import { curriculumMeta } from '@/data/curriculum-meta';
 import { domainsMeta } from '@/data/domain-meta';
 import DifficultyCurve from '@/components/ui/DifficultyCurve';
-import { Search, Puzzle, Zap, Database, Code, Link as LinkIcon, Bot, BarChart3, Factory, Wallet, Scale, Globe, ArrowRight, Signal, Clock } from 'lucide-react';
+import { Search, Puzzle, Zap, Database, Code, Link as LinkIcon, Bot, BarChart3, Factory, ArrowRight, Signal, Clock } from 'lucide-react';
 
-const domainIcons: Record<string, React.ReactNode> = {
-  manufacturing: <Factory className="w-6 h-6 text-sky-500" />,
-  finance: <Wallet className="w-6 h-6 text-sky-500" />,
-  legal: <Scale className="w-6 h-6 text-sky-500" />,
-  'it-telecom': <Globe className="w-6 h-6 text-sky-500" />,
-};
+const stageColors = ['bg-sky-500', 'bg-blue-500', 'bg-violet-500', 'bg-amber-500'];
 
 const techStack = [
   { icon: <Database className="w-4 h-4" />, name: 'Neo4j' },
@@ -28,6 +23,12 @@ const partColors: Record<number, string> = {
   5: '#ef4444',
   6: '#0ea5e9',
   7: '#ca8a04',
+  8: '#06b6d4',
+  9: '#14b8a6',
+  10: '#8b5cf6',
+  11: '#f97316',
+  12: '#ec4899',
+  13: '#6366f1',
 };
 
 export default function HomePage() {
@@ -39,7 +40,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium mb-6 bg-sky-50 border border-sky-200 text-sky-600">
             <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-sky-500" />
-            11시간 실무 과정 · 4개 도메인 유스케이스
+            23시간 실무 과정 · 기초 + 심화 · 4단계 제조 케이스 스터디
           </div>
 
           <h1 className="text-5xl md:text-6xl font-black mb-4 gradient-text" style={{ fontFamily: 'var(--font-title)', lineHeight: 1.15 }}>
@@ -133,7 +134,7 @@ export default function HomePage() {
             커리큘럼
           </h2>
           <p className="text-center mb-12 text-lg text-slate-600">
-            7개 Part · 11시간 · 온톨로지 설계부터 프로덕션까지
+            13개 Part · 23시간 · 기초에서 프로덕션까지
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -146,7 +147,7 @@ export default function HomePage() {
               >
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="text-base font-mono px-2 py-0.5 rounded bg-sky-50 text-sky-600">
+                    <span className={`text-base font-mono px-2 py-0.5 rounded ${part.track === 'advanced' ? 'bg-violet-50 text-violet-600' : 'bg-sky-50 text-sky-600'}`}>
                       Part {part.part}
                     </span>
                     <span className="inline-flex items-center gap-1 text-sm text-slate-500">
@@ -157,6 +158,11 @@ export default function HomePage() {
                       <Signal className="w-3.5 h-3.5" />
                       Lv.{part.difficulty}
                     </span>
+                    {part.track === 'advanced' && (
+                      <span className="text-xs px-2 py-0.5 rounded-full font-semibold uppercase bg-violet-100 text-violet-600 border border-violet-200">
+                        ADV
+                      </span>
+                    )}
                   </div>
                   <h3 className="text-xl font-bold mb-2">
                     {part.title}
@@ -174,70 +180,62 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Domain Cases */}
+      {/* Case Study */}
       <section className="py-16 px-6 border-t border-slate-200">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold mb-2 text-center text-slate-900" style={{ fontFamily: 'var(--font-title)' }}>
-            도메인 유스케이스
+            제조 케이스 스터디
           </h2>
           <p className="text-center mb-12 text-lg text-slate-600">
-            4개 도메인 × 4단계 = 16개 실습 프로젝트
+            같은 도메인을 4단계로 확장 — 7노드에서 5K+노드까지
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {domainsMeta.map((domain) => {
-              const cardContent = (
-                <>
+          {(() => {
+            const domain = domainsMeta[0];
+            return (
+              <div>
+                {/* Domain intro */}
+                <Link href="/cases/manufacturing" className="block p-6 rounded-2xl mb-8 transition-all hover:-translate-y-0.5 ring-card bg-white text-slate-800">
                   <div className="flex items-center gap-3 mb-3">
-                    {domainIcons[domain.id] || <Globe className="w-6 h-6 text-sky-500" />}
+                    <Factory className="w-6 h-6 text-sky-500" />
                     <h3 className="text-xl font-bold">{domain.name}</h3>
                     <span className="text-sm px-2 py-0.5 rounded-full ml-auto bg-sky-50 text-sky-600 border border-sky-100">
                       {domain.queryHops}-hop
                     </span>
-                    {domain.status === 'coming-soon' && (
-                      <span className="text-sm px-2 py-0.5 rounded-full bg-amber-50 text-amber-600">
-                        Coming Soon
-                      </span>
-                    )}
                   </div>
-                  <p className="text-base mb-3 text-slate-700">
-                    {domain.description}
-                  </p>
-                  <div className="p-3 rounded-lg text-base mb-4 bg-slate-50 text-sky-600">
+                  <p className="text-base mb-3 text-slate-700">{domain.description}</p>
+                  <div className="p-3 rounded-lg text-base bg-slate-50 text-sky-600">
                     핵심 질의: &quot;{domain.coreQuery}&quot;
                   </div>
-                  <div className="flex gap-1">
-                    {domain.stages.map((stage) => (
-                      <div
-                        key={stage.stage}
-                        className="flex-1 h-1.5 rounded-full"
-                        style={{
-                          background: domain.status === 'active' && stage.stage === 0
-                            ? '#0ea5e9'
-                            : '#f1f5f9',
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-sm mt-2 text-slate-500">
-                    {domain.status === 'active' ? 'Stage 0 이용 가능' : '준비 중'}
-                  </p>
-                </>
-              );
-
-              const cardClass = "block p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 ring-card bg-white text-slate-800";
-
-              return domain.status === 'active' ? (
-                <Link key={domain.id} href={`/cases/${domain.id}`} className={cardClass} style={{ opacity: 1 }}>
-                  {cardContent}
                 </Link>
-              ) : (
-                <div key={domain.id} className={cardClass} style={{ opacity: 0.5, cursor: 'default' }}>
-                  {cardContent}
+
+                {/* 4 stage cards */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {domain.stages.map((stage, idx) => (
+                    <Link
+                      key={stage.stage}
+                      href={`/cases/manufacturing/stage-${stage.stage}`}
+                      className="group block p-4 rounded-xl transition-all hover:-translate-y-1 ring-card ring-card-hover bg-white text-center"
+                    >
+                      <div className={`w-12 h-12 mx-auto rounded-full flex items-center justify-center font-bold text-white text-xs mb-3 ${stageColors[idx]}`}>
+                        {stage.nodes}
+                      </div>
+                      <div className="text-sm font-bold mb-1 text-slate-800">{stage.name}</div>
+                      <div className="text-xs text-slate-500 mb-2">{stage.curriculumParts}</div>
+                      <div className="flex items-center gap-1">
+                        {domain.stages.map((s) => (
+                          <div
+                            key={s.stage}
+                            className={`flex-1 h-1 rounded-full ${s.stage <= stage.stage ? 'bg-sky-500' : 'bg-slate-100'}`}
+                          />
+                        ))}
+                      </div>
+                    </Link>
+                  ))}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })()}
         </div>
       </section>
 
@@ -260,6 +258,11 @@ export default function HomePage() {
         <p className="text-base text-slate-500">
           이미 기초를 아시나요? <Link href="/curriculum/part3" className="underline hover:no-underline text-sky-500">Part 3부터 시작하세요</Link>
           <ArrowRight className="w-3.5 h-3.5 inline ml-1" />
+          <br />
+          <span className="mt-2 inline-block">
+            기초를 마쳤나요? <Link href="/curriculum/part8" className="underline hover:no-underline text-violet-500">Part 8 심화 과정으로</Link>
+            <ArrowRight className="w-3.5 h-3.5 inline ml-1" />
+          </span>
         </p>
         <div className="mt-12 pt-8 border-t border-slate-200">
           <p className="text-sm font-bold mb-1 text-sky-500">

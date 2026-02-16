@@ -3,10 +3,12 @@ export interface PartMeta {
   title: string;
   subtitle: string;
   duration: string;
-  difficulty: number; // 1-4 (star count)
+  difficulty: number; // 1-5 (star count)
   totalSlides: number;
   milestone: string;
   description: string;
+  notebook?: string; // filename in notebooks/ directory
+  track?: 'foundation' | 'advanced'; // default: foundation
   sections: {
     id: string;
     title: string;
@@ -29,6 +31,7 @@ export const curriculumMeta: PartMeta[] = [
     totalSlides: 17,
     milestone: 'Neo4j에 첫 그래프 생성 완료 (노드 7개 + 관계 5개)',
     description: 'GraphRAG가 왜 필요한지 이해하고, Neo4j에 첫 데이터를 넣어본다.',
+    notebook: 'part1_neo4j_basics.ipynb',
     sections: [
       { id: 'sec1', title: '벡터 RAG의 한계', time: '20min', colorIndex: 0 },
       { id: 'sec2', title: '전략적 관점', time: '15min', colorIndex: 1 },
@@ -51,6 +54,7 @@ export const curriculumMeta: PartMeta[] = [
     totalSlides: 17,
     milestone: '수작업 KG 완성 — 노드 15개, 관계 20개 + Meta-Dictionary',
     description: '도메인 문서에서 엔티티/관계를 손으로 추출하고, KG를 구축한다.',
+    notebook: 'part2_manual_kg.ipynb',
     sections: [
       { id: 'sec1', title: '온톨로지 설계 워크숍', time: '30min', colorIndex: 0 },
       { id: 'sec2', title: 'Meta-Dictionary 만들기', time: '20min', colorIndex: 1 },
@@ -72,6 +76,7 @@ export const curriculumMeta: PartMeta[] = [
     totalSlides: 17,
     milestone: '자동 추출 KG + 품질 리포트 — 수작업 vs LLM 비교표',
     description: 'LLM으로 엔티티/관계를 자동 추출하고, 수작업 대비 품질을 비교한다.',
+    notebook: 'part3_llm_extraction.ipynb',
     sections: [
       { id: 'sec1', title: 'LLM 추출 프롬프트 설계', time: '30min', colorIndex: 0 },
       { id: 'sec2', title: '자동 추출 실행', time: '40min', colorIndex: 1 },
@@ -92,6 +97,7 @@ export const curriculumMeta: PartMeta[] = [
     totalSlides: 12,
     milestone: '정제된 KG — 중복 제거 완료 (예: 45개 → 30개 노드)',
     description: '중복/유사 엔티티를 통합하여 KG 품질을 높인다.',
+    notebook: 'part4_entity_resolution.ipynb',
     sections: [
       { id: 'sec1', title: 'ER 개념 + 중요성', time: '15min', colorIndex: 0 },
       { id: 'sec2', title: '방법론 비교', time: '15min', colorIndex: 1 },
@@ -111,6 +117,7 @@ export const curriculumMeta: PartMeta[] = [
     totalSlides: 18,
     milestone: '멀티모달 통합 KG — 텍스트 + 표 통합 그래프',
     description: '표/이미지를 포함한 실무 문서를 그래프로 변환한다.',
+    notebook: 'part5_multimodal_table.ipynb',
     sections: [
       { id: 'sec1', title: 'VLM 개념', time: '20min', colorIndex: 0 },
       { id: 'sec2', title: '표→그래프 두 가지 접근', time: '20min', colorIndex: 1 },
@@ -133,6 +140,7 @@ export const curriculumMeta: PartMeta[] = [
     totalSlides: 22,
     milestone: '완성된 GraphRAG 시스템 — 자연어 → 그래프 검색 → 답변 생성',
     description: '자연어 질문 → 그래프 검색 → 답변 생성 파이프라인을 구축한다.',
+    notebook: 'part6_text2cypher_rag.ipynb',
     sections: [
       { id: 'sec1', title: '파이프라인 통합', time: '15min', colorIndex: 0 },
       { id: 'sec2', title: '기본 Text2Cypher', time: '25min', colorIndex: 1 },
@@ -153,6 +161,7 @@ export const curriculumMeta: PartMeta[] = [
     totalSlides: 25,
     milestone: '실무 적용 체크리스트 — GDBMS 선정 + Neo4j 최적화 + 평가 기준',
     description: '품질 평가, 성능 최적화, 운영 방법을 학습한다.',
+    notebook: 'part7_evaluation_production.ipynb',
     sections: [
       { id: 'sec1', title: '품질 평가', time: '15min', colorIndex: 0 },
       { id: 'sec2', title: '실패 케이스 + 트러블슈팅', time: '10min', colorIndex: 1 },
@@ -160,6 +169,143 @@ export const curriculumMeta: PartMeta[] = [
       { id: 'sec4', title: '모니터링 + CI/CD', time: '10min', colorIndex: 3 },
       { id: 'sec5', title: '전체 아키텍처 복습 + 확장', time: '10min', colorIndex: 4 },
       { id: 'sec6', title: '클로징', time: '5min', colorIndex: 5 },
+    ],
+    nextPreview: {
+      title: 'Part 8: "어떤 GraphRAG를 쓸 것인가" — 프레임워크 비교',
+      description: 'MS GraphRAG, LightRAG, fast-graphrag를 직접 비교하고 최적의 도구를 선택한다.',
+    },
+  },
+  // ─── Advanced Track ───────────────────────────────────────────
+  {
+    part: 8,
+    title: '프레임워크 비교',
+    subtitle: '어떤 GraphRAG를 쓸 것인가',
+    duration: '2시간',
+    difficulty: 3,
+    totalSlides: 15,
+    milestone: '프레임워크 선택 가이드 — 3개 프레임워크 벤치마크 + 비용/속도/정확도 분석',
+    description: 'MS GraphRAG, LightRAG, fast-graphrag를 직접 비교하고 선택 기준을 세운다.',
+    track: 'advanced',
+    notebook: 'part8_framework_comparison.ipynb',
+    sections: [
+      { id: 'sec1', title: 'Microsoft GraphRAG 아키텍처', time: '25min', colorIndex: 0 },
+      { id: 'sec2', title: 'LightRAG & fast-graphrag', time: '20min', colorIndex: 1 },
+      { id: 'sec3', title: 'LlamaIndex PropertyGraph', time: '15min', colorIndex: 2 },
+      { id: 'sec4', title: '3개 프레임워크 벤치마크', time: '40min', colorIndex: 3 },
+      { id: 'sec5', title: '선택 기준표 + 토론', time: '20min', colorIndex: 4 },
+    ],
+    nextPreview: {
+      title: 'Part 9: "숨겨진 패턴을 찾아라" — 그래프 알고리즘',
+      description: '그래프 알고리즘으로 KG의 숨겨진 구조를 발견하고 RAG 품질을 높인다.',
+    },
+  },
+  {
+    part: 9,
+    title: '그래프 알고리즘',
+    subtitle: '숨겨진 패턴을 찾아라',
+    duration: '2시간',
+    difficulty: 3,
+    totalSlides: 15,
+    milestone: '알고리즘 강화 GraphRAG — 커뮤니티 탐지 + PageRank 리랭킹 적용',
+    description: '그래프 알고리즘으로 KG의 숨겨진 구조를 발견하고, RAG 품질을 높인다.',
+    track: 'advanced',
+    notebook: 'part9_graph_algorithms.ipynb',
+    sections: [
+      { id: 'sec1', title: '커뮤니티 탐지', time: '20min', colorIndex: 0 },
+      { id: 'sec2', title: '중심성 알고리즘', time: '20min', colorIndex: 1 },
+      { id: 'sec3', title: '경로 알고리즘', time: '20min', colorIndex: 2 },
+      { id: 'sec4', title: '알고리즘 → RAG 통합', time: '30min', colorIndex: 3 },
+      { id: 'sec5', title: 'Neo4j GDS 심화', time: '30min', colorIndex: 4 },
+    ],
+    nextPreview: {
+      title: 'Part 10: "AI가 스스로 탐색한다" — Agentic GraphRAG',
+      description: 'LangGraph로 멀티에이전트 GraphRAG 시스템을 구축한다.',
+    },
+  },
+  {
+    part: 10,
+    title: 'Agentic GraphRAG',
+    subtitle: 'AI가 스스로 그래프를 탐색한다',
+    duration: '2시간',
+    difficulty: 4,
+    totalSlides: 15,
+    milestone: '멀티에이전트 GraphRAG — 3개 Agent 협력 자율 검색 시스템',
+    description: 'LangGraph로 멀티에이전트 GraphRAG 시스템을 구축한다.',
+    track: 'advanced',
+    notebook: 'part10_agentic_graphrag.ipynb',
+    sections: [
+      { id: 'sec1', title: 'Agentic RAG 개념', time: '20min', colorIndex: 0 },
+      { id: 'sec2', title: 'Graph Tools 설계', time: '20min', colorIndex: 1 },
+      { id: 'sec3', title: 'LangGraph 멀티에이전트', time: '40min', colorIndex: 2 },
+      { id: 'sec4', title: '자기 수정 파이프라인', time: '20min', colorIndex: 3 },
+      { id: 'sec5', title: '벤치마크 + 비교', time: '20min', colorIndex: 4 },
+    ],
+    nextPreview: {
+      title: 'Part 11: "왜 이상한 답이 나오지?" — 디버깅 & 비용 최적화',
+      description: 'GraphRAG 장애를 추적하고, API 비용을 1/3로 줄인다.',
+    },
+  },
+  {
+    part: 11,
+    title: '디버깅 & 비용 최적화',
+    subtitle: '왜 이상한 답이 나오지?',
+    duration: '2시간',
+    difficulty: 4,
+    totalSlides: 15,
+    milestone: '디버깅 + 최적화 체크리스트 — 장애 플로우차트 + API 비용 50% 절감',
+    description: 'GraphRAG 장애를 추적하고, API 비용을 1/3로 줄인다.',
+    track: 'advanced',
+    notebook: 'part11_debugging_optimization.ipynb',
+    sections: [
+      { id: 'sec1', title: 'GraphRAG 실패 유형 분류', time: '20min', colorIndex: 0 },
+      { id: 'sec2', title: '추적 파이프라인 실습', time: '30min', colorIndex: 1 },
+      { id: 'sec3', title: '비용 폭발 구간 식별', time: '20min', colorIndex: 2 },
+      { id: 'sec4', title: '비용 최적화 7가지 기법', time: '30min', colorIndex: 3 },
+      { id: 'sec5', title: '최적화 전/후 비교', time: '20min', colorIndex: 4 },
+    ],
+    nextPreview: {
+      title: 'Part 12: "회사에 도입한다" — 엔터프라이즈 실전',
+      description: 'GraphRAG를 팀/조직에 도입할 때 필요한 실전 지식을 익힌다.',
+    },
+  },
+  {
+    part: 12,
+    title: '엔터프라이즈 실전',
+    subtitle: '회사에 도입한다',
+    duration: '1.5시간',
+    difficulty: 4,
+    totalSlides: 15,
+    milestone: '도입 계획서 — 2주 PoC 계획서 + 보안 체크리스트 + CI/CD 설계도',
+    description: 'GraphRAG를 팀/조직에 도입할 때 필요한 실전 지식을 익힌다.',
+    track: 'advanced',
+    notebook: 'part12_enterprise.ipynb',
+    sections: [
+      { id: 'sec1', title: '도입 케이스 스터디', time: '20min', colorIndex: 0 },
+      { id: 'sec2', title: 'PoC 설계 템플릿', time: '20min', colorIndex: 1 },
+      { id: 'sec3', title: '보안 & 컴플라이언스', time: '15min', colorIndex: 2 },
+      { id: 'sec4', title: 'CI/CD for KG', time: '15min', colorIndex: 3 },
+      { id: 'sec5', title: '운영 대시보드', time: '20min', colorIndex: 4 },
+    ],
+    nextPreview: {
+      title: 'Part 13: "처음부터 끝까지" — 캡스톤 프로젝트',
+      description: 'Part 1-12 전체를 통합하여 프로덕션급 GraphRAG를 구축한다.',
+    },
+  },
+  {
+    part: 13,
+    title: '캡스톤 프로젝트',
+    subtitle: '처음부터 끝까지',
+    duration: '2.5시간',
+    difficulty: 5,
+    totalSlides: 12,
+    milestone: '프로덕션급 GraphRAG — 엔드투엔드 시스템 + 벤치마크 리포트 + 포트폴리오',
+    description: 'Part 1-12 전체를 통합하여 프로덕션급 GraphRAG를 구축한다.',
+    track: 'advanced',
+    sections: [
+      { id: 'sec1', title: '프로젝트 킥오프', time: '20min', colorIndex: 0 },
+      { id: 'sec2', title: '엔드투엔드 구축', time: '70min', colorIndex: 1 },
+      { id: 'sec3', title: '평가 + 벤치마크', time: '30min', colorIndex: 2 },
+      { id: 'sec4', title: '발표 + 피드백', time: '30min', colorIndex: 3 },
     ],
   },
 ];

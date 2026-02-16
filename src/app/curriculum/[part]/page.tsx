@@ -6,10 +6,16 @@ import { part4Content } from '@/data/part4-content';
 import { part5Content } from '@/data/part5-content';
 import { part6Content } from '@/data/part6-content';
 import { part7Content } from '@/data/part7-content';
+import { part8Content } from '@/data/part8-content';
+import { part9Content } from '@/data/part9-content';
+import { part10Content } from '@/data/part10-content';
+import { part11Content } from '@/data/part11-content';
+import { part12Content } from '@/data/part12-content';
+import { part13Content } from '@/data/part13-content';
 import { CodeBlock } from '@/components/ui/CodeBlock';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Trophy, Clock, Signal, Target, ArrowRight, Monitor, Mic, Key, Lightbulb, AlertTriangle } from 'lucide-react';
+import { Trophy, Clock, Signal, Target, ArrowRight, Monitor, Mic, Key, Lightbulb, AlertTriangle, BookOpen, ExternalLink } from 'lucide-react';
 
 const sectionGradients = [
   'from-sky-500 to-blue-500',
@@ -193,6 +199,12 @@ const contentMap: Record<number, SectionContent[]> = {
   5: part5Content,
   6: part6Content,
   7: part7Content,
+  8: part8Content,
+  9: part9Content,
+  10: part10Content,
+  11: part11Content,
+  12: part12Content,
+  13: part13Content,
 };
 
 export default async function PartPage({ params }: { params: Promise<{ part: string }> }) {
@@ -210,7 +222,12 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
         <div className="relative max-w-4xl mx-auto px-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-sky-50 border border-sky-200 text-sky-600">
             <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-sky-500" />
-            Part {meta.part} of 7 · {meta.subtitle}
+            {meta.track === 'advanced' ? `Advanced Part ${meta.part - 7} of 6` : `Part ${meta.part} of 7`} · {meta.subtitle}
+            {meta.track === 'advanced' && (
+              <span className="ml-1 px-2 py-0.5 rounded-full text-xs font-semibold uppercase bg-violet-100 text-violet-600 border border-violet-200">
+                ADVANCED
+              </span>
+            )}
           </div>
 
           <h1 className="text-4xl md:text-5xl font-black mb-1 gradient-text" style={{ fontFamily: 'var(--font-title)', lineHeight: 1.15 }}>
@@ -313,6 +330,39 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
           </p>
         </div>
 
+        {/* Notebook Section */}
+        {meta.notebook && (
+          <div className="my-12 p-6 rounded-2xl ring-card bg-white">
+            <div className="flex items-center gap-2 mb-4">
+              <BookOpen className="w-5 h-5 text-sky-500" />
+              <h3 className="text-xl font-bold text-slate-800">실습 노트북</h3>
+            </div>
+            <p className="text-base text-slate-600 mb-6">
+              이 Part의 내용을 직접 코드로 실행하며 학습합니다.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={`https://github.com/jeromwolf/flux-graphrag-guide/blob/main/notebooks/${meta.notebook}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-800 text-white font-medium transition-all hover:bg-slate-700 hover:-translate-y-0.5"
+              >
+                <ExternalLink className="w-4 h-4" />
+                GitHub에서 보기
+              </a>
+              <a
+                href={`https://colab.research.google.com/github/jeromwolf/flux-graphrag-guide/blob/main/notebooks/${meta.notebook}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-sky-500 text-white font-medium transition-all hover:bg-sky-600 hover:-translate-y-0.5"
+              >
+                <ExternalLink className="w-4 h-4" />
+                Google Colab에서 실행
+              </a>
+            </div>
+          </div>
+        )}
+
         {/* Next Preview */}
         {meta.nextPreview && (
           <Link
@@ -345,14 +395,14 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
                 ← 이전 Part
               </div>
               <div className="text-base font-bold text-slate-800">
-                Part {meta.part - 1}: {curriculumMeta[meta.part - 2].title}
+                Part {meta.part - 1}: {curriculumMeta.find(p => p.part === meta.part - 1)?.title}
               </div>
             </Link>
           ) : (
             <div className="flex-1" />
           )}
 
-          {meta.part < 7 ? (
+          {meta.part < curriculumMeta.length ? (
             <Link
               href={`/curriculum/part${meta.part + 1}`}
               className="flex-1 p-4 rounded-xl transition-all hover:-translate-y-0.5 text-right ring-card bg-white"
@@ -361,7 +411,7 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
                 다음 Part →
               </div>
               <div className="text-base font-bold text-slate-800">
-                Part {meta.part + 1}: {curriculumMeta[meta.part].title}
+                Part {meta.part + 1}: {curriculumMeta.find(p => p.part === meta.part + 1)?.title}
               </div>
             </Link>
           ) : (

@@ -12,7 +12,7 @@ export default function DifficultyCurve() {
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
 
-  const maxDifficulty = 4;
+  const maxDifficulty = 5;
   const points = curriculumMeta.map((part, index) => ({
     x: padding.left + (chartWidth / (curriculumMeta.length - 1)) * index,
     y: padding.top + chartHeight - (chartHeight / maxDifficulty) * part.difficulty,
@@ -47,7 +47,7 @@ export default function DifficultyCurve() {
         학습 난이도 곡선
       </h3>
       <p className="text-sm text-center mb-6 text-slate-700">
-        7개 Part의 난이도 진행 과정
+        13개 Part의 난이도 진행 과정
       </p>
 
       <div className="flex justify-center mb-6">
