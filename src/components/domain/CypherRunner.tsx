@@ -28,9 +28,13 @@ export function CypherRunner({ queries, activeQueryId }: CypherRunnerProps) {
   const activeQuery = queries.find((q) => q.id === activeId) || queries[0];
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(activeQuery.cypher);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(activeQuery.cypher);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback: clipboard API may be unavailable in non-HTTPS contexts
+    }
   };
 
   const cypherKeywords = new Set(['MATCH', 'WHERE', 'RETURN', 'CREATE', 'MERGE', 'WITH', 'ORDER BY', 'LIMIT', 'AS', 'AND', 'OR', 'NOT']);

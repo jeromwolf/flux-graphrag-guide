@@ -12,10 +12,14 @@ interface CodeBlockProps {
 export function CodeBlock({ language, code, showLineNumbers = false }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback: clipboard API may be unavailable in non-HTTPS contexts
+    }
   };
 
   return (

@@ -299,10 +299,12 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
 
             <div>
               {(() => {
-                const sectionSlides = (contentMap[partNum] || []).find(s => s.sectionId === sec.id)?.slides || [];
-                const totalSlides = (contentMap[partNum] || []).reduce((sum, s) => sum + s.slides.length, 0);
-                const slidesBeforeThis = (contentMap[partNum] || [])
-                  .filter(s => s.sectionId < sec.id)
+                const allSections = contentMap[partNum] || [];
+                const sectionSlides = allSections.find(s => s.sectionId === sec.id)?.slides || [];
+                const totalSlides = allSections.reduce((sum, s) => sum + s.slides.length, 0);
+                const currentSectionIdx = allSections.findIndex(s => s.sectionId === sec.id);
+                const slidesBeforeThis = allSections
+                  .slice(0, currentSectionIdx > 0 ? currentSectionIdx : 0)
                   .reduce((sum, s) => sum + s.slides.length, 0);
                 return sectionSlides.map((slide, slideIdx) => (
                   <div key={slide.id} className="relative">

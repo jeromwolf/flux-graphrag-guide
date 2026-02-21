@@ -20,7 +20,7 @@ export default function CurriculumLayout({ children }: { children: React.ReactNo
               커리큘럼
             </h2>
             <p className="text-sm text-slate-700">
-              7개 Part · 11시간
+              {curriculumMeta.length}개 Part · {curriculumMeta.reduce((sum, p) => sum + parseFloat(p.duration), 0)}시간
             </p>
           </div>
 
