@@ -158,7 +158,7 @@ export const curriculumMeta: PartMeta[] = [
     subtitle: '프로덕션으로 가는 길',
     duration: '1시간',
     difficulty: 4,
-    totalSlides: 25,
+    totalSlides: 31,
     milestone: '실무 적용 체크리스트 — GDBMS 선정 + Neo4j 최적화 + 평가 기준',
     description: '품질 평가, 성능 최적화, 운영 방법을 학습한다.',
     notebook: 'part7_evaluation_production.ipynb',
