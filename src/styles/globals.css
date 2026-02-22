@@ -77,3 +77,131 @@
 .shadow-card-hover:hover {
   box-shadow: var(--shadow-md);
 }
+
+/* ═══ Print / PDF Styles ═══ */
+@media print {
+  /* Hide non-content elements */
+  nav,
+  footer,
+  aside,
+  .print\:hidden,
+  button,
+  [class*="sticky"],
+  [class*="backdrop-blur"] {
+    display: none !important;
+  }
+
+  /* Reset layout */
+  body {
+    font-size: 12pt;
+    line-height: 1.6;
+    color: #000;
+    background: #fff;
+  }
+
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Remove decorative elements */
+  .gradient-text {
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    -webkit-text-fill-color: #0f172a !important;
+    color: #0f172a !important;
+  }
+
+  .ring-card {
+    box-shadow: none !important;
+    border: 1px solid #d1d5db !important;
+  }
+
+  /* Page break control */
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  section {
+    page-break-inside: avoid;
+  }
+
+  pre, code {
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    font-size: 10pt;
+  }
+
+  /* Ensure code blocks fit page */
+  pre {
+    max-width: 100% !important;
+    overflow: visible !important;
+    border: 1px solid #e5e7eb !important;
+    padding: 8pt !important;
+    background: #f9fafb !important;
+  }
+
+  /* Clean card layout for print */
+  [class*="rounded-xl"],
+  [class*="rounded-2xl"] {
+    border-radius: 4pt !important;
+  }
+
+  /* Remove animations */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Page margins */
+  @page {
+    margin: 1.5cm 2cm;
+    size: A4;
+  }
+
+  /* Ensure images fit */
+  img, svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Links show URL in print */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #6b7280;
+  }
+
+  /* Callout boxes */
+  [class*="bg-sky-50"],
+  [class*="bg-red-50"],
+  [class*="bg-violet-50"],
+  [class*="bg-yellow-50"] {
+    background: #f9fafb !important;
+    border: 1px solid #d1d5db !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Table styling for print */
+  table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  th, td {
+    border: 1px solid #d1d5db !important;
+    padding: 4pt 8pt !important;
+  }
+
+  /* Header area cleanup */
+  header {
+    padding: 0 !important;
+    margin-bottom: 12pt !important;
+  }
+
+  header .absolute {
+    display: none !important;
+  }
+}

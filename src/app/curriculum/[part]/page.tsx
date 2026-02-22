@@ -13,6 +13,7 @@ import { part11Content } from '@/data/part11-content';
 import { part12Content } from '@/data/part12-content';
 import { part13Content } from '@/data/part13-content';
 import { CodeBlock } from '@/components/ui/CodeBlock';
+import { PdfDownloadButton } from '@/components/ui/PdfDownloadButton';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Trophy, Clock, Signal, Target, ArrowRight, Monitor, Mic, Key, Lightbulb, AlertTriangle, BookOpen, ExternalLink } from 'lucide-react';
@@ -237,7 +238,7 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
             Knowledge Graph + GraphRAG 실무 완성 과정
           </p>
 
-          <div className="flex flex-wrap gap-4 mb-6">
+          <div className="flex flex-wrap items-center gap-4 mb-6">
             <div className="inline-flex items-center gap-1.5 text-base text-slate-700">
               <Clock className="w-4 h-4 text-slate-500" />
               <strong className="text-slate-800">{meta.duration}</strong>
@@ -250,6 +251,7 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
               <Target className="w-4 h-4 text-slate-500" />
               <strong className="text-slate-800">{meta.milestone.split('(')[0].trim()}</strong>
             </div>
+            <PdfDownloadButton partNumber={meta.part} partTitle={meta.title} />
           </div>
 
           <div className="p-4 rounded-xl ring-card bg-white border-l-[3px] border-l-sky-500">
