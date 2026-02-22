@@ -41,7 +41,7 @@ export const part1Content: SectionContent[] = [
         id: '1-1',
         tag: 'theory',
         title: '오프닝 — "이 질문에 답할 수 있나요?"',
-        script: '여러분, RAG 해보신 분 많으시죠? 그런데 이런 질문 한번 보세요. "삼성전자에 투자한 기관 중에서, 해당 기관이 투자한 다른 반도체 기업은 뭐가 있어?" 벡터 RAG로 이거 답 나오시나요? 안 나옵니다.',
+        script: '여러분, RAG 해보신 분 많으시죠? 그런데 이런 질문 한번 보세요. 금융 쪽: "삼성전자에 투자한 기관이 투자한 다른 반도체 기업은?" 제조 쪽: "접착 박리 결함이 발생한 공정의 설비가 마지막으로 정비받은 날짜는?" 벡터 RAG로 이거 답 나오시나요? 안 나옵니다. 둘 다 정보가 여러 문서에 흩어져 있어서, 청크 검색으로는 연결이 안 돼요.',
         visual: '화면 중앙에 질문 큰 글씨. 아래에 "벡터 RAG: ???" 표시.',
       },
       {
@@ -106,14 +106,17 @@ export const part1Content: SectionContent[] = [
         script: '실제로 벡터 RAG에 multi-hop 질문을 던져보면 이렇게 됩니다.',
         code: {
           language: 'python',
-          code: `# 벡터 RAG 검색 실패 예시
-query = "삼성전자에 투자한 기관이 투자한 다른 반도체 기업은?"
-results = vector_search(query, top_k=5)
+          code: `# ⚠️ 개념 설명용 의사코드 (실제 API는 Part 6에서)
+# 벡터 RAG: 청크 단위 유사도 검색
+query = "접착 박리 결함이 발생한 공정의 설비 정비 이력은?"
+results = vector_store.similarity_search(query, k=5)
 
-# Result:
-# [Chunk A: "국민연금이 삼성전자 지분 8.7% 보유"]
-# [Chunk B: "SK하이닉스는 DRAM 점유율 30%"]
-# ❌ 두 청크를 연결할 수 없음`
+# 검색 결과 (유사한 청크 5개):
+# [Chunk 1: "접착 박리는 브레이크 패드의 대표 결함이다"]
+# [Chunk 2: "열압착 공정은 180도에서 진행된다"]
+# [Chunk 3: "HP-01 설비는 월 1회 정비를 받는다"]
+# ❌ 3개 청크가 각각 검색되지만, 연결이 안 됨
+# → 결함→공정→설비→정비 경로를 추론할 수 없음`
         },
         callout: {
           type: 'warn',
@@ -130,7 +133,7 @@ results = vector_search(query, top_k=5)
         id: '2-1',
         tag: 'theory',
         title: 'GraphRAG 도입 판단 5단계',
-        script: 'GraphRAG를 도입할지 말지, 5단계로 판단하세요.',
+        script: '실제로 GraphRAG 도입을 검토할 때 거치는 단계입니다. 처음엔 "일단 해보자"로 시작했다가 실패하고, 이 5단계가 만들어졌어요. 핵심은 Step 1 초기 인터뷰입니다. 현업 담당자에게 "평소에 어떤 질문을 하세요?"를 물어보세요. 예: "이 결함의 원인 공정은?" "이 설비가 영향 준 다른 제품은?" — 이런 질문이 3개 이상 나오면 GraphRAG를 고려할 가치가 있습니다.',
         diagram: {
           nodes: [
             { text: '1️⃣ 초기 인터뷰', type: 'entity' },
@@ -154,7 +157,7 @@ results = vector_search(query, top_k=5)
         id: '2-2',
         tag: 'theory',
         title: '3가지 GraphRAG 경험 유형',
-        script: 'GraphRAG를 경험하는 방법은 크게 3가지입니다. 우리는 Type 2로 갑니다.',
+        script: 'GraphRAG를 구현하는 방식이 여러 개인데, 실무에서 부딪혀보니 3가지로 나뉘더라고요. 우리는 Type 2(LPG + Cypher)를 선택했습니다. 이유가 있어요 — Type 1(MS GraphRAG)은 커뮤니티 요약 방식이라 Cypher를 안 써요. 근데 실무에서 "왜 이 답이 나왔지?" 디버깅하려면 Cypher 쿼리를 직접 볼 수 있어야 합니다.',
         table: {
           headers: ['유형', '검색 방식', '핵심 과제', '우리 과정'],
           rows: [
@@ -206,10 +209,18 @@ results = vector_search(query, top_k=5)
         id: '3-1',
         tag: 'theory',
         title: '"온톨로지 = 합의의 도구"',
-        script: '온톨로지는 "이 도메인에서 무엇을 엔티티로 보고, 무엇을 관계로 볼 것인가"에 대한 합의입니다.',
+        script: '온톨로지가 뭐냐 — 한마디로 "우리 팀이 합의한 데이터 사전"입니다. 쉬워 보이지만, 실제로 해보면 팀원 3명이 각각 다르게 뽑아요. 예를 들어 제조에서 "열압착 공정"이 하나의 엔티티인지, "열"과 "압착"이 각각 엔티티인지 — 이런 거 합의하는 데 보통 2-3일 걸립니다.',
         table: {
           headers: ['도메인', '합의 필요성', '난이도', '예시'],
           rows: [
+            {
+              cells: [
+                { text: '제조/품질', bold: true },
+                { text: '엔티티: 공정, 설비, 결함, 부품' },
+                { text: '⭐⭐⭐⭐', status: 'fail' },
+                { text: 'CAUSED_BY, INSPECTS' }
+              ]
+            },
             {
               cells: [
                 { text: '금융/투자', bold: true },
@@ -255,8 +266,8 @@ results = vector_search(query, top_k=5)
             {
               cells: [
                 { text: 'Multi-hop', bold: true },
-                { text: 'Nested JOIN (느림)' },
-                { text: 'BFS/DFS (빠름)' }
+                { text: 'N-1 JOIN 필요 (테이블 풀스캔 위험)' },
+                { text: '인접 노드 탐색 O(degree) — JOIN 불필요' }
               ]
             },
             {
@@ -352,19 +363,19 @@ RETURN c2.name`
         id: '4-1',
         tag: 'theory',
         title: '프레임워크 전체 흐름',
-        script: '우리가 Part 1-7에서 배울 내용을 6개 Layer로 정리하면 이렇습니다.',
+        script: '우리가 Part 1-7에서 배울 내용을 5개 Layer로 정리하면 이렇습니다. 핵심은 "L5에서 결과가 안 좋으면 L1으로 돌아가서 문제 정의부터 다시 한다"는 순환 구조입니다.',
         diagram: {
           nodes: [
-            { text: 'L1: Infra', type: 'entity' },
-            { text: 'Neo4j + Docker', type: 'dim' },
-            { text: 'L2: Ontology', type: 'entity' },
-            { text: '엔티티/관계 정의', type: 'dim' },
-            { text: 'L3: Extraction', type: 'entity' },
-            { text: 'LLM → JSON → Graph', type: 'dim' },
-            { text: 'L4: Retrieval', type: 'entity' },
-            { text: 'Cypher 쿼리 생성', type: 'dim' },
-            { text: 'L5: Advanced', type: 'entity' },
-            { text: 'Hybrid, Temporal, HeteroRAG', type: 'dim' }
+            { text: 'L1: Strategy', type: 'entity' },
+            { text: '도입 판단 + 문제 정의', type: 'dim' },
+            { text: 'L2: Data', type: 'entity' },
+            { text: '온톨로지 + KG 구축', type: 'dim' },
+            { text: 'L3: Infra', type: 'entity' },
+            { text: 'Neo4j + 파이프라인', type: 'dim' },
+            { text: 'L4: Processing', type: 'entity' },
+            { text: 'Text2Cypher + 검색', type: 'dim' },
+            { text: 'L5: Deployment', type: 'entity' },
+            { text: '평가 + 모니터링', type: 'dim' }
           ]
         },
         table: {
@@ -372,37 +383,37 @@ RETURN c2.name`
           rows: [
             {
               cells: [
-                { text: 'L1: Infra', bold: true },
-                { text: 'Neo4j, Docker, Cypher 실습' },
+                { text: 'L1: Strategy', bold: true },
+                { text: '도입 판단, 문제 정의, ROI 검토' },
                 { text: 'Part 1' }
               ]
             },
             {
               cells: [
-                { text: 'L2: Ontology', bold: true },
-                { text: '온톨로지 설계, 스키마 정의' },
-                { text: 'Part 2' }
+                { text: 'L2: Data', bold: true },
+                { text: '온톨로지 설계, 수작업/자동 KG 구축' },
+                { text: 'Part 2-4' }
               ]
             },
             {
               cells: [
-                { text: 'L3: Extraction', bold: true },
-                { text: 'LLM 기반 추출, JSON → Graph' },
-                { text: 'Part 3' }
+                { text: 'L3: Infra', bold: true },
+                { text: 'Neo4j, Docker, 멀티모달 파이프라인' },
+                { text: 'Part 1, 5' }
               ]
             },
             {
               cells: [
-                { text: 'L4: Retrieval', bold: true },
-                { text: 'Cypher 쿼리 생성, RAG 파이프라인' },
-                { text: 'Part 4-5' }
-              ]
-            },
-            {
-              cells: [
-                { text: 'L5: Advanced', bold: true },
-                { text: 'Hybrid, Temporal, Heterogeneous' },
+                { text: 'L4: Processing', bold: true },
+                { text: 'Text2Cypher, 하이브리드 검색' },
                 { text: 'Part 6' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'L5: Deployment', bold: true },
+                { text: '평가(RAGAS), 최적화, 모니터링' },
+                { text: 'Part 7' }
               ]
             }
           ]
@@ -417,11 +428,37 @@ RETURN c2.name`
       {
         id: '5-1',
         tag: 'theory',
-        title: '"왜 Neo4j인가" 한 줄 요약',
-        script: 'Graph DB는 여러 가지가 있습니다. Neptune, TigerGraph, ArangoDB 등등. 우리가 Neo4j를 쓰는 이유는 딱 하나입니다. Neo4j = Cypher 쿼리 언어 + LLM 친화적 + 커뮤니티 + 무료 Docker 이미지. 실무에서는 AWS Neptune (Gremlin)이나 클라우드 Graph DB를 쓸 수도 있습니다. 하지만 학습 목적으로는 Neo4j가 가장 직관적입니다.',
+        title: '이 과정에서 Neo4j를 쓰는 3가지 이유',
+        script: 'Graph DB는 Neo4j 말고도 Neptune, TigerGraph, Kùzu 등 많습니다. GDBMS 비교는 Part 7에서 깊게 하고, 지금은 이 과정에서 Neo4j를 선택한 이유 3가지만 말씀드릴게요.',
+        table: {
+          headers: ['이유', '설명', '실무 영향'],
+          rows: [
+            {
+              cells: [
+                { text: '1. Cypher 문법', bold: true },
+                { text: 'SQL과 유사하여 러닝커브 낮음' },
+                { text: 'LLM이 Cypher를 잘 생성함 (Text2Cypher 핵심)' }
+              ]
+            },
+            {
+              cells: [
+                { text: '2. LangChain 1급 지원', bold: true },
+                { text: 'Neo4jGraph, Neo4jVector 공식 클래스' },
+                { text: '10줄 코드로 GraphRAG 파이프라인 구축' }
+              ]
+            },
+            {
+              cells: [
+                { text: '3. DB-engines 1위', bold: true },
+                { text: '그래프 DB 분야 점유율 부동의 1위' },
+                { text: '커뮤니티, 문서, 사례가 가장 풍부' }
+              ]
+            }
+          ]
+        },
         callout: {
-          type: 'key',
-          text: 'Neo4j의 Cypher 문법은 SQL과 비슷해서 배우기 쉽고, LLM이 이해하기 좋습니다.'
+          type: 'tip',
+          text: '다른 GDBMS와의 상세 비교(성능 벤치마크, 저장 방식, 비용)는 Part 7에서 다룹니다.'
         }
       }
     ]
@@ -438,22 +475,22 @@ RETURN c2.name`
         code: {
           language: 'yaml',
           code: `# docker-compose.yml
-version: '3.8'
 services:
   neo4j:
-    image: neo4j:5.15-community
+    image: neo4j:5-community
     ports:
-      - "7474:7474"  # Browser
-      - "7687:7687"  # Bolt
+      - "7474:7474"  # Browser UI
+      - "7687:7687"  # Bolt 프로토콜 (Python 연결용)
     environment:
       NEO4J_AUTH: neo4j/password123
     volumes:
-      - ./data:/data
+      - neo4j_data:/data
 
-# 실행
-docker-compose up -d
+volumes:
+  neo4j_data:
 
-# 브라우저에서 http://localhost:7474 접속`
+# 실행: docker compose up -d
+# 접속: http://localhost:7474 (ID: neo4j / PW: password123)`
         }
       },
       {
@@ -510,6 +547,30 @@ RETURN investor.name, other.name
         callout: {
           type: 'tip',
           text: '실무에서는 이 시각화로 온톨로지를 검증하고, 데이터 품질을 확인합니다.'
+        }
+      },
+      {
+        id: '6-5',
+        tag: 'practice',
+        title: 'Part 1 실습 체크리스트',
+        script: '여기까지 잘 따라오셨으면, 아래 검증 쿼리를 실행해보세요. 전부 통과하면 Part 1 실습 완료입니다.',
+        code: {
+          language: 'cypher',
+          code: `// ✅ 검증 1: 노드 수 확인 (3개 이상이면 정상)
+MATCH (n) RETURN count(n) AS total_nodes
+
+// ✅ 검증 2: 관계 수 확인 (2개 이상이면 정상)
+MATCH ()-[r]->() RETURN count(r) AS total_rels
+
+// ✅ 검증 3: Multi-hop 쿼리 결과 확인
+MATCH (c:Company)<-[:INVESTED_IN]-(inv)-[:INVESTED_IN]->(c2)
+WHERE c <> c2
+RETURN inv.name, c.name, c2.name
+// → 최소 1행이 반환되면 성공`
+        },
+        callout: {
+          type: 'key',
+          text: 'Part 2에서는 제조 도메인 문서에서 직접 엔티티와 관계를 추출합니다. 수작업의 고통을 체감하면 Part 3의 LLM 자동화가 왜 필요한지 절로 이해됩니다.'
         }
       }
     ]
