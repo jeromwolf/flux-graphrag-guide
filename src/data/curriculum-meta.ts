@@ -105,7 +105,7 @@ export const curriculumMeta: PartMeta[] = [
     ],
     nextPreview: {
       title: 'Part 5: "표와 이미지도 그래프로" — 멀티모달 VLM',
-      description: '표/이미지를 포함한 실무 문서를 그래프로 변환한다.',
+      description: '검사 성적표, 공정 흐름도 등 표/이미지를 VLM으로 그래프에 통합한다.',
     },
   },
   {
@@ -114,14 +114,14 @@ export const curriculumMeta: PartMeta[] = [
     subtitle: '표와 이미지도 그래프로',
     duration: '2시간',
     difficulty: 3,
-    totalSlides: 18,
-    milestone: '멀티모달 통합 KG — 텍스트 + 표 통합 그래프',
-    description: '표/이미지를 포함한 실무 문서를 그래프로 변환한다.',
+    totalSlides: 23,
+    milestone: '멀티모달 통합 KG — 텍스트 + 표/이미지 통합 그래프 (검사 성적표 + 공정 파라미터)',
+    description: '검사 성적표, 공정 파라미터 기록표 등 표/이미지를 VLM으로 그래프에 통합한다.',
     notebook: 'part5_multimodal_table.ipynb',
     sections: [
       { id: 'sec1', title: 'VLM 개념', time: '20min', colorIndex: 0 },
-      { id: 'sec2', title: '표→그래프 두 가지 접근', time: '20min', colorIndex: 1 },
-      { id: 'sec3', title: '문서→그래프 계층 구조', time: '10min', colorIndex: 2 },
+      { id: 'sec2', title: '표→그래프 두 가지 접근', time: '25min', colorIndex: 1 },
+      { id: 'sec3', title: '문서→그래프 계층 구조', time: '15min', colorIndex: 2 },
       { id: 'sec4', title: '표 이미지 → 구조화 데이터', time: '30min', colorIndex: 3 },
       { id: 'sec5', title: '구조화 데이터 → KG 적재', time: '30min', colorIndex: 4 },
       { id: 'sec6', title: '중간 점검', time: '10min', colorIndex: 5 },
