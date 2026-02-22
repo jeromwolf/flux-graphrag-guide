@@ -137,7 +137,7 @@ export const curriculumMeta: PartMeta[] = [
     subtitle: '자연어로 그래프를 검색한다',
     duration: '1.5시간',
     difficulty: 4,
-    totalSlides: 22,
+    totalSlides: 27,
     milestone: '완성된 GraphRAG 시스템 — 자연어 → 그래프 검색 → 답변 생성',
     description: '자연어 질문 → 그래프 검색 → 답변 생성 파이프라인을 구축한다.',
     notebook: 'part6_text2cypher_rag.ipynb',
@@ -149,7 +149,7 @@ export const curriculumMeta: PartMeta[] = [
     ],
     nextPreview: {
       title: 'Part 7: "프로덕션으로 가는 길" — 실무 적용 가이드',
-      description: '품질 평가, 성능 최적화, 운영 방법을 학습한다.',
+      description: 'Part 6에서 만든 GraphRAG 파이프라인의 Text2Cypher 정확도는 몇 %일까요? RAGAS로 측정하고, GDBMS 선정 기준과 성능 최적화를 다룹니다.',
     },
   },
   {
