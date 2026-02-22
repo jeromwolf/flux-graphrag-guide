@@ -96,7 +96,7 @@ export const part1Content: SectionContent[] = [
         },
         callout: {
           type: 'key',
-          text: '1-hop = 벡터 RAG로 충분 | Multi-hop = GraphRAG 고려'
+          text: '1-hop = 벡터 RAG로 충분 | Multi-hop = GraphRAG 고려 | 데이터 100건 이하 = 프롬프트에 직접 넣기 | 실시간 트랜잭션 중심 = RDB 유지'
         }
       },
       {
@@ -120,7 +120,7 @@ results = vector_store.similarity_search(query, k=5)
         },
         callout: {
           type: 'warn',
-          text: '벡터 RAG는 청크를 독립적으로 검색합니다. 두 청크를 연결해서 추론하는 것은 구조적으로 불가능합니다.'
+          text: '벡터 RAG는 청크를 독립적으로 검색합니다. 두 청크를 연결해서 추론하는 것은 매우 어렵고 비효율적입니다. 이것이 GraphRAG가 필요한 이유입니다.'
         }
       }
     ]
@@ -150,7 +150,7 @@ results = vector_store.similarity_search(query, k=5)
         },
         callout: {
           type: 'key',
-          text: '초기 인터뷰가 가장 중요합니다. Multi-hop 질문이 없으면 GraphRAG는 오버 엔지니어링입니다.'
+          text: '초기 인터뷰가 가장 중요합니다. Multi-hop 질문이 없으면 GraphRAG는 오버 엔지니어링입니다. 참고: PoC 기준 약 2주, Neo4j Community(무료) + OpenAI API(~$50/월) 수준입니다.'
         }
       },
       {
@@ -192,7 +192,7 @@ results = vector_store.similarity_search(query, k=5)
         id: '2-3',
         tag: 'theory',
         title: '전체 아키텍처 맛보기',
-        script: '11시간 후에 우리가 만들 최종 시스템은 이렇게 생겼습니다. 지금은 이해 안 돼도 됩니다. Part 7 끝날 때 다시 보세요.',
+        script: '기초 과정(Part 1-7, 11시간) 후에 우리가 만들 시스템은 이렇게 생겼습니다. 지금은 이해 안 돼도 됩니다. Part 7 끝날 때 다시 보세요.',
         visual: 'Server(FastAPI) | RAG Pipeline(LangGraph) | Client(Next.js) 3단 구조. 화살표로 데이터 흐름 표시.',
         callout: {
           type: 'tip',
@@ -350,12 +350,12 @@ RETURN c2.name`
         },
         callout: {
           type: 'tip',
-          text: 'Heterogeneous Graph에서는 노드 타입별로 다른 임베딩 전략을 적용할 수 있습니다 (Part 5).'
+          text: '이렇게 여러 타입이 섞인 그래프를 Part 5에서 더 깊게 다룹니다.'
         }
       }
     ]
   },
-  // Section 4: 6레이어 프레임워크
+  // Section 4: 5-Layer 프레임워크
   {
     sectionId: 'sec4',
     slides: [
@@ -363,7 +363,7 @@ RETURN c2.name`
         id: '4-1',
         tag: 'theory',
         title: '프레임워크 전체 흐름',
-        script: '우리가 Part 1-7에서 배울 내용을 5개 Layer로 정리하면 이렇습니다. 핵심은 "L5에서 결과가 안 좋으면 L1으로 돌아가서 문제 정의부터 다시 한다"는 순환 구조입니다.',
+        script: '우리가 Part 1-7에서 배울 내용을 5개 Layer로 정리하면 이렇습니다. 핵심은 순환 구조입니다. 예를 들어, Text2Cypher 정확도가 60% 이하면 온톨로지 설계(L2)가 잘못된 겁니다. RAGAS 점수가 0.5 이하면 문제 정의(L1)부터 다시 봐야 합니다.',
         diagram: {
           nodes: [
             { text: 'L1: Strategy', type: 'entity' },
@@ -490,60 +490,63 @@ volumes:
   neo4j_data:
 
 # 실행: docker compose up -d
-# 접속: http://localhost:7474 (ID: neo4j / PW: password123)`
+# 접속: http://localhost:7474 (ID: neo4j / PW: password123)
+# ⚠️ 실무에서는 비밀번호를 .env 파일로 분리하세요`
         }
       },
       {
         id: '6-2',
         tag: 'practice',
-        title: 'Cypher CREATE — 노드와 관계 생성',
-        script: '이제 Cypher로 데이터를 만들어봅시다.',
+        title: 'Cypher CREATE — 제조 도메인 그래프 생성',
+        script: '이제 Cypher로 제조 도메인 데이터를 만들어봅시다. 브레이크 패드 품질 관리에 필요한 7개 노드와 5개 관계를 생성합니다.',
         code: {
           language: 'cypher',
-          code: `// 1. 노드 생성
-CREATE (samsung:Company {name: "삼성전자", sector: "반도체"})
-CREATE (nhpension:Investor {name: "국민연금", type: "기관"})
-CREATE (sk:Company {name: "SK하이닉스", sector: "반도체"})
+          code: `// 1. 노드 7개 생성
+CREATE (defect:Defect {name: "접착 박리", severity: "Critical"})
+CREATE (process:Process {name: "접착 도포", temp: 80, unit: "°C"})
+CREATE (equip:Equipment {name: "접착기 A-3", location: "2공장"})
+CREATE (material:Material {name: "접착제 EP-200", vendor: "한국접착"})
+CREATE (product:Product {name: "브레이크 패드 BP-100"})
+CREATE (spec:Spec {name: "KS M 6613", type: "접착 강도"})
+CREATE (maint:Maintenance {date: "2025-01-15", type: "정기 점검"})
 
-// 2. 관계 생성
-MATCH (samsung:Company {name: "삼성전자"})
-MATCH (nhpension:Investor {name: "국민연금"})
-CREATE (nhpension)-[:INVESTED_IN {amount: 8.7, unit: "%"}]->(samsung)
-
-MATCH (nhpension:Investor {name: "국민연금"})
-MATCH (sk:Company {name: "SK하이닉스"})
-CREATE (nhpension)-[:INVESTED_IN {amount: 5.2, unit: "%"}]->(sk)`
+// 2. 관계 5개 생성
+CREATE (defect)-[:CAUSED_BY]->(process)
+CREATE (process)-[:USES_EQUIPMENT]->(equip)
+CREATE (process)-[:USES_MATERIAL]->(material)
+CREATE (material)-[:CONFORMS_TO]->(spec)
+CREATE (equip)-[:MAINTAINED_ON]->(maint)`
         }
       },
       {
         id: '6-3',
         tag: 'practice',
-        title: 'Cypher MATCH — Multi-hop 쿼리',
-        script: '이제 벡터 RAG가 못하던 질문을 해봅시다.',
+        title: 'Cypher MATCH — 4-hop 제조 질의',
+        script: '이제 벡터 RAG가 못하던 질문을 해봅시다. "접착 박리 결함의 원인 공정에서 사용하는 설비의 마지막 정비 일자는?" — 이게 4-hop이고, 벡터 RAG로는 절대 불가능한 질의입니다.',
         code: {
           language: 'cypher',
-          code: `// "삼성전자에 투자한 기관이 투자한 다른 반도체 기업은?"
-MATCH (samsung:Company {name: "삼성전자"})
-      <-[:INVESTED_IN]-(investor:Investor)
-      -[:INVESTED_IN]->(other:Company)
-WHERE other.sector = "반도체" AND other <> samsung
-RETURN investor.name, other.name
+          code: `// "접착 박리 결함 → 원인 공정 → 사용 설비 → 정비 이력"
+MATCH (d:Defect {name: "접착 박리"})
+      -[:CAUSED_BY]->(p:Process)
+      -[:USES_EQUIPMENT]->(e:Equipment)
+      -[:MAINTAINED_ON]->(m:Maintenance)
+RETURN d.name, p.name, e.name, m.date
 
 // Result:
-// investor.name | other.name
-// 국민연금      | SK하이닉스`
+// d.name    | p.name    | e.name      | m.date
+// 접착 박리  | 접착 도포  | 접착기 A-3  | 2025-01-15`
         },
         callout: {
           type: 'key',
-          text: '이게 GraphRAG의 핵심입니다. Multi-hop 쿼리를 한 줄로 표현할 수 있습니다.'
+          text: '이게 GraphRAG의 핵심입니다. 4-hop 질의를 Cypher 한 줄로 표현하고, 벡터 RAG와의 차이를 체감하세요.'
         }
       },
       {
         id: '6-4',
         tag: 'practice',
         title: 'Neo4j Browser 시각화',
-        script: 'Neo4j Browser에서 그래프를 시각화하면 관계가 한눈에 보입니다.',
-        visual: 'Neo4j Browser 스크린샷: 국민연금 노드에서 삼성전자, SK하이닉스로 화살표가 뻗어나가는 그래프.',
+        script: 'Neo4j Browser에서 그래프를 시각화하면 결함→공정→설비→정비의 관계가 한눈에 보입니다.',
+        visual: 'Neo4j Browser 스크린샷: Defect(접착 박리) → Process(접착 도포) → Equipment(접착기 A-3) → Maintenance(2025-01-15) 경로가 시각화된 그래프. Material과 Spec 노드도 연결되어 총 7노드 5관계.',
         callout: {
           type: 'tip',
           text: '실무에서는 이 시각화로 온톨로지를 검증하고, 데이터 품질을 확인합니다.'
@@ -556,17 +559,18 @@ RETURN investor.name, other.name
         script: '여기까지 잘 따라오셨으면, 아래 검증 쿼리를 실행해보세요. 전부 통과하면 Part 1 실습 완료입니다.',
         code: {
           language: 'cypher',
-          code: `// ✅ 검증 1: 노드 수 확인 (3개 이상이면 정상)
+          code: `// ✅ 검증 1: 노드 수 확인 (7개면 정상)
 MATCH (n) RETURN count(n) AS total_nodes
+// → 7
 
-// ✅ 검증 2: 관계 수 확인 (2개 이상이면 정상)
+// ✅ 검증 2: 관계 수 확인 (5개면 정상)
 MATCH ()-[r]->() RETURN count(r) AS total_rels
+// → 5
 
-// ✅ 검증 3: Multi-hop 쿼리 결과 확인
-MATCH (c:Company)<-[:INVESTED_IN]-(inv)-[:INVESTED_IN]->(c2)
-WHERE c <> c2
-RETURN inv.name, c.name, c2.name
-// → 최소 1행이 반환되면 성공`
+// ✅ 검증 3: 4-hop 경로 확인
+MATCH (d:Defect)-[:CAUSED_BY]->(p)-[:USES_EQUIPMENT]->(e)-[:MAINTAINED_ON]->(m)
+RETURN d.name, p.name, e.name, m.date
+// → 1행이 반환되면 성공`
         },
         callout: {
           type: 'key',

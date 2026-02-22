@@ -223,7 +223,7 @@ export default async function PartPage({ params }: { params: Promise<{ part: str
         <div className="relative max-w-4xl mx-auto px-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium mb-4 bg-sky-50 border border-sky-200 text-sky-600">
             <span className="w-1.5 h-1.5 rounded-full animate-pulse bg-sky-500" />
-            {meta.track === 'advanced' ? `Advanced Part ${meta.part - 7} of 6` : `Part ${meta.part} of 7`} · {meta.subtitle}
+            {meta.track === 'advanced' ? `Advanced Part ${meta.part - 7} of 6` : `Part ${meta.part} of 13`} · {meta.subtitle}
             {meta.track === 'advanced' && (
               <span className="ml-1 px-2 py-0.5 rounded-full text-xs font-semibold uppercase bg-violet-100 text-violet-600 border border-violet-200">
                 ADVANCED
