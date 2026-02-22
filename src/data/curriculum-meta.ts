@@ -94,14 +94,14 @@ export const curriculumMeta: PartMeta[] = [
     subtitle: '같은 건데 다르게 들어갔다',
     duration: '1시간',
     difficulty: 3,
-    totalSlides: 12,
-    milestone: '정제된 KG — 중복 제거 완료 (예: 45개 → 30개 노드)',
+    totalSlides: 17,
+    milestone: '정제된 KG — 중복 제거 완료 (Part 3의 45노드 → 30노드로 통합)',
     description: '중복/유사 엔티티를 통합하여 KG 품질을 높인다.',
     notebook: 'part4_entity_resolution.ipynb',
     sections: [
-      { id: 'sec1', title: 'ER 개념 + 중요성', time: '15min', colorIndex: 0 },
+      { id: 'sec1', title: 'ER 개념 + 중요성', time: '20min', colorIndex: 0 },
       { id: 'sec2', title: '방법론 비교', time: '15min', colorIndex: 1 },
-      { id: 'sec3', title: '실습: 중복 엔티티 통합', time: '30min', colorIndex: 2 },
+      { id: 'sec3', title: '실습: 중복 엔티티 통합', time: '35min', colorIndex: 2 },
     ],
     nextPreview: {
       title: 'Part 5: "표와 이미지도 그래프로" — 멀티모달 VLM',
