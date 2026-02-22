@@ -42,7 +42,7 @@ export const curriculumMeta: PartMeta[] = [
     ],
     nextPreview: {
       title: 'Part 2: "직접 해봐야 안다" — 수작업 KG',
-      description: '뉴스 기사 10개에서 노드 15개, 관계 20개를 손으로 직접 추출하는 "고통의 시간"',
+      description: '품질 보고서 3개에서 노드 15개, 관계 20개를 손으로 직접 추출하는 "고통의 시간"',
     },
   },
   {
@@ -51,7 +51,7 @@ export const curriculumMeta: PartMeta[] = [
     subtitle: '직접 해봐야 안다',
     duration: '2시간',
     difficulty: 2,
-    totalSlides: 17,
+    totalSlides: 19,
     milestone: '수작업 KG 완성 — 노드 15개, 관계 20개 + Meta-Dictionary',
     description: '도메인 문서에서 엔티티/관계를 손으로 추출하고, KG를 구축한다.',
     notebook: 'part2_manual_kg.ipynb',
