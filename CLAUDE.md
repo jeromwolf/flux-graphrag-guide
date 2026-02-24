@@ -122,7 +122,9 @@ notebooks/
 | Finance / Legal / IT-Telecom | Coming Soon (metadata only) |
 | Guides (5 articles) | Complete |
 | PPT Generation | Part 1-7 complete |
-| Jupyter Notebooks | Part 1-13 complete |
+| Jupyter Notebooks | Part 1-13 구조 complete |
+| Notebook: Part 2 (수작업 KG) | Runnable (제조 도메인, Run All 가능) |
+| Notebook: Part 6 (Text2Cypher RAG) | Runnable (커리큘럼 표준, Run All 가능) |
 | YouTube EP1 (노트북 + 대본) | Ready |
 
 ## Important Notes
