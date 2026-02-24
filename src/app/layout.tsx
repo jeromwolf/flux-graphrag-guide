@@ -61,6 +61,9 @@ function Navbar() {
           </span>
         </Link>
         <div className="flex items-center gap-8">
+          <Link href="/overview" className="text-base font-medium text-slate-700 hover:text-sky-600 transition-colors">
+            파이프라인
+          </Link>
           <Link href="/curriculum" className="text-base font-medium text-slate-700 hover:text-sky-600 transition-colors">
             커리큘럼
           </Link>

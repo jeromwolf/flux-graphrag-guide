@@ -3,7 +3,7 @@
 ## Overview
 
 Korean-language interactive educational platform for Knowledge Graph + GraphRAG.
-Covers ontology design through production deployment across 7 curriculum parts and 4 domain use cases.
+Covers ontology design through production deployment across 13 curriculum parts (Foundation 1-7 + Advanced 8-13), 1 active domain case (manufacturing), and a companion YouTube series.
 
 ## Tech Stack
 
@@ -18,7 +18,7 @@ Covers ontology design through production deployment across 7 curriculum parts a
 
 ```bash
 npm run dev          # Dev server (default port 3000)
-npm run build        # Production build (21 pages)
+npm run build        # Production build (~23 pages)
 npm run lint         # ESLint
 node scripts/build-pptx.js  # Generate PPTX slides
 ```
@@ -30,10 +30,11 @@ src/
 ├── app/                          # Next.js App Router
 │   ├── layout.tsx                # Root layout (Navbar + Footer)
 │   ├── page.tsx                  # Landing page
+│   ├── overview/page.tsx         # GraphRAG 파이프라인 6단계 인포그래픽
 │   ├── curriculum/
-│   │   ├── page.tsx              # 7-part overview + difficulty curve
+│   │   ├── page.tsx              # 13-part overview + difficulty curve
 │   │   ├── layout.tsx            # Sidebar layout (client component)
-│   │   └── [part]/page.tsx       # Part detail (imports part1-7 content)
+│   │   └── [part]/page.tsx       # Part detail (imports part1-13 content)
 │   ├── cases/
 │   │   ├── page.tsx              # Domain list
 │   │   ├── [domain]/page.tsx     # Domain detail
@@ -48,17 +49,33 @@ src/
 ├── components/
 │   ├── ui/           # CodeBlock, SlideCard, FlowDiagram, ComparisonTable,
 │   │                 # Callout, Milestone, DifficultyCurve, DifficultyBadge,
-│   │                 # ScriptBlock, VisualBlock
-│   └── domain/       # GraphViewer, CypherRunner, StageProgress
+│   │                 # ScriptBlock, VisualBlock, PdfDownloadButton
+│   ├── domain/       # GraphViewer, CypherRunner, StageProgress
+│   └── guides/       # GraphragDecisionGuide, OntologyDesignGuide,
+│                     # Text2CypherGuide, Neo4jOptimizationGuide, RagasEvaluationGuide
 │
 ├── data/
-│   ├── curriculum-meta.ts    # 7 Part metadata (sections, duration, difficulty)
-│   ├── domain-meta.ts        # 4 domains (manufacturing active, 3 coming-soon)
-│   ├── part1-content.ts ~ part7-content.ts  # Slide content per part
+│   ├── curriculum-meta.ts    # 13 Part metadata (sections, duration, difficulty)
+│   ├── domain-meta.ts        # 1 active domain (manufacturing), 3 coming-soon
+│   ├── part1-content.ts ~ part13-content.ts  # Slide content per part
 │   └── theme.ts              # Design token constants
 │
 └── styles/
     └── globals.css           # CSS variables (Scholar Light Theme)
+
+scripts/
+├── build-pptx.js             # PPTX generation entrypoint
+├── pptx-base.js              # Shared PPTX utilities
+├── content/part1~7-slides.js # Slide content (Parts 1-7 only)
+├── generate_notebooks.py     # Jupyter notebook generation
+└── ep1_script.md             # YouTube EP1 영상 대본
+
+notebooks/
+├── part1~13_*.ipynb           # 파트별 실습 노트북 (13개)
+├── ep1_kg_building.ipynb      # YouTube EP1 실습 노트북
+├── docker-compose.yml         # Neo4j 5 Community + APOC
+├── requirements.txt           # Python dependencies
+└── data/                      # 평가 데이터셋 (JSON)
 ```
 
 ## Design System
@@ -87,19 +104,30 @@ src/
 - **Dynamic routing**: `[domain]` resolves via `domainsMeta`, `[stage]` parses `stage-N` format
 - **Inline styles**: Many components use inline `style={{}}` with CSS variables for theming. When changing colors, update BOTH `globals.css` variables AND hardcoded `rgba()` values in component files.
 
+## Curriculum Structure
+
+| Track | Parts | Hours | Description |
+|-------|-------|-------|-------------|
+| Foundation | Part 1-7 | 11.5h | Neo4j 기초 → LLM 자동화 → 통합 파이프라인 → 실무 적용 |
+| Advanced | Part 8-13 | 11.5h | 프레임워크 비교 → 그래프 알고리즘 → Agentic → 캡스톤 |
+
 ## Content Status
 
 | Section | Status |
 |---------|--------|
-| Curriculum Part 1-7 | Complete |
+| Curriculum Part 1-7 (Foundation) | Complete |
+| Curriculum Part 8-13 (Advanced) | Complete |
+| Pipeline Overview (/overview) | Complete |
 | Manufacturing Stage 0-3 | Complete |
 | Finance / Legal / IT-Telecom | Coming Soon (metadata only) |
 | Guides (5 articles) | Complete |
-| PPT Generation | Part 1 complete |
+| PPT Generation | Part 1-7 complete |
+| Jupyter Notebooks | Part 1-13 complete |
+| YouTube EP1 (노트북 + 대본) | Ready |
 
 ## Important Notes
 
 - No `.env` required (static content, no external APIs)
 - Korean language throughout (UI, content, comments)
-- Build must produce 21/21 pages with zero errors
+- Build must produce ~23 pages with zero errors
 - When changing theme colors: grep for hardcoded `rgba()` and hex values across all `src/` files
