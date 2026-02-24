@@ -18,7 +18,7 @@ Covers ontology design through production deployment across 13 curriculum parts 
 
 ```bash
 npm run dev          # Dev server (default port 3000)
-npm run build        # Production build (~23 pages)
+npm run build        # Production build (25 pages)
 npm run lint         # ESLint
 node scripts/build-pptx.js  # Generate PPTX slides
 ```
@@ -129,5 +129,5 @@ notebooks/
 
 - No `.env` required (static content, no external APIs)
 - Korean language throughout (UI, content, comments)
-- Build must produce ~23 pages with zero errors
+- Build must produce 25/25 pages with zero errors
 - When changing theme colors: grep for hardcoded `rgba()` and hex values across all `src/` files
