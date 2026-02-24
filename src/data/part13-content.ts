@@ -1,25 +1,27 @@
 import type { SectionContent, SlideContent } from './part1-content';
 
 export const part13Content: SectionContent[] = [
-  // Section 1: 프로젝트 킥오프
+  // ═══════════════════════════════════════════════════════════════
+  // Section 1: 프로젝트 킥오프 — Part 1~12 통합 설계 (25min) — 5 slides
+  // ═══════════════════════════════════════════════════════════════
   {
     sectionId: 'sec1',
     slides: [
       {
         id: '13-1',
         tag: 'discussion',
-        title: '도메인 선택 + 프레임워크 선택 근거',
-        script: '캡스톤 프로젝트를 시작합니다. 먼저 도메인을 선택하세요. 금융, 법률, 제조, 또는 자유 주제 중 하나를 고르세요. 각 도메인마다 난이도와 데이터 특성이 다릅니다. 금융은 난이도 ⭐⭐⭐로, 투자 관계가 명확해서 온톨로지 설계가 비교적 쉽습니다. 데이터는 공개 금융 데이터(DART, FinanceDataReader)를 쓸 수 있습니다. 추천 프레임워크는 Neo4j + LangChain입니다. 법률은 난이도 ⭐⭐⭐⭐로, 판례 인용 관계가 복잡합니다. 데이터는 대법원 판례 사이트를 크롤링해야 합니다. 추천 프레임워크는 Neo4j + LlamaIndex입니다. 제조는 난이도 ⭐⭐⭐⭐⭐로, 설비-센서-고장 관계가 시간 의존적입니다. 데이터는 제조 로그(직접 생성 또는 UCI Machine Learning Repository)를 쓸 수 있습니다. 추천 프레임워크는 Neo4j + Custom Pipeline입니다. 자유 주제는 난이도 ⭐⭐로, 관심 분야를 정해서 시작하세요. 중요한 것은 "Multi-hop 질문이 존재하는가"를 먼저 확인하는 것입니다.',
+        title: '도메인 선택 — 제조 ⭐⭐⭐⭐⭐ 추천',
+        script: '캡스톤 프로젝트를 시작합니다. 도메인을 선택하세요. 핵심 기준은 "Multi-hop 질문이 존재하는가?"입니다. 없으면 벡터 RAG로 충분합니다. 제조 도메인을 강력히 추천합니다. 왜냐하면 Part 2에서 온톨로지를 설계하고, Part 3에서 LLM 추출을 하고, Part 4에서 Entity Resolution을 하고, Part 5에서 VLM으로 검사 성적표를 처리하고, Part 6에서 Text2Cypher Agent를 만들고, Part 9에서 Leiden + PageRank를 적용하고, Part 10에서 5개 Tool + Supervisor를 구축했습니다. 이 모든 것이 제조 도메인으로 되어 있어서, 캡스톤에서 바로 통합할 수 있습니다. 다른 도메인을 선택하면 온톨로지부터 다시 설계해야 합니다.',
         table: {
-          headers: ['도메인', '난이도', '데이터 출처', '추천 프레임워크', 'Multi-hop 예시'],
+          headers: ['도메인', '난이도', '데이터 출처', '추천 이유', 'Multi-hop 예시'],
           rows: [
             {
               cells: [
-                { text: '금융/투자', bold: true },
-                { text: '⭐⭐⭐' },
-                { text: 'DART, FinanceDataReader' },
-                { text: 'Neo4j + LangChain' },
-                { text: 'A 투자자가 투자한 B의 경쟁사는?' }
+                { text: '제조/품질 ⭐', bold: true },
+                { text: '⭐⭐⭐⭐⭐' },
+                { text: '제조 품질 보고서, 정비 이력' },
+                { text: 'Part 2~10에서 이미 구축한 제조 KG를 확장', status: 'pass' },
+                { text: '접착 박리 원인 설비의 정비 이력은?' }
               ]
             },
             {
@@ -27,17 +29,17 @@ export const part13Content: SectionContent[] = [
                 { text: '법률/판례', bold: true },
                 { text: '⭐⭐⭐⭐' },
                 { text: '대법원 판례 크롤링' },
-                { text: 'Neo4j + LlamaIndex' },
+                { text: '판례 인용 관계가 명확' },
                 { text: '판례 A를 인용한 판례의 인용 판례는?' }
               ]
             },
             {
               cells: [
-                { text: '제조/설비', bold: true },
-                { text: '⭐⭐⭐⭐⭐' },
-                { text: '제조 로그 (직접 생성/UCI)' },
-                { text: 'Neo4j + Custom Pipeline' },
-                { text: '고장 원인 체인 3-hop 추적' }
+                { text: 'IT/텔레콤', bold: true },
+                { text: '⭐⭐⭐' },
+                { text: '장애 로그, 네트워크 토폴로지' },
+                { text: '장애 전파 체인 추적' },
+                { text: '서버 A 장애가 영향 준 서비스 체인은?' }
               ]
             },
             {
@@ -45,50 +47,129 @@ export const part13Content: SectionContent[] = [
                 { text: '자유 주제', bold: true },
                 { text: '⭐⭐' },
                 { text: '본인 관심 분야' },
-                { text: '자유 선택' },
-                { text: 'Multi-hop 존재 여부 확인 필수' }
+                { text: 'Multi-hop 존재 여부 확인 필수' },
+                { text: '직접 정의' }
               ]
             }
           ]
         },
         callout: {
           type: 'key',
-          text: '도메인 선택 기준: Multi-hop 질문이 존재하는가? — 없으면 벡터 RAG로 충분'
+          text: '제조 도메인을 추천합니다 — Part 2~10에서 이미 구축한 KG를 그대로 활용하여 캡스톤 시간을 절약하세요'
         }
       },
       {
         id: '13-2',
-        tag: 'practice',
-        title: '아키텍처 다이어그램 작성',
-        script: '프로젝트 아키텍처를 다이어그램으로 작성하세요. 5개 레이어로 구성합니다. 첫째, Data Layer. 원본 데이터 소스입니다. PDF, JSON, API 등. 둘째, KG Layer. Neo4j 데이터베이스입니다. 온톨로지, 노드, 관계를 저장합니다. 셋째, Algorithm Layer. Text2Cypher, 하이브리드 검색 알고리즘입니다. 넷째, Agent Layer. LangGraph 또는 LlamaIndex Agent입니다. 사용자 질문을 받아 검색 전략을 결정합니다. 다섯째, Search Layer. 최종 사용자 인터페이스입니다. Streamlit 또는 FastAPI + Next.js. 다이어그램에는 데이터 흐름을 화살표로 표시하세요. Data → KG → Algorithm → Agent → Search. 각 레이어에서 어떤 기술을 쓸지 명시하세요. 예: KG Layer = Neo4j 5.15, Algorithm Layer = LangChain Text2Cypher.',
-        diagram: {
-          nodes: [
-            { text: '📄 Data Layer', type: 'entity' },
-            { text: 'PDF, JSON, API', type: 'dim' },
-            { text: '→ LLM 추출', type: 'relation' },
-            { text: '🗃️ KG Layer', type: 'entity' },
-            { text: 'Neo4j 5.15, 온톨로지', type: 'dim' },
-            { text: '→ Cypher 쿼리', type: 'relation' },
-            { text: '⚙️ Algorithm Layer', type: 'entity' },
-            { text: 'Text2Cypher, 하이브리드 검색', type: 'dim' },
-            { text: '→ Agent 호출', type: 'relation' },
-            { text: '🤖 Agent Layer', type: 'entity' },
-            { text: 'LangGraph Agent', type: 'dim' },
-            { text: '→ 검색 결과', type: 'relation' },
-            { text: '💻 Search Layer', type: 'entity' },
-            { text: 'Streamlit UI', type: 'dim' }
+        tag: 'theory',
+        title: 'Part 1~12 전체 아키텍처 맵핑 — 8 레이어 통합',
+        script: '캡스톤의 핵심은 Part 1~12를 하나의 시스템으로 통합하는 것입니다. 8개 레이어로 정리하면 이렇습니다. Data Layer는 Part 2의 제조 품질 보고서와 Part 5의 VLM 표 처리를 담당합니다. KG Layer는 Part 2의 온톨로지 + Meta-Dictionary, Part 3의 LLM 추출, Part 4의 Entity Resolution, Neo4j 적재를 담당합니다. Algorithm Layer는 Part 9의 Leiden 커뮤니티 탐지, PageRank, Personalized PageRank, RRF 융합을 담당합니다. Agent Layer는 Part 10의 5개 Tool + Supervisor + retry + Fallback을 담당합니다. Search Layer는 Part 6의 하이브리드 검색 + Text2Cypher Agent를 담당합니다. Eval Layer는 Part 7의 RAGAS 데이터셋 + 교차 평가를 담당합니다. Optimization Layer는 Part 11의 7가지 최적화 기법 + LangSmith 추적을 담당합니다. Enterprise Layer는 Part 12의 보안 RBAC + CI/CD + Grafana 모니터링을 담당합니다. 이 8개 레이어가 캡스톤의 전체 구조입니다.',
+        table: {
+          headers: ['Layer', 'Components', 'Source Part', '핵심 산출물'],
+          rows: [
+            {
+              cells: [
+                { text: 'Data Layer', bold: true },
+                { text: '제조 품질 보고서 + VLM 표 처리' },
+                { text: 'Part 2, 5' },
+                { text: '원본 문서 + 구조화 데이터' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'KG Layer', bold: true },
+                { text: '온톨로지 + Meta-Dict + ER + Neo4j' },
+                { text: 'Part 2, 3, 4' },
+                { text: '7 엔티티, 9 관계, 정제된 KG' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Algorithm Layer', bold: true },
+                { text: 'Leiden + PageRank + PPR + RRF 융합' },
+                { text: 'Part 9' },
+                { text: '커뮤니티 요약 + 리랭킹' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Agent Layer', bold: true },
+                { text: '5 Tools + Supervisor + retry + Fallback' },
+                { text: 'Part 10' },
+                { text: '자율 선택 멀티에이전트' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Search Layer', bold: true },
+                { text: '하이브리드 검색 + Text2Cypher' },
+                { text: 'Part 6' },
+                { text: 'RRF 통합 검색' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Eval Layer', bold: true },
+                { text: 'RAGAS 데이터셋 + 교차 평가' },
+                { text: 'Part 7' },
+                { text: '난이도별 30개 질문 + 4 메트릭' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Optimization', bold: true },
+                { text: '7가지 최적화 + LangSmith 추적' },
+                { text: 'Part 11' },
+                { text: '비용 50% 절감 + 장애 플로우차트' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Enterprise', bold: true },
+                { text: '보안 RBAC + CI/CD + Grafana' },
+                { text: 'Part 12' },
+                { text: '프로덕션 운영 체계' }
+              ]
+            }
           ]
         },
         callout: {
-          type: 'tip',
-          text: '아키텍처 다이어그램은 이해관계자와 소통하는 도구 — 기술 스택을 명시'
+          type: 'key',
+          text: '캡스톤 = Part 1~12의 8개 레이어를 하나의 프로덕션 시스템으로 통합하는 것. 빠진 레이어가 없는지 반드시 확인하세요.'
         }
       },
       {
         id: '13-3',
         tag: 'practice',
-        title: '비용 예산 산정',
-        script: '프로젝트 비용을 미리 산정하세요. 3가지 비용 항목이 있습니다. 첫째, API 비용. LLM 추출에 GPT-4를 쓴다면, 문서 100개 기준 약 $20입니다. Text2Cypher에 GPT-4를 쓴다면, 질문 100개 기준 약 $10입니다. RAGAS 평가에 GPT-4를 쓴다면, 질문 50개 기준 약 $15입니다. 총 API 비용은 약 $45입니다. 둘째, 인프라 비용. Neo4j Aura Free Tier는 무료지만 노드 수 제한이 있습니다. Neo4j Aura Pro는 월 $65부터 시작합니다. Docker 로컬 실행은 무료입니다. 셋째, 개발 시간. 2.5시간은 실습 시간이고, 실제 완성까지는 추가 10-20시간이 필요합니다. 총 예산은 API 비용 $50 + 인프라 $0(로컬) ~ $65(Aura) = $50~$115입니다. 비용을 줄이려면 GPT-3.5-turbo를 쓰거나, 로컬 LLM(Ollama)을 사용하세요.',
+        title: '아키텍처 다이어그램 — 8 레이어 설계',
+        script: '프로젝트 아키텍처를 8개 레이어 다이어그램으로 작성하세요. Part 1~12를 모두 포함해야 합니다. 각 레이어에서 어떤 기술을 쓸지 명시하세요. Data Layer는 제조 품질 보고서 PDF + VLM(GPT-4o Vision). KG Layer는 Neo4j 5.x + 온톨로지 7 엔티티, 9 관계. Algorithm Layer는 Neo4j GDS(Leiden, PageRank, PPR). Agent Layer는 LangGraph Supervisor + 5 Tools. Search Layer는 Text2Cypher + 벡터 검색 + RRF. Eval Layer는 RAGAS 4 메트릭 + 교차 평가. Optimization은 LangSmith + 캐싱 + 모델 라우팅. Enterprise는 RBAC + GitHub Actions + Grafana. 다이어그램에 데이터 흐름을 화살표로 표시하세요.',
+        diagram: {
+          nodes: [
+            { text: '1. Data Layer', type: 'entity' },
+            { text: '품질 보고서 + VLM (Part 2,5)', type: 'dim' },
+            { text: '→', type: 'relation' },
+            { text: '2. KG Layer', type: 'entity' },
+            { text: 'Neo4j + 온톨로지 (Part 2,3,4)', type: 'dim' },
+            { text: '→', type: 'relation' },
+            { text: '3. Algorithm Layer', type: 'entity' },
+            { text: 'Leiden + PageRank (Part 9)', type: 'dim' },
+            { text: '→', type: 'relation' },
+            { text: '4. Agent Layer', type: 'entity' },
+            { text: '5 Tools + Supervisor (Part 10)', type: 'dim' },
+            { text: '→', type: 'relation' },
+            { text: '5. Search + Eval + Opt + Enterprise', type: 'entity' },
+            { text: 'Part 6,7,11,12', type: 'dim' }
+          ]
+        },
+        callout: {
+          type: 'tip',
+          text: '아키텍처 다이어그램은 발표의 핵심 자료 — 8 레이어 + Source Part를 명시하세요'
+        }
+      },
+      {
+        id: '13-4',
+        tag: 'practice',
+        title: '비용 예산 산정 — gpt-4o / gpt-4o-mini 기준',
+        script: '프로젝트 비용을 미리 산정하세요. 2025년 기준 gpt-4o와 gpt-4o-mini 가격으로 계산합니다. gpt-4o는 입력 $2.50/1M 토큰, 출력 $10.00/1M 토큰입니다. gpt-4o-mini는 입력 $0.15/1M 토큰, 출력 $0.60/1M 토큰입니다. KG 구축에 LLM 추출을 gpt-4o로 하면 문서 100개 기준 약 $8입니다. 이전에는 GPT-4 기준 $20이었는데 많이 저렴해졌죠. Text2Cypher에 gpt-4o를 쓰면 질문 100개 기준 약 $3입니다. RAGAS 평가에 gpt-4o를 쓰면 질문 50개 기준 약 $5입니다. 비용을 더 줄이려면 Part 11에서 배운 모델 라우팅을 적용하세요. SIMPLE 질문은 gpt-4o-mini로, MULTI_HOP 이상만 gpt-4o로 보내면 비용이 60% 이상 절감됩니다. 가격은 수시 변동됩니다. 최신 가격은 OpenAI Pricing 페이지를 확인하세요.',
         table: {
           headers: ['단계', '항목', '예상 API 비용', '인프라 비용', '비고'],
           rows: [
@@ -96,25 +177,25 @@ export const part13Content: SectionContent[] = [
               cells: [
                 { text: 'KG 구축', bold: true },
                 { text: 'LLM 추출 (100 문서)' },
-                { text: '~$20 (GPT-4)' },
+                { text: '~$8 (gpt-4o)' },
                 { text: '$0 (로컬 Neo4j)' },
-                { text: 'GPT-3.5로 $5 절감 가능' }
+                { text: 'gpt-4o-mini로 $1.5 절감 가능' }
               ]
             },
             {
               cells: [
                 { text: '검색', bold: true },
-                { text: 'Text2Cypher (100 질문)' },
-                { text: '~$10 (GPT-4)' },
+                { text: 'Text2Cypher + Agent (100 질문)' },
+                { text: '~$3 (gpt-4o)' },
                 { text: '-' },
-                { text: 'Claude Haiku로 $3 절감' }
+                { text: 'SIMPLE → gpt-4o-mini 라우팅' }
               ]
             },
             {
               cells: [
                 { text: '평가', bold: true },
                 { text: 'RAGAS (50 질문)' },
-                { text: '~$15 (GPT-4)' },
+                { text: '~$5 (gpt-4o)' },
                 { text: '-' },
                 { text: '교차 평가 시 2배' }
               ]
@@ -132,187 +213,636 @@ export const part13Content: SectionContent[] = [
               cells: [
                 { text: '합계', bold: true },
                 { text: '-' },
-                { text: '~$45', status: 'pass' },
+                { text: '~$16', status: 'pass' },
                 { text: '$0~$65', status: 'pass' },
-                { text: '총 $45~$110' }
+                { text: '총 $16~$81 (Part 11 라우팅 시 $10 이하)' }
               ]
             }
           ]
         },
         callout: {
           type: 'tip',
-          text: '비용 절감: GPT-3.5-turbo 또는 로컬 LLM(Ollama) 사용 — API 비용 80% 절감 가능'
-        }
-      }
-    ]
-  },
-  // Section 2: 엔드투엔드 구축
-  {
-    sectionId: 'sec2',
-    slides: [
-      {
-        id: '13-4',
-        tag: 'practice',
-        title: '데이터 수집 → KG 구축 → 알고리즘 적용',
-        script: '이제 엔드투엔드로 시스템을 구축합니다. Part 2-9에서 배운 모든 기법을 통합합니다. 첫 번째 단계: 데이터 수집. 도메인에 맞는 데이터를 수집하세요. 금융이라면 DART API로 공시 문서를 다운로드합니다. 법률이라면 대법원 판례를 크롤링합니다. 제조라면 센서 로그를 생성합니다. 두 번째 단계: KG 구축. 온톨로지를 설계하고 Meta-Dictionary를 작성합니다. LLM으로 엔티티/관계를 추출합니다. VLM으로 표/이미지를 처리합니다. Entity Resolution으로 중복을 제거합니다. Neo4j에 적재하고 품질을 검증합니다. 세 번째 단계: 알고리즘 적용. Text2Cypher Agent를 구축합니다. 하이브리드 검색(그래프 + 벡터)을 적용합니다. Temporal 쿼리(시간 추적)를 추가합니다. 코드는 Part 2-9의 예제를 참고하세요. 핵심은 각 단계를 독립적으로 검증하는 것입니다. KG 구축이 완료되면 샘플 쿼리로 테스트하세요. 알고리즘 적용 후 벤치마크 질문으로 평가하세요.',
-        code: {
-          language: 'python',
-          code: `# 엔드투엔드 GraphRAG 구축 — 통합 코드
-
-# 1. 데이터 수집 (예: 금융 공시)
-from finance_data_reader import get_dart_filings
-docs = get_dart_filings(company="삼성전자", start_date="2023-01-01")
-
-# 2. KG 구축
-from llm_extractor import extract_entities_relations
-from vlm_processor import extract_table_to_graph
-from entity_resolution import deduplicate_entities
-from neo4j import GraphDatabase
-
-# 2-1. LLM 추출
-ontology = load_ontology("finance_ontology.json")
-meta_dict = load_meta_dictionary("finance_meta.json")
-entities = []
-for doc in docs:
-    ents = extract_entities_relations(doc, ontology, meta_dict)
-    entities.extend(ents)
-
-# 2-2. VLM 표 처리 (문서에 표가 있으면)
-table_entities = extract_table_to_graph(docs, ontology)
-entities.extend(table_entities)
-
-# 2-3. Entity Resolution
-entities = deduplicate_entities(entities, threshold=0.85)
-
-# 2-4. Neo4j 적재
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "password"))
-with driver.session() as session:
-    for ent in entities:
-        session.run("""
-            MERGE (e:Entity {id: $id})
-            SET e.name = $name, e.type = $type
-        """, id=ent.id, name=ent.name, type=ent.type)
-
-# 3. 알고리즘 적용 — Text2Cypher Agent
-from langchain.agents import create_react_agent
-from langchain_community.graphs import Neo4jGraph
-
-graph = Neo4jGraph(url="bolt://localhost:7687", username="neo4j", password="password")
-agent = create_react_agent(
-    llm=ChatOpenAI(model="gpt-4"),
-    tools=[Text2CypherTool(graph)],
-    prompt=text2cypher_prompt
-)
-
-# 4. 하이브리드 검색 (Part 6 참고)
-def hybrid_search(query):
-    cypher_result = agent.invoke(query)
-    vector_result = vector_store.similarity_search(query, k=5)
-    return rerank(cypher_result, vector_result)
-
-# 5. 샘플 질문 테스트
-test_queries = [
-    "삼성전자에 투자한 기관은?",
-    "국민연금이 투자한 반도체 기업은?",
-    "최근 3년간 투자 변화는?"
-]
-for q in test_queries:
-    result = hybrid_search(q)
-    print(f"Q: {q}\\nA: {result}\\n")`
-        },
-        callout: {
-          type: 'key',
-          text: '각 단계를 독립적으로 검증 — KG 구축 후 샘플 쿼리, 알고리즘 후 벤치마크'
+          text: 'gpt-4o 기준 총 ~$16 — Part 11의 모델 라우팅(SIMPLE → gpt-4o-mini)을 적용하면 $10 이하로 가능. 가격은 수시 변동되므로 최신 가격은 OpenAI Pricing 페이지를 확인하세요.'
         }
       },
       {
         id: '13-5',
         tag: 'practice',
-        title: 'Agentic 검색 파이프라인 구축',
-        script: 'Part 10에서 배운 LangGraph Agent를 구축합니다. Agentic 검색은 사용자 질문을 분석해서 최적의 검색 전략을 선택합니다. 파이프라인은 4단계로 구성됩니다. 첫째, Query Classification. 질문이 Multi-hop인지, 1-hop인지, Temporal인지 분류합니다. 둘째, Strategy Selection. Multi-hop이면 Text2Cypher, 1-hop이면 벡터 검색, Temporal이면 시간 쿼리를 선택합니다. 셋째, Execution. 선택된 전략으로 검색을 실행합니다. 넷째, Reranking. 여러 전략의 결과를 Rerank해서 최종 답변을 생성합니다. LangGraph로 이 파이프라인을 구성하면 Agent가 자동으로 의사결정합니다. 코드는 Part 10 슬라이드를 참고하세요.',
+        title: '포트폴리오 GitHub 구조 — Part별 디렉토리',
+        script: '캡스톤 프로젝트를 포트폴리오로 만들려면 GitHub 구조가 중요합니다. Part별로 디렉토리를 나누고, 각 디렉토리에 노트북과 README를 넣으세요. 최상위 README.md에는 프로젝트 소개, 아키텍처 다이어그램, 실행 방법, 벤치마크 결과를 포함하세요. 면접관이 30초 안에 "이 사람이 뭘 만들었는지" 파악할 수 있어야 합니다. README에 8개 레이어 아키텍처 다이어그램을 Mermaid로 넣으면 효과적입니다.',
         code: {
-          language: 'python',
-          code: `# LangGraph Agentic 검색 파이프라인 (Part 10 참고)
-
-from langgraph.graph import StateGraph, START, END
-from typing import TypedDict, Literal
-
-class State(TypedDict):
-    query: str
-    query_type: Literal["multi_hop", "1_hop", "temporal"]
-    results: list
-    final_answer: str
-
-# 1. Query Classification Node
-def classify_query(state: State):
-    query = state["query"]
-    # LLM으로 질문 유형 분류
-    classification = llm.invoke(f"Classify: {query}\\nOptions: multi_hop, 1_hop, temporal")
-    state["query_type"] = classification
-    return state
-
-# 2. Strategy Selection Node
-def select_strategy(state: State):
-    if state["query_type"] == "multi_hop":
-        results = text2cypher_search(state["query"])
-    elif state["query_type"] == "1_hop":
-        results = vector_search(state["query"])
-    else:
-        results = temporal_search(state["query"])
-    state["results"] = results
-    return state
-
-# 3. Reranking Node
-def rerank_results(state: State):
-    # Cohere Rerank 또는 LLM Rerank
-    reranked = rerank(state["results"], state["query"])
-    state["final_answer"] = generate_answer(reranked, state["query"])
-    return state
-
-# LangGraph 구성
-workflow = StateGraph(State)
-workflow.add_node("classify", classify_query)
-workflow.add_node("select", select_strategy)
-workflow.add_node("rerank", rerank_results)
-
-workflow.add_edge(START, "classify")
-workflow.add_edge("classify", "select")
-workflow.add_edge("select", "rerank")
-workflow.add_edge("rerank", END)
-
-graph = workflow.compile()
-
-# 실행
-result = graph.invoke({"query": "삼성전자 투자 기관의 다른 투자처는?"})
-print(result["final_answer"])`
+          language: 'bash',
+          code: `# 포트폴리오 GitHub 구조
+manufacturing-graphrag/
+├── README.md                # 프로젝트 소개 + 아키텍처 다이어그램 (Mermaid)
+├── requirements.txt         # Python 의존성
+├── .env.example             # NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD (값 없이)
+│
+├── ontology/                # Part 2: 온톨로지 + Meta-Dictionary
+│   ├── manufacturing_ontology.json
+│   └── meta_dictionary.json
+│
+├── extraction/              # Part 3: LLM 추출 + Part 5: VLM
+│   ├── llm_extractor.py
+│   └── vlm_table_processor.py
+│
+├── kg/                      # Part 4: Entity Resolution + Neo4j 적재
+│   ├── entity_resolution.py
+│   └── neo4j_loader.py
+│
+├── search/                  # Part 6: 하이브리드 검색 + Part 10: Agent
+│   ├── text2cypher_agent.py
+│   └── agentic_graphrag.py  # 5 Tools + Supervisor
+│
+├── eval/                    # Part 7: RAGAS 평가
+│   ├── ragas_evaluation.py
+│   └── eval_dataset.json    # 난이도별 30개 질문
+│
+├── optimize/                # Part 11: 캐싱 + 모델 라우팅
+│   └── cost_optimizer.py
+│
+└── deploy/                  # Part 12: CI/CD + 보안
+    ├── docker-compose.yml
+    ├── .github/workflows/kg-ci.yml
+    └── rbac_config.json`
         },
         callout: {
-          type: 'key',
-          text: 'Agentic 검색: 질문 분류 → 전략 선택 → 실행 → Rerank — LangGraph로 자동화'
+          type: 'tip',
+          text: 'README.md가 포트폴리오의 첫인상 — 아키텍처 다이어그램 + 벤치마크 결과를 반드시 포함하세요. .env 파일은 절대 커밋하지 마세요.'
         }
-      },
+      }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // Section 2: E2E 구축 — 제조 도메인 (30min) — 5 slides
+  // ═══════════════════════════════════════════════════════════════
+  {
+    sectionId: 'sec2',
+    slides: [
       {
         id: '13-6',
         tag: 'practice',
-        title: '디버깅 + 최적화 + 모니터링',
-        script: '시스템이 구축됐으면 Part 11-12 기법으로 디버깅, 최적화, 모니터링을 적용합니다. 디버깅: LangSmith로 LLM 호출을 추적하세요. Text2Cypher가 실패하면 생성된 Cypher 쿼리를 로그에서 확인하세요. Neo4j EXPLAIN으로 쿼리 성능을 분석하세요. 최적화: Neo4j 인덱스를 추가하세요. CREATE INDEX FOR (c:Company) ON (c.name). APOC으로 배치 처리를 적용하세요. 쿼리 캐싱으로 중복 쿼리를 방지하세요. 모니터링: Grafana 대시보드를 구축하세요. 노드 수, 쿼리 시간, API 비용을 추적하세요. 알림을 설정해서 품질 저하/비용 초과 시 Slack으로 알림받으세요. 이 3가지를 적용하면 프로덕션 수준의 시스템이 됩니다.',
+        title: '데이터 수집 → KG 구축 — 제조 도메인',
+        script: '엔드투엔드 시스템의 첫 단계입니다. Part 2~5의 기법을 통합합니다. 데이터 수집은 제조 품질 보고서 PDF를 준비합니다. Part 2의 온톨로지(Process, Equipment, Defect, Material, Product, Spec, Maintenance)와 Meta-Dictionary를 로드합니다. Part 3의 LLM 추출로 엔티티와 관계를 자동 추출합니다. Part 5의 VLM으로 검사 성적표의 표를 그래프로 변환합니다. Part 4의 Entity Resolution으로 중복을 제거합니다. 그리고 Neo4j에 적재합니다. 중요한 것은 Neo4j 인증 정보를 반드시 os.getenv로 가져오는 것입니다. 절대 비밀번호를 코드에 하드코딩하지 마세요.',
+        code: {
+          language: 'python',
+          code: `# 엔드투엔드 GraphRAG — 데이터 수집 → KG 구축
+# langchain >= 0.2.0, langchain-openai >= 0.1.0
+import os
+from neo4j import GraphDatabase
+from langchain_openai import ChatOpenAI
+# Claude 옵션: from langchain_anthropic import ChatAnthropic
+
+# Neo4j 드라이버 (os.getenv 필수 — 하드코딩 금지)
+driver = GraphDatabase.driver(
+    os.getenv("NEO4J_URI", "bolt://localhost:7687"),
+    auth=(
+        os.getenv("NEO4J_USER", "neo4j"),
+        os.getenv("NEO4J_PASSWORD")
+    )
+)
+
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
+# Claude 옵션: llm = ChatAnthropic(model="claude-sonnet-4-20250514")
+
+# 1. 온톨로지 + Meta-Dictionary 로드 (Part 2)
+ontology = load_ontology("ontology/manufacturing_ontology.json")
+meta_dict = load_meta_dictionary("ontology/meta_dictionary.json")
+
+# 2. LLM 추출 (Part 3)
+docs = load_quality_reports("data/quality_reports/")
+entities = []
+for doc in docs:
+    ents = extract_entities_relations(doc, ontology, meta_dict, llm)
+    entities.extend(ents)
+
+# 3. VLM 표 처리 (Part 5)
+table_entities = extract_table_to_graph(
+    "data/inspection_sheets/", ontology, model="gpt-4o"
+)
+entities.extend(table_entities)
+
+# 4. Entity Resolution (Part 4)
+entities = deduplicate_entities(entities, threshold=0.85)
+
+# 5. Neo4j 적재 — 파라미터 바인딩 필수
+with driver.session() as session:
+    for ent in entities:
+        session.run("""
+            MERGE (e:\`{label}\` {{id: $id}})
+            SET e.name = $name, e.type = $type
+        """.replace("{label}", ent.label),
+        id=ent.id, name=ent.name, type=ent.type)
+
+    for rel in relations:
+        session.run("""
+            MATCH (a {{id: $src}}), (b {{id: $tgt}})
+            MERGE (a)-[r:\`{rel_type}\`]->(b)
+        """.replace("{rel_type}", rel.type),
+        src=rel.source_id, tgt=rel.target_id)
+
+print(f"적재 완료: 노드 {len(entities)}개, 관계 {len(relations)}개")`
+        },
+        callout: {
+          type: 'warn',
+          text: 'Neo4j 인증: os.getenv("NEO4J_PASSWORD") 필수 — 절대 auth=("neo4j", "password")로 하드코딩하지 마세요'
+        }
+      },
+      {
+        id: '13-7',
+        tag: 'practice',
+        title: 'Part 9 알고리즘 적용 — Leiden + PageRank',
+        script: 'KG가 구축되면 Part 9의 그래프 알고리즘을 적용합니다. Leiden 커뮤니티 탐지로 공정 그룹을 자동으로 발견합니다. 예를 들어 접착 도포 공정, 접착기 A-3, 접착 박리가 하나의 커뮤니티로 묶이면, "접착 관련 전체 불량 트렌드는?"이라는 Global 질문에 커뮤니티 요약으로 답할 수 있습니다. PageRank로 가장 영향력 있는 노드를 찾습니다. "가장 많은 불량에 관련된 설비는?"이라는 질문에 PageRank 점수 기반으로 답할 수 있습니다. Personalized PageRank는 특정 불량에서 출발해서 가장 관련 있는 노드를 찾습니다.',
+        code: {
+          language: 'python',
+          code: `# Part 9 알고리즘 적용 — Leiden + PageRank + PPR
+import os
+from neo4j import GraphDatabase
+
+driver = GraphDatabase.driver(
+    os.getenv("NEO4J_URI", "bolt://localhost:7687"),
+    auth=(
+        os.getenv("NEO4J_USER", "neo4j"),
+        os.getenv("NEO4J_PASSWORD")
+    )
+)
+
+with driver.session() as session:
+    # 1. GDS 프로젝션 생성
+    session.run("""
+        CALL gds.graph.project(
+            'mfg_graph',
+            ['Process','Equipment','Defect',
+             'Material','Product','Spec'],
+            ['USES_EQUIPMENT','CAUSED_BY',
+             'USES_MATERIAL','HAS_DEFECT',
+             'CONFORMS_TO','MAINTAINED_ON']
+        )
+    """)
+
+    # 2. Leiden 커뮤니티 탐지 (Part 9)
+    session.run("""
+        CALL gds.leiden.write('mfg_graph', {
+            writeProperty: 'community_id',
+            maxLevels: 3,
+            gamma: 1.0
+        })
+    """)
+    communities = session.run("""
+        MATCH (n) WHERE n.community_id IS NOT NULL
+        RETURN n.community_id AS cid, collect(n.name) AS members
+        ORDER BY size(members) DESC LIMIT 5
+    """).data()
+    print("상위 5개 커뮤니티:", communities)
+
+    # 3. PageRank — 가장 영향력 있는 노드
+    session.run("""
+        CALL gds.pageRank.write('mfg_graph', {
+            writeProperty: 'pagerank',
+            dampingFactor: 0.85,
+            maxIterations: 20
+        })
+    """)
+    top_nodes = session.run("""
+        MATCH (n) WHERE n.pagerank IS NOT NULL
+        RETURN n.name, labels(n)[0] AS type,
+               round(n.pagerank, 4) AS score
+        ORDER BY score DESC LIMIT 10
+    """).data()
+    print("PageRank Top 10:", top_nodes)
+
+    # 4. 커뮤니티 요약 생성 (Part 10 Community Tool용)
+    for comm in communities:
+        summary = llm.invoke(
+            f"다음 노드들의 공통 주제를 한 문장으로: {comm['members']}"
+        ).content
+        session.run("""
+            MERGE (c:Community {id: $cid})
+            SET c.summary = $summary
+        """, cid=comm["cid"], summary=summary)
+
+    # 5. 프로젝션 삭제
+    session.run("CALL gds.graph.drop('mfg_graph', false)")`
+        },
+        callout: {
+          type: 'key',
+          text: 'Leiden으로 커뮤니티 요약(Part 10 Community Tool용) + PageRank로 리랭킹 점수 — Part 9의 모든 알고리즘을 KG에 적용'
+        }
+      },
+      {
+        id: '13-8',
+        tag: 'practice',
+        title: 'Part 10 Agent 통합 — 5 Tools + Supervisor',
+        script: 'Part 10에서 만든 5개 Tool과 Supervisor를 캡스톤에 통합합니다. 5개 Tool은 get_graph_schema, execute_cypher, find_causal_path, search_communities, run_personalized_pagerank입니다. Supervisor는 질문을 4가지 유형으로 분류합니다. SIMPLE은 Cypher Tool만, MULTI_HOP은 Cypher + Path Tool, GLOBAL은 Community Tool, PATH는 Algorithm Tool을 선택합니다. LangGraph StateGraph로 Explorer → Reasoner → Validator 흐름을 만들고, 검증 실패 시 최대 3회 재시도 후 Fallback으로 빠집니다.',
+        code: {
+          language: 'python',
+          code: `# Part 10 Agent 통합 — 5 Tools + Supervisor + LangGraph
+# langgraph >= 0.2.0, langchain >= 0.2.0
+import os
+from langgraph.graph import StateGraph, END
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+# Claude 옵션: from langchain_anthropic import ChatAnthropic
+from typing import TypedDict
+from neo4j import GraphDatabase
+
+driver = GraphDatabase.driver(
+    os.getenv("NEO4J_URI", "bolt://localhost:7687"),
+    auth=(
+        os.getenv("NEO4J_USER", "neo4j"),
+        os.getenv("NEO4J_PASSWORD")
+    )
+)
+
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
+
+# ── Part 10의 5개 Tool (get_graph_schema, execute_cypher,
+#    find_causal_path, search_communities,
+#    run_personalized_pagerank)
+# → 상세 구현은 Part 10 슬라이드 7~9 참고
+
+tools = [
+    get_graph_schema,
+    execute_cypher,
+    find_causal_path,
+    search_communities,
+    run_personalized_pagerank
+]
+
+# ── State 정의 (Part 10 슬라이드 11)
+class AgentState(TypedDict):
+    query: str
+    schema: str
+    question_type: str  # SIMPLE/MULTI_HOP/GLOBAL/PATH
+    result: list[dict]
+    path_evidence: str
+    community_summary: str
+    ppr_result: list[dict]
+    is_valid: bool
+    error: str
+    retry_count: int
+    max_retries: int       # 3
+    final_answer: str
+
+# ── Supervisor 질문 분류 (Part 10 슬라이드 5)
+def explorer_node(state: AgentState) -> AgentState:
+    schema = get_graph_schema.invoke({})
+    state["schema"] = schema
+    classify = llm.invoke(f"""질문 유형을 분류하세요.
+질문: {state["query"]}
+유형: SIMPLE, MULTI_HOP, GLOBAL, PATH
+한 단어만 답하세요.""").content.strip()
+    state["question_type"] = classify
+    return state
+
+# ── LangGraph 구성
+workflow = StateGraph(AgentState)
+workflow.add_node("explorer", explorer_node)
+workflow.add_node("reasoner", reasoner_node)
+workflow.add_node("validator", validator_node)
+workflow.add_node("fallback", fallback_node)
+
+workflow.set_entry_point("explorer")
+workflow.add_edge("explorer", "reasoner")
+workflow.add_edge("reasoner", "validator")
+
+def route(state):
+    if state["is_valid"]:
+        return END
+    if state["retry_count"] >= state["max_retries"]:
+        return "fallback"
+    return "reasoner"
+
+workflow.add_conditional_edges("validator", route)
+workflow.add_edge("fallback", END)
+graph = workflow.compile()`
+        },
+        callout: {
+          type: 'key',
+          text: '5 Tools + Supervisor + retry(3회) + Fallback — Part 10의 전체 구조를 그대로 캡스톤에 통합'
+        }
+      },
+      {
+        id: '13-9',
+        tag: 'practice',
+        title: 'Part 11 최적화 적용 — 캐싱 + 모델 라우팅',
+        script: 'Part 11에서 배운 7가지 최적화 기법 중 캡스톤에 바로 적용할 수 있는 것들입니다. 첫째, 시맨틱 캐싱. 유사한 질문이 반복되면 LLM을 다시 호출하지 않고 캐시된 답변을 반환합니다. 둘째, 모델 라우팅. SIMPLE 질문은 gpt-4o-mini로, MULTI_HOP/GLOBAL/PATH는 gpt-4o로 보냅니다. 이것만으로 API 비용이 60% 이상 줄어듭니다. 셋째, LangSmith 추적. Agent의 Thought-Action-Observation을 추적하면 디버깅 시간이 10배 줄어듭니다.',
+        code: {
+          language: 'python',
+          code: `# Part 11 최적화 — 캐싱 + 모델 라우팅 + LangSmith
+# langchain >= 0.2.0, langsmith >= 0.1.0
+import os
+import hashlib
+import json
+from langchain_openai import ChatOpenAI
+# Claude 옵션: from langchain_anthropic import ChatAnthropic
+
+# 1. 시맨틱 캐싱 (Part 11 기법 3)
+cache = {}  # 프로덕션에서는 Redis 사용
+
+def cached_query(query: str, graph_app):
+    key = hashlib.sha256(query.encode()).hexdigest()
+    if key in cache:
+        return cache[key]  # 캐시 히트
+    result = graph_app.invoke({
+        "query": query,
+        "retry_count": 0,
+        "max_retries": 3
+    })
+    cache[key] = result["final_answer"]
+    return result["final_answer"]
+
+# 2. 모델 라우팅 (Part 11 기법 5)
+# SIMPLE → gpt-4o-mini ($0.15/1M input)
+# MULTI_HOP/GLOBAL/PATH → gpt-4o ($2.50/1M input)
+def get_routed_llm(question_type: str):
+    if question_type == "SIMPLE":
+        return ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    else:
+        return ChatOpenAI(model="gpt-4o", temperature=0)
+
+# 3. LangSmith 추적 (Part 11 기법 1)
+# 환경 변수 설정만으로 자동 추적
+# export LANGCHAIN_TRACING_V2=true
+# export LANGCHAIN_API_KEY=your_langsmith_key
+# export LANGCHAIN_PROJECT="capstone-mfg-graphrag"
+
+# 4. 최적화 전/후 비교
+# | 항목         | 최적화 전     | 최적화 후     |
+# |-------------|-------------|-------------|
+# | SIMPLE 비용  | $0.025/질문  | $0.002/질문  |
+# | 캐시 히트율   | 0%          | ~40%        |
+# | 월간 1000질문 | $25         | $8          |`
+        },
+        callout: {
+          type: 'tip',
+          text: '캐싱 + 모델 라우팅만으로 API 비용 60%+ 절감 — Part 11의 7가지 기법 중 가장 효과적인 3가지를 적용'
+        }
+      },
+      {
+        id: '13-10',
+        tag: 'practice',
+        title: 'Part 12 보안 체크리스트 — RBAC + 감사 로그',
+        script: 'Part 12에서 배운 엔터프라이즈 체크리스트를 적용합니다. 보안은 3가지입니다. 첫째, RBAC(Role-Based Access Control). Neo4j의 역할별 접근 제어를 설정합니다. 읽기 전용 사용자, 쿼리 실행 사용자, 관리자를 분리합니다. 둘째, 감사 로그. 누가 어떤 쿼리를 실행했는지 기록합니다. 셋째, 환경 변수 관리. .env 파일은 .gitignore에 반드시 추가하고, .env.example만 커밋합니다. CI/CD는 GitHub Actions로 KG 품질 테스트를 자동화하고, Grafana로 노드 수, 쿼리 시간, API 비용을 모니터링합니다.',
+        code: {
+          language: 'python',
+          code: `# Part 12 보안 + 운영 체크리스트
+
+# 1. RBAC — Neo4j 역할 분리
+# Cypher (Neo4j Browser에서 실행)
+# CREATE ROLE reader;
+# GRANT MATCH {*} ON GRAPH * TO reader;
+# CREATE USER readonly_user SET PASSWORD $password
+#   CHANGE NOT REQUIRED;
+# GRANT ROLE reader TO readonly_user;
+
+# 2. 감사 로그 — 쿼리 실행 기록
+import logging
+from datetime import datetime
+
+audit_logger = logging.getLogger("audit")
+audit_logger.setLevel(logging.INFO)
+handler = logging.FileHandler("audit.log")
+audit_logger.addHandler(handler)
+
+def audited_query(query: str, user: str, session):
+    audit_logger.info(json.dumps({
+        "timestamp": datetime.now().isoformat(),
+        "user": user,
+        "query": query[:200],  # 쿼리 앞부분만
+        "action": "CYPHER_EXEC"
+    }))
+    return session.run(query)
+
+# 3. 환경 변수 관리 — .env.example
+# NEO4J_URI=bolt://localhost:7687
+# NEO4J_USER=neo4j
+# NEO4J_PASSWORD=           # <-- 값 없이!
+# OPENAI_API_KEY=
+# LANGCHAIN_API_KEY=
+
+# 4. CI/CD — GitHub Actions (Part 12)
+# .github/workflows/kg-ci.yml
+# - 매 PR마다 KG 스키마 검증
+# - RAGAS 평가 30개 질문 자동 실행
+# - 결과를 PR 코멘트로 게시
+
+# 5. Grafana 모니터링 (Part 12)
+# - 패널 1: 노드 수 추이 (시계열)
+# - 패널 2: 평균 쿼리 시간 (게이지)
+# - 패널 3: 일간 API 비용 (막대)
+# - 알림: 쿼리 시간 > 10초 → Slack 알림`
+        },
+        callout: {
+          type: 'warn',
+          text: '.env 파일은 절대 Git에 커밋하지 마세요 — .gitignore 확인 필수. .env.example만 커밋하세요.'
+        }
+      }
+    ]
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // Section 3: E2E 완성 코드 (20min) — 2 slides
+  // ═══════════════════════════════════════════════════════════════
+  {
+    sectionId: 'sec3',
+    slides: [
+      {
+        id: '13-11',
+        tag: 'practice',
+        title: '제조 GraphRAG E2E — 복사 실행 가능 코드',
+        script: '지금까지 조각들을 합쳐서 하나의 복사-실행 가능한 코드를 보겠습니다. Part 10의 슬라이드 19와 같은 형식입니다. 이 코드를 복사해서 바로 실행할 수 있습니다. 환경 변수만 설정하면 됩니다. NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD, OPENAI_API_KEY 4개만 설정하세요. 코드는 5개 Tool 정의, Supervisor 질문 분류, LangGraph 워크플로우, 캐싱, 모델 라우팅까지 모두 포함됩니다.',
+        code: {
+          language: 'python',
+          code: `#!/usr/bin/env python3
+"""제조 GraphRAG E2E — 캡스톤 완성 코드
+Part 1~12 통합: 5 Tools + Supervisor + 캐싱 + 모델 라우팅
+
+실행 전 환경 변수 설정:
+  export NEO4J_URI=bolt://localhost:7687
+  export NEO4J_USER=neo4j
+  export NEO4J_PASSWORD=your_password
+  export OPENAI_API_KEY=your_key
+  # 선택: export LANGCHAIN_TRACING_V2=true
+"""
+# langchain >= 0.2.0, langgraph >= 0.2.0
+# langchain-openai >= 0.1.0, neo4j >= 5.0
+import os, hashlib
+from neo4j import GraphDatabase
+from langchain_openai import ChatOpenAI
+# Claude 옵션: from langchain_anthropic import ChatAnthropic
+from langchain_core.tools import tool
+from langgraph.graph import StateGraph, END
+from typing import TypedDict
+
+# ── 1. 인프라 연결 ──
+driver = GraphDatabase.driver(
+    os.getenv("NEO4J_URI", "bolt://localhost:7687"),
+    auth=(
+        os.getenv("NEO4J_USER", "neo4j"),
+        os.getenv("NEO4J_PASSWORD")
+    )
+)
+llm_strong = ChatOpenAI(model="gpt-4o", temperature=0)
+llm_fast = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+
+# ── 2. 5개 Tool (Part 10) ──
+@tool
+def get_graph_schema() -> str:
+    """제조 KG 스키마 조회 (Label + Relationship)"""
+    with driver.session() as s:
+        labels = s.run("CALL db.labels()").data()
+        rels = s.run("CALL db.relationshipTypes()").data()
+    return f"Labels: {labels}\\nRels: {rels}"
+
+@tool
+def execute_cypher(query: str, params: dict = {}) -> list:
+    """Cypher 실행 — 반드시 $param 바인딩 사용"""
+    with driver.session() as s:
+        return s.run(query, **params).data()
+
+@tool
+def find_causal_path(start: str, end: str) -> dict:
+    """두 노드 간 인과 경로 탐색 (CAUSED_BY 체인)"""
+    q = \"\"\"
+    MATCH (a {name: $s}), (b {name: $e})
+    MATCH p = shortestPath((a)-[*..5]-(b))
+    RETURN [n IN nodes(p) | n.name] AS nodes,
+           [r IN relationships(p) | type(r)] AS rels
+    \"\"\"
+    with driver.session() as s:
+        return s.run(q, s=start, e=end).data()
+
+@tool
+def search_communities(query: str) -> str:
+    """Leiden 커뮤니티 요약 검색 (Global 질문용)"""
+    with driver.session() as s:
+        r = s.run(
+            "MATCH (c:Community) RETURN c.id, c.summary"
+        ).data()
+    return "\\n".join(
+        f"[{x['c.id']}] {x['c.summary']}" for x in r
+    ) or "커뮤니티 없음"
+
+@tool
+def run_personalized_pagerank(
+    source: str, top_k: int = 5
+) -> list:
+    """PPR로 특정 노드와 가장 관련 있는 노드 탐색"""
+    with driver.session() as s:
+        s.run(\"\"\"CALL gds.graph.project(
+            'tmp', ['Process','Equipment','Defect',
+            'Material','Product','Spec'],
+            ['USES_EQUIPMENT','CAUSED_BY','USES_MATERIAL',
+            'HAS_DEFECT','CONFORMS_TO','MAINTAINED_ON'])
+        \"\"\")
+        result = s.run(\"\"\"
+            MATCH (src {name: $name})
+            CALL gds.pageRank.stream('tmp', {
+                sourceNodes: [src], dampingFactor: 0.85
+            }) YIELD nodeId, score
+            RETURN gds.util.asNode(nodeId).name AS name,
+                   round(score, 4) AS score
+            ORDER BY score DESC LIMIT $k
+        \"\"\", name=source, k=top_k).data()
+        s.run("CALL gds.graph.drop('tmp', false)")
+    return result
+
+# ── 3. State + LangGraph ──
+class S(TypedDict):
+    query: str; schema: str; qtype: str
+    result: list; answer: str
+    valid: bool; error: str
+    retries: int; max_r: int
+
+def explorer(st):
+    st["schema"] = get_graph_schema.invoke({})
+    st["qtype"] = llm_strong.invoke(
+        f"분류(SIMPLE/MULTI_HOP/GLOBAL/PATH): {st['query']}"
+    ).content.strip()
+    return st
+
+def reasoner(st):
+    llm = llm_fast if st["qtype"] == "SIMPLE" else llm_strong
+    # 질문 유형별 Tool 선택 (Part 10 패턴)
+    try:
+        if st["qtype"] == "GLOBAL":
+            ctx = search_communities.invoke(st["query"])
+        elif st["qtype"] == "PATH":
+            ctx = run_personalized_pagerank.invoke(
+                {"source": st["query"][:10], "top_k": 5})
+        else:
+            ctx = execute_cypher.invoke({
+                "query": "MATCH (n) WHERE n.name CONTAINS $q "
+                         "RETURN n LIMIT 10",
+                "params": {"q": st["query"][:20]}
+            })
+        st["result"] = ctx if isinstance(ctx, list) else [ctx]
+        st["answer"] = llm.invoke(
+            f"질문: {st['query']}\\n컨텍스트: {ctx}\\n답변:"
+        ).content
+    except Exception as e:
+        st["error"] = str(e)
+    return st
+
+wf = StateGraph(S)
+wf.add_node("explorer", explorer)
+wf.add_node("reasoner", reasoner)
+wf.set_entry_point("explorer")
+wf.add_edge("explorer", "reasoner")
+wf.add_edge("reasoner", END)
+app = wf.compile()
+
+# ── 4. 캐싱 (Part 11) ──
+cache = {}
+def ask(q):
+    k = hashlib.sha256(q.encode()).hexdigest()
+    if k in cache: return cache[k]
+    r = app.invoke({"query":q,"retries":0,"max_r":3})
+    cache[k] = r["answer"]
+    return r["answer"]
+
+# ── 5. 테스트 (제조 도메인) ──
+if __name__ == "__main__":
+    questions = [
+        "접착기 A-3의 사양은?",                    # SIMPLE
+        "접착 박리의 원인 공정은?",                   # MULTI_HOP
+        "전체 불량 트렌드는?",                       # GLOBAL
+        "접착 박리와 가장 관련된 설비는?",              # PATH
+    ]
+    for q in questions:
+        print(f"Q: {q}\\nA: {ask(q)}\\n")`
+        },
+        callout: {
+          type: 'key',
+          text: '이 코드를 복사해서 환경 변수(NEO4J_URI, NEO4J_PASSWORD, OPENAI_API_KEY)만 설정하면 바로 실행 가능합니다'
+        }
+      },
+      {
+        id: '13-12',
+        tag: 'practice',
+        title: '디버깅 + 최적화 + 모니터링 적용 — 제조 도메인',
+        script: '시스템이 구축됐으면 Part 11~12의 기법으로 디버깅, 최적화, 모니터링을 적용합니다. 디버깅은 LangSmith로 Agent의 Thought-Action-Observation 로그를 추적합니다. 접착 박리 원인 추적 질문에서 Cypher 쿼리가 잘못 생성되면 LangSmith에서 바로 확인할 수 있습니다. 최적화는 Neo4j 인덱스를 추가합니다. CREATE INDEX FOR (d:Defect) ON (d.name). Process, Equipment에도 인덱스를 생성하세요. 모니터링은 Grafana 대시보드를 구축합니다. 노드 수, 쿼리 시간, API 비용, RAGAS 점수를 추적합니다.',
         table: {
-          headers: ['영역', '기법', '도구', 'Part 참고'],
+          headers: ['영역', '기법', '도구', 'Source Part', '제조 적용 예시'],
           rows: [
             {
               cells: [
                 { text: '디버깅', bold: true },
-                { text: 'LLM 호출 추적' },
+                { text: 'Agent 로그 추적' },
                 { text: 'LangSmith' },
-                { text: 'Part 11' }
+                { text: 'Part 11' },
+                { text: '접착 박리 Cypher 오류 추적' }
               ]
             },
             {
               cells: [
                 { text: '', bold: false },
-                { text: 'Cypher 쿼리 로그' },
-                { text: 'Neo4j query.log' },
-                { text: 'Part 11' }
+                { text: '실패 유형 분류' },
+                { text: 'Retrieval/Generation/Schema' },
+                { text: 'Part 11' },
+                { text: '엔티티 이름 불일치 탐지' }
               ]
             },
             {
@@ -320,15 +850,17 @@ print(result["final_answer"])`
                 { text: '최적화', bold: true },
                 { text: 'Neo4j 인덱스' },
                 { text: 'CREATE INDEX' },
-                { text: 'Part 7' }
+                { text: 'Part 7, 11' },
+                { text: 'Defect.name, Process.name 인덱스' }
               ]
             },
             {
               cells: [
                 { text: '', bold: false },
-                { text: 'APOC 배치 처리' },
-                { text: 'apoc.periodic.iterate' },
-                { text: 'Part 7' }
+                { text: '모델 라우팅 + 캐싱' },
+                { text: 'gpt-4o / gpt-4o-mini' },
+                { text: 'Part 11' },
+                { text: 'SIMPLE → gpt-4o-mini' }
               ]
             },
             {
@@ -336,7 +868,8 @@ print(result["final_answer"])`
                 { text: '모니터링', bold: true },
                 { text: 'Grafana 대시보드' },
                 { text: 'Prometheus + Grafana' },
-                { text: 'Part 12' }
+                { text: 'Part 12' },
+                { text: '노드 수, 쿼리 시간, API 비용' }
               ]
             },
             {
@@ -344,88 +877,116 @@ print(result["final_answer"])`
                 { text: '', bold: false },
                 { text: 'Slack 알림' },
                 { text: 'Grafana Alert' },
-                { text: 'Part 12' }
+                { text: 'Part 12' },
+                { text: '쿼리 시간 > 10초 알림' }
               ]
             }
           ]
         },
         callout: {
           type: 'key',
-          text: '디버깅 + 최적화 + 모니터링 = 프로덕션 수준 시스템'
+          text: '디버깅(Part 11) + 최적화(Part 11) + 모니터링(Part 12) = 프로덕션 수준 시스템'
         }
       }
     ]
   },
-  // Section 3: 평가 + 벤치마크
+
+  // ═══════════════════════════════════════════════════════════════
+  // Section 4: 평가 + 벤치마크 (20min) — 3 slides
+  // ═══════════════════════════════════════════════════════════════
   {
-    sectionId: 'sec3',
+    sectionId: 'sec4',
     slides: [
       {
-        id: '13-7',
+        id: '13-13',
         tag: 'practice',
-        title: 'RAGAS 평가 실행',
-        script: 'RAGAS로 시스템을 평가합니다. Part 7에서 배운 평가 데이터셋을 사용하세요. 난이도별로 질문을 구성합니다. Easy 질문 10개, Medium 질문 10개, Hard 질문 10개. 총 30개 질문으로 평가합니다. RAGAS 메트릭 4가지를 측정합니다. Faithfulness, Answer Relevancy, Context Precision, Context Recall. 코드로 평가를 자동화하세요. 결과를 JSON으로 저장하면 나중에 비교할 수 있습니다. 교차 평가도 실행하세요. GPT-4 답변은 Claude로, Claude 답변은 GPT-4로 평가합니다. 상관계수 0.7 이상이면 LLM 평가를 신뢰할 수 있습니다.',
+        title: 'RAGAS 평가 — 제조 도메인 질문 20개',
+        script: 'Part 7에서 배운 RAGAS로 캡스톤 시스템을 평가합니다. 제조 도메인 질문을 난이도별로 구성합니다. Easy 질문 7개, Medium 질문 7개, Hard 질문 6개, 총 20개입니다. Easy는 1-hop 질문으로 "접착기 A-3의 사양은?" 같은 것입니다. Medium은 2-hop으로 "접착 박리의 원인 공정은?" 같은 것입니다. Hard는 Multi-hop + 조건으로 "접착 박리 원인 설비의 정비 이력과 관련 불량 패턴은?" 같은 것입니다. RAGAS 메트릭 4가지를 측정합니다. 교차 평가도 실행하세요. gpt-4o 답변은 Claude로, Claude 답변은 gpt-4o로 평가합니다.',
         code: {
           language: 'python',
-          code: `# RAGAS 평가 실행 스크립트
-
+          code: `# RAGAS 평가 — 제조 도메인 (Part 7 패턴 재사용)
+# ragas >= 0.1.0, datasets >= 2.0
+import os
 from ragas import evaluate
-from ragas.metrics import faithfulness, answer_relevancy, context_precision, context_recall
+from ragas.metrics import (
+    faithfulness, answer_relevancy,
+    context_precision, context_recall
+)
 from datasets import Dataset
 
-# 1. 평가 데이터셋 준비 (난이도별)
+# 1. 제조 도메인 평가 데이터셋 (난이도별)
 eval_data = [
-    # Easy (1-hop)
-    {"question": "삼성전자 CEO는?", "ground_truth": "이재용", "difficulty": "easy"},
-    {"question": "국민연금 총 자산은?", "ground_truth": "900조원", "difficulty": "easy"},
-    # ... 총 10개
+    # Easy (1-hop) — 7개
+    {"question": "접착기 A-3의 사양은?",
+     "ground_truth": "최대 압력 150bar, 온도 범위 60~180도",
+     "difficulty": "easy"},
+    {"question": "브레이크 패드 BP-100의 재질은?",
+     "ground_truth": "세라믹 복합 소재",
+     "difficulty": "easy"},
+    {"question": "접착 도포 공정에서 사용하는 설비는?",
+     "ground_truth": "접착기 A-3",
+     "difficulty": "easy"},
+    # ... 총 7개
 
-    # Medium (2-hop)
-    {"question": "삼성전자 투자 기관은?", "ground_truth": "국민연금", "difficulty": "medium"},
-    # ... 총 10개
+    # Medium (2-hop) — 7개
+    {"question": "접착 박리의 원인 공정은?",
+     "ground_truth": "접착 도포 공정",
+     "difficulty": "medium"},
+    {"question": "접착기 A-3의 마지막 정비 날짜는?",
+     "ground_truth": "2024-01-15",
+     "difficulty": "medium"},
+    {"question": "BP-100 불합격의 관련 검사 항목은?",
+     "ground_truth": "접착력 검사, 두께 검사",
+     "difficulty": "medium"},
+    # ... 총 7개
 
-    # Hard (Multi-hop)
-    {"question": "삼성 투자 기관의 다른 반도체 투자처는?", "ground_truth": "SK하이닉스", "difficulty": "hard"},
-    # ... 총 10개
+    # Hard (Multi-hop) — 6개
+    {"question": "접착 박리 원인 설비의 정비 이력과 관련 불량 패턴은?",
+     "ground_truth": "접착기 A-3, 정비 2024-01-15, 접착 박리+기포 발생",
+     "difficulty": "hard"},
+    {"question": "가장 많은 불량이 발생한 공정의 설비와 사용 재료는?",
+     "ground_truth": "접착 도포, 접착기 A-3, 에폭시 수지 EP-200",
+     "difficulty": "hard"},
+    {"question": "브레이크 패드 불량률이 가장 높은 공정 체인은?",
+     "ground_truth": "프레스 성형 → 접착 도포 → 경화",
+     "difficulty": "hard"},
+    # ... 총 6개
 ]
 
 # 2. 시스템으로 답변 생성
 for item in eval_data:
-    result = graph_rag_system.query(item["question"])
-    item["answer"] = result["answer"]
-    item["contexts"] = result["contexts"]
+    result = app.invoke({
+        "query": item["question"],
+        "retries": 0, "max_r": 3
+    })
+    item["answer"] = result.get("answer", "")
+    item["contexts"] = [str(result.get("result", []))]
 
-# 3. RAGAS 평가
+# 3. RAGAS 평가 실행
 dataset = Dataset.from_list(eval_data)
 results = evaluate(
     dataset,
-    metrics=[faithfulness, answer_relevancy, context_precision, context_recall]
+    metrics=[faithfulness, answer_relevancy,
+             context_precision, context_recall]
 )
+print("RAGAS 결과:", results)
 
 # 4. 난이도별 집계
-easy_scores = [r for r in results if r["difficulty"] == "easy"]
-medium_scores = [r for r in results if r["difficulty"] == "medium"]
-hard_scores = [r for r in results if r["difficulty"] == "hard"]
-
-print(f"Easy: {np.mean(easy_scores):.2f}")
-print(f"Medium: {np.mean(medium_scores):.2f}")
-print(f"Hard: {np.mean(hard_scores):.2f}")
-
-# 5. 결과 저장
-import json
-with open("ragas_results.json", "w") as f:
-    json.dump(results, f, indent=2)`
+import numpy as np
+for diff in ["easy", "medium", "hard"]:
+    subset = [r for r in eval_data if r["difficulty"] == diff]
+    print(f"{diff}: {len(subset)}개 질문")`
         },
         callout: {
           type: 'tip',
-          text: '난이도별 평가 + 결과 저장 — 개선 후 재평가로 진전 확인'
+          text: '난이도별 평가 + JSON 저장 — 개선 후 재평가로 진전 확인. 교차 평가(gpt-4o ↔ Claude) 상관계수 0.7+ 이면 신뢰 가능'
         }
       },
       {
-        id: '13-8',
+        id: '13-14',
         tag: 'practice',
-        title: '비용/속도/정확도 리포트 생성',
-        script: '벤치마크 결과를 종합 리포트로 정리합니다. 3가지 축을 측정합니다. 첫째, 정확도. Easy/Medium/Hard 질문별 정확도를 표로 정리합니다. RAGAS 메트릭 4가지도 포함합니다. 둘째, 속도. 평균 응답 시간, P95, P99를 측정합니다. 병목 지점을 분석합니다. LLM 호출 시간, Neo4j 쿼리 시간, Rerank 시간을 분리해서 측정하세요. 셋째, 비용. 질문당 API 비용을 계산합니다. GPT-4, GPT-3.5, Claude Haiku 비용을 비교합니다. 월간 예상 비용을 산출합니다. 이 리포트를 바탕으로 "어디를 개선할 것인가"를 결정합니다. 정확도가 낮으면 온톨로지를 개선합니다. 속도가 느리면 인덱스를 추가합니다. 비용이 높으면 모델을 교체합니다.',
+        title: '비용/속도/정확도 리포트 — gpt-4o 기준',
+        script: '벤치마크 결과를 종합 리포트로 정리합니다. 정확도는 Easy, Medium, Hard별로 측정합니다. 속도는 평균 응답 시간, P95, P99를 측정합니다. 비용은 gpt-4o 기준 질문당 API 비용을 계산합니다. gpt-4o는 입력 $2.50/1M 토큰, 출력 $10.00/1M 토큰입니다. gpt-4o-mini는 입력 $0.15/1M 토큰, 출력 $0.60/1M 토큰입니다. 모델 라우팅을 적용하면 질문당 비용이 $0.03에서 $0.01로 줄어듭니다. 이 리포트를 바탕으로 개선 포인트를 결정합니다.',
         table: {
           headers: ['메트릭', '측정값', '목표', '상태', '개선 방향'],
           rows: [
@@ -434,164 +995,183 @@ with open("ragas_results.json", "w") as f:
                 { text: 'Easy 정확도', bold: true },
                 { text: '92%' },
                 { text: '90%+', status: 'pass' },
-                { text: '✅', status: 'pass' },
+                { text: '달성', status: 'pass' },
                 { text: '-' }
               ]
             },
             {
               cells: [
+                { text: 'Medium 정확도', bold: true },
+                { text: '78%' },
+                { text: '75%+', status: 'pass' },
+                { text: '달성', status: 'pass' },
+                { text: 'Few-shot 예시 추가' }
+              ]
+            },
+            {
+              cells: [
                 { text: 'Hard 정확도', bold: true },
-                { text: '68%' },
+                { text: '65%' },
                 { text: '70%+', status: 'warn' },
-                { text: '⚠️', status: 'warn' },
-                { text: 'Meta-Dictionary 강화' }
+                { text: '미달', status: 'warn' },
+                { text: 'Meta-Dictionary 강화 + Path Tool 개선' }
               ]
             },
             {
               cells: [
                 { text: 'RAGAS Faithfulness', bold: true },
-                { text: '0.82' },
+                { text: '0.85' },
                 { text: '0.8+', status: 'pass' },
-                { text: '✅', status: 'pass' },
+                { text: '달성', status: 'pass' },
                 { text: '-' }
               ]
             },
             {
               cells: [
                 { text: '평균 응답 시간', bold: true },
-                { text: '2.8초' },
+                { text: '2.5초' },
                 { text: '3초 이내', status: 'pass' },
-                { text: '✅', status: 'pass' },
+                { text: '달성', status: 'pass' },
                 { text: '-' }
               ]
             },
             {
               cells: [
                 { text: 'P99 응답 시간', bold: true },
-                { text: '12초' },
+                { text: '11초' },
                 { text: '10초 이내', status: 'warn' },
-                { text: '⚠️', status: 'warn' },
-                { text: 'Neo4j 인덱스 추가' }
+                { text: '미달', status: 'warn' },
+                { text: 'Neo4j 인덱스 + GDS 프로젝션 캐시' }
               ]
             },
             {
               cells: [
                 { text: '질문당 API 비용', bold: true },
-                { text: '$0.08' },
-                { text: '$0.10 이하', status: 'pass' },
-                { text: '✅', status: 'pass' },
-                { text: '-' }
+                { text: '$0.01 (라우팅 후)' },
+                { text: '$0.05 이하', status: 'pass' },
+                { text: '달성', status: 'pass' },
+                { text: 'gpt-4o: $2.50/1M in, gpt-4o-mini: $0.15/1M in' }
               ]
             },
             {
               cells: [
                 { text: '월간 예상 비용', bold: true },
-                { text: '$240 (1000 질문)' },
-                { text: '$500 이하', status: 'pass' },
-                { text: '✅', status: 'pass' },
-                { text: '-' }
+                { text: '$10 (1000 질문)' },
+                { text: '$50 이하', status: 'pass' },
+                { text: '달성', status: 'pass' },
+                { text: '캐싱 40% 히트율 반영' }
               ]
             }
           ]
         },
         callout: {
           type: 'key',
-          text: '정확도/속도/비용 종합 리포트 — 개선 우선순위 결정의 근거'
+          text: '정확도/속도/비용 종합 리포트 — 개선 우선순위 결정의 근거. 가격은 수시 변동되므로 최신 가격은 OpenAI Pricing 페이지를 확인하세요.'
         }
       },
       {
-        id: '13-9',
+        id: '13-15',
         tag: 'discussion',
-        title: '개선 포인트 3개 도출',
-        script: '벤치마크 결과를 바탕으로 개선 포인트 3개를 도출하세요. 첫 번째 개선: 정확도 향상. Hard 질문 정확도가 68%로 목표(70%) 미달입니다. Meta-Dictionary를 강화하세요. 도메인 전문가와 협업해서 엔티티 정의를 더 명확히 하세요. 두 번째 개선: 속도 최적화. P99 응답 시간이 12초로 목표(10초) 초과입니다. Neo4j 인덱스를 추가하세요. Company.name, Investor.name에 인덱스를 생성하세요. APOC 병렬 처리를 적용하세요. 세 번째 개선: 비용 절감. 현재 GPT-4를 쓰고 있지만, Easy 질문은 GPT-3.5로 충분합니다. 질문 유형별 모델 라우팅을 구현하세요. Easy → GPT-3.5 ($0.001), Hard → GPT-4 ($0.03). 이렇게 3가지를 개선하면 프로덕션 준비가 완료됩니다.',
+        title: '개선 포인트 3개 도출 — 제조 도메인',
+        script: '벤치마크 결과를 바탕으로 개선 포인트 3개를 도출하세요. 첫 번째 개선: Hard 질문 정확도 향상. 65%로 목표(70%) 미달입니다. Part 2의 Meta-Dictionary를 강화하세요. 접착 관련 엔티티 정의를 더 구체적으로 작성하고, Part 10의 Path Tool에 Few-shot 예시를 추가하세요. 두 번째 개선: P99 속도 최적화. 11초로 목표(10초) 초과입니다. Neo4j 인덱스를 추가하세요. Defect.name, Process.name, Equipment.name에 인덱스를 생성하세요. GDS 프로젝션을 캐시하면 PPR 실행 시간이 줄어듭니다. 세 번째 개선: Agent 재시도 효율화. 현재 최대 3회 재시도하는데, 첫 번째 재시도에서 에러 유형을 분석해서 프롬프트를 보정하면 재시도 성공률이 올라갑니다.',
         table: {
-          headers: ['개선 포인트', '현재 문제', '해결 방법', '예상 효과'],
+          headers: ['개선 포인트', '현재 문제', '해결 방법 (Source Part)', '예상 효과'],
           rows: [
             {
               cells: [
-                { text: '1. 정확도 향상', bold: true },
-                { text: 'Hard 질문 68% (목표 70%)' },
-                { text: 'Meta-Dictionary 강화' },
-                { text: '정확도 +5% → 73%' }
+                { text: '1. Hard 정확도 향상', bold: true },
+                { text: 'Hard 65% (목표 70%)' },
+                { text: 'Meta-Dictionary 강화 (Part 2) + Path Tool Few-shot (Part 10)' },
+                { text: '정확도 +7% → 72%' }
               ]
             },
             {
               cells: [
-                { text: '2. 속도 최적화', bold: true },
-                { text: 'P99 응답 12초 (목표 10초)' },
-                { text: 'Neo4j 인덱스 + APOC' },
-                { text: 'P99 → 8초 (20% 개선)' }
+                { text: '2. P99 속도 최적화', bold: true },
+                { text: 'P99 11초 (목표 10초)' },
+                { text: 'Neo4j 인덱스 (Part 7) + GDS 프로젝션 캐시 (Part 9)' },
+                { text: 'P99 → 7초 (36% 개선)' }
               ]
             },
             {
               cells: [
-                { text: '3. 비용 절감', bold: true },
-                { text: '질문당 $0.08 (GPT-4)' },
-                { text: '질문별 모델 라우팅' },
-                { text: '질문당 $0.04 (50% 절감)' }
+                { text: '3. 재시도 효율화', bold: true },
+                { text: '재시도 시 같은 실수 반복' },
+                { text: '에러 유형별 프롬프트 보정 (Part 11 디버깅)' },
+                { text: '재시도 성공률 50% → 80%' }
               ]
             }
           ]
         },
         callout: {
           type: 'key',
-          text: '개선 3개: 정확도 +5%, 속도 -20%, 비용 -50% — 프로덕션 준비 완료'
+          text: '개선 3개: 정확도 +7%, 속도 -36%, 재시도 성공률 +30% — Part 2,7,9,10,11의 기법을 조합해서 개선'
         }
       }
     ]
   },
-  // Section 4: 발표 + 피드백
+
+  // ═══════════════════════════════════════════════════════════════
+  // Section 5: 발표 + 회고 + 수료 (25min) — 5 slides
+  // ═══════════════════════════════════════════════════════════════
   {
-    sectionId: 'sec4',
+    sectionId: 'sec5',
     slides: [
       {
-        id: '13-10',
+        id: '13-16',
         tag: 'discussion',
-        title: '시스템 라이브 데모 체크리스트',
-        script: '캡스톤 프로젝트 발표를 준비합니다. 라이브 데모 체크리스트를 보겠습니다. 첫째, 환경 준비. Neo4j가 실행 중인지 확인하세요. 데이터가 로드되어 있는지 확인하세요. LLM API 키가 유효한지 확인하세요. 둘째, 데모 시나리오. Easy 질문 1개, Medium 질문 1개, Hard 질문 1개를 준비하세요. 각 질문에 대해 예상 답변을 미리 확인하세요. 셋째, 실패 대비. 네트워크 오류 시 대비해서 스크린샷을 준비하세요. LLM 응답이 느리면 "지금 생각 중입니다"라고 설명하세요. 넷째, 인사이트 강조. "이 질문은 벡터 RAG로 불가능합니다"라고 명확히 설명하세요. "Multi-hop 추론으로 3단계 관계를 추적했습니다"라고 강조하세요. 데모는 5분 이내로 진행하세요. 핵심만 보여주세요.',
+        title: '시스템 라이브 데모 체크리스트 — 제조 도메인',
+        script: '캡스톤 프로젝트 발표를 준비합니다. 라이브 데모 체크리스트입니다. 환경 준비는 Neo4j 실행, 데이터 로드, API 키 확인을 발표 30분 전에 하세요. 데모 시나리오는 3개 질문을 준비합니다. Easy: "접착기 A-3의 사양은?" — SIMPLE 유형, Cypher Tool만 사용. Medium: "접착 박리의 원인 공정은?" — MULTI_HOP, Path Tool 사용. Hard: "접착 박리 원인 설비의 정비 이력과 관련 불량 패턴은?" — MULTI_HOP + 여러 Tool 조합. 핵심 인사이트는 "이 Hard 질문은 벡터 RAG로 불가능합니다. 3-hop 관계 추적이 필요하기 때문입니다"라고 강조하세요.',
         table: {
           headers: ['단계', '체크 항목', '비고'],
           rows: [
             {
               cells: [
                 { text: '환경 준비', bold: true },
-                { text: 'Neo4j 실행, 데이터 로드, API 키 확인' },
+                { text: 'Neo4j 실행 + 데이터 로드 + API 키 확인' },
                 { text: '발표 30분 전 체크' }
               ]
             },
             {
               cells: [
-                { text: '데모 시나리오', bold: true },
-                { text: 'Easy 1개, Medium 1개, Hard 1개' },
+                { text: 'Easy 데모', bold: true },
+                { text: '"접착기 A-3의 사양은?" (SIMPLE → Cypher Tool)' },
                 { text: '예상 답변 미리 확인' }
               ]
             },
             {
               cells: [
-                { text: '실패 대비', bold: true },
-                { text: '스크린샷, 네트워크 오류 대응' },
-                { text: '백업 플랜 준비' }
+                { text: 'Medium 데모', bold: true },
+                { text: '"접착 박리의 원인 공정은?" (MULTI_HOP → Path Tool)' },
+                { text: 'Supervisor 분류 과정 설명' }
               ]
             },
             {
               cells: [
-                { text: '인사이트 강조', bold: true },
-                { text: 'Multi-hop 추론 능력 강조' },
-                { text: '벡터 RAG와 차별점' }
+                { text: 'Hard 데모', bold: true },
+                { text: '"접착 박리 원인 설비 정비 이력 + 불량 패턴은?"' },
+                { text: '벡터 RAG로 불가능한 이유 강조' }
+              ]
+            },
+            {
+              cells: [
+                { text: '실패 대비', bold: true },
+                { text: '스크린샷 준비 + 네트워크 오류 대응' },
+                { text: '백업 플랜 필수' }
               ]
             }
           ]
         },
         callout: {
           type: 'tip',
-          text: '데모는 5분 이내, 핵심만 — Hard 질문으로 Multi-hop 추론 능력 강조'
+          text: '데모는 5분 이내, Hard 질문으로 Multi-hop 추론 능력 강조 — "벡터 RAG로 불가능한 이유"를 명확히 설명하세요'
         }
       },
       {
-        id: '13-11',
+        id: '13-17',
         tag: 'discussion',
-        title: '아키텍처 + 벤치마크 발표 템플릿',
-        script: '발표 구조는 3부로 나눕니다. 첫째, 문제 정의 (2분). 도메인 소개, 기존 시스템의 한계, GraphRAG가 필요한 이유. 예: "보험 약관 비교 질문은 벡터 RAG로 30% 정확도. GraphRAG로 85%까지 향상." 둘째, 아키텍처 (3분). 5개 레이어 다이어그램을 보여주세요. Data → KG → Algorithm → Agent → Search. 각 레이어에서 어떤 기술을 썼는지 설명하세요. 예: "KG Layer는 Neo4j 5.15, Algorithm Layer는 LangChain Text2Cypher." 셋째, 벤치마크 (5분). 정확도/속도/비용 리포트를 표로 보여주세요. Easy/Medium/Hard 질문별 정확도를 비교하세요. 개선 포인트 3개를 발표하세요. 총 10분 발표, 5분 질의응답으로 구성하세요.',
+        title: '발표 템플릿 — 아키텍처 + 벤치마크',
+        script: '발표 구조는 4부로 나눕니다. 1부 문제 정의 2분. 제조 도메인 소개, 접착 박리 품질 추적의 어려움, GraphRAG가 필요한 이유. "접착 박리 원인 설비의 정비 이력 추적은 벡터 RAG로 30% 정확도. GraphRAG로 85%까지 향상." 2부 아키텍처 3분. 8개 레이어 다이어그램을 보여주세요. 각 레이어의 Source Part를 명시하세요. 3부 라이브 데모 3분. Easy, Medium, Hard 질문을 순서대로 시연하세요. 4부 벤치마크 2분. 정확도, 속도, 비용 리포트를 표로 보여주세요. 개선 포인트 3개를 발표하세요. 총 10분 발표, 5분 질의응답입니다.',
         table: {
           headers: ['순서', '주제', '시간', '핵심 내용'],
           rows: [
@@ -600,7 +1180,7 @@ with open("ragas_results.json", "w") as f:
                 { text: '1', bold: true },
                 { text: '문제 정의' },
                 { text: '2분' },
-                { text: '도메인, 기존 한계, GraphRAG 필요성' }
+                { text: '제조 품질 추적, 벡터 RAG 한계, GraphRAG 필요성' }
               ]
             },
             {
@@ -608,7 +1188,7 @@ with open("ragas_results.json", "w") as f:
                 { text: '2', bold: true },
                 { text: '아키텍처' },
                 { text: '3분' },
-                { text: '5개 레이어, 기술 스택, 데이터 흐름' }
+                { text: '8개 레이어, Part 1~12 통합, 기술 스택' }
               ]
             },
             {
@@ -616,15 +1196,15 @@ with open("ragas_results.json", "w") as f:
                 { text: '3', bold: true },
                 { text: '라이브 데모' },
                 { text: '3분' },
-                { text: 'Easy/Medium/Hard 질문 시연' }
+                { text: 'Easy/Medium/Hard 질문 시연 (제조 도메인)' }
               ]
             },
             {
               cells: [
                 { text: '4', bold: true },
-                { text: '벤치마크' },
+                { text: '벤치마크 + 개선' },
                 { text: '2분' },
-                { text: '정확도/속도/비용 리포트' }
+                { text: '정확도/속도/비용 리포트 + 개선 포인트 3개' }
               ]
             },
             {
@@ -639,50 +1219,187 @@ with open("ragas_results.json", "w") as f:
         },
         callout: {
           type: 'tip',
-          text: '발표 10분 + 질의응답 5분 — 아키텍처 다이어그램과 벤치마크 표가 핵심'
+          text: '발표 10분 + 질의응답 5분 — 8 레이어 아키텍처 다이어그램과 벤치마크 표가 핵심 자료'
         }
       },
       {
-        id: '13-12',
+        id: '13-18',
         tag: 'theory',
-        title: '전체 과정 회고 + 다음 단계',
-        script: '13개 Part의 여정을 돌아봅시다. Part 1: GraphRAG 동기부여. 벡터 RAG의 한계를 보고 Multi-hop 추론의 가치를 배웠습니다. Part 2: 수작업 KG 구축. 온톨로지 설계와 Meta-Dictionary의 중요성을 체감했습니다. Part 3: LLM 자동화. 편리함과 환각의 양면을 경험했습니다. Part 4: Entity Resolution. 중복 제거의 어려움과 가중치 싸움을 배웠습니다. Part 5: 멀티모달 VLM. 표와 이미지를 그래프로 변환하는 실무 역량을 습득했습니다. Part 6: 통합 검색. Text2Cypher Agent와 하이브리드 검색으로 GraphRAG 시스템을 완성했습니다. Part 7: 실무 평가. RAGAS 평가와 GDBMS 선정 기준을 배웠습니다. Part 8-11: 고급 주제. Temporal 쿼리, Agentic 검색, 비용 최적화, 디버깅을 학습했습니다. Part 12: 엔터프라이즈 도입. PoC 설계, 보안, CI/CD, 모니터링을 실무 수준으로 배웠습니다. Part 13: 캡스톤 프로젝트. 지금 여러분은 처음부터 끝까지 GraphRAG 시스템을 구축할 수 있습니다. 다음 단계는 무엇일까요? 첫째, 실무 프로젝트 적용. 회사나 개인 프로젝트에서 GraphRAG를 도입해보세요. 둘째, 커뮤니티 참여. Neo4j 포럼, LangChain Discord에서 다른 사람들과 교류하세요. 셋째, 최신 연구 추적. GraphRAG는 빠르게 발전하는 분야입니다. arXiv, SIGMOD, NeurIPS 논문을 읽으세요. 넷째, 오픈소스 기여. 여러분이 만든 도구나 개선 사항을 공유하세요. 이제 여러분은 GraphRAG를 리드할 수 있습니다. 깊이가 곧 가치입니다. 수고하셨습니다!',
+        title: '전체 과정 회고 — Part 1~13 정확한 설명',
+        script: '13개 Part의 여정을 돌아봅시다. Part 1: 왜 GraphRAG인가. 벡터 RAG의 한계를 보고 Multi-hop 추론의 가치를 배웠습니다. Part 2: 수작업 KG. 온톨로지 설계와 Meta-Dictionary의 중요성을 체감했습니다. Part 3: LLM 자동화. 편리함과 환각의 양면을 경험했습니다. Part 4: Entity Resolution. 중복 제거의 어려움과 가중치 싸움을 배웠습니다. Part 5: 멀티모달 VLM. 검사 성적표와 공정 흐름도를 그래프로 변환했습니다. Part 6: 통합 + 검색. Text2Cypher Agent와 하이브리드 검색으로 GraphRAG 시스템을 완성했습니다. Part 7: 실무 적용 가이드. RAGAS 평가와 GDBMS 선정 기준을 배웠습니다. Part 8: 프레임워크 비교. MS GraphRAG, LightRAG, fast-graphrag, nano-graphrag를 직접 비교했습니다. Part 9: 그래프 알고리즘. Leiden 커뮤니티, PageRank, 경로 탐색, graphrag_pipeline_v2를 구축했습니다. Part 10: Agentic GraphRAG. 5개 Tool + Supervisor 분류 + LangGraph 멀티에이전트를 만들었습니다. Part 11: 디버깅 & 비용 최적화. LangSmith 추적, 7가지 최적화 기법을 학습했습니다. Part 12: 엔터프라이즈 실전. PoC 2주 계획, 보안 RBAC, CI/CD, Grafana 모니터링을 배웠습니다. Part 13: 캡스톤 프로젝트. 지금 여러분은 처음부터 끝까지 프로덕션급 GraphRAG 시스템을 구축할 수 있습니다.',
         table: {
-          headers: ['Part', '주제', 'Milestone'],
+          headers: ['Part', '주제', '핵심 산출물'],
           rows: [
             {
               cells: [
-                { text: 'Part 1-7', bold: true },
-                { text: '기본 GraphRAG 구축' },
-                { text: '온톨로지 → LLM 추출 → 검색 → 평가', status: 'pass' }
+                { text: 'Part 1', bold: true },
+                { text: '왜 GraphRAG인가 — Multi-hop 동기부여' },
+                { text: 'Neo4j 첫 그래프 (7노드)', status: 'pass' }
               ]
             },
             {
               cells: [
-                { text: 'Part 8-11', bold: true },
-                { text: '고급 주제' },
-                { text: 'Temporal, Agentic, 비용 최적화', status: 'pass' }
+                { text: 'Part 2', bold: true },
+                { text: '수작업 KG — 온톨로지 + Meta-Dictionary' },
+                { text: '수작업 KG (15노드, 20관계)', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Part 3', bold: true },
+                { text: 'LLM 자동화 — 추출 + 품질 비교' },
+                { text: '자동 추출 KG + 비교표', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Part 4', bold: true },
+                { text: 'Entity Resolution — 중복 제거' },
+                { text: '정제된 KG (45→30노드)', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Part 5', bold: true },
+                { text: '멀티모달 VLM — 표/이미지 → 그래프' },
+                { text: '멀티모달 통합 KG', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Part 6', bold: true },
+                { text: '통합 + 검색 — Text2Cypher + 하이브리드' },
+                { text: '완성된 GraphRAG 시스템', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Part 7', bold: true },
+                { text: '실무 적용 — RAGAS + GDBMS + 최적화' },
+                { text: '실무 적용 체크리스트', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Part 8', bold: true },
+                { text: '프레임워크 비교 — MS GraphRAG, LightRAG, fast-graphrag' },
+                { text: '프레임워크 선택 가이드', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Part 9', bold: true },
+                { text: '그래프 알고리즘 — Leiden, PageRank, 경로, PPR' },
+                { text: 'graphrag_pipeline_v2', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Part 10', bold: true },
+                { text: 'Agentic GraphRAG — 5 Tools + Supervisor + LangGraph' },
+                { text: '멀티에이전트 시스템', status: 'pass' }
+              ]
+            },
+            {
+              cells: [
+                { text: 'Part 11', bold: true },
+                { text: '디버깅 & 비용 최적화 — LangSmith + 7가지 기법' },
+                { text: '비용 50% 절감 체크리스트', status: 'pass' }
               ]
             },
             {
               cells: [
                 { text: 'Part 12', bold: true },
-                { text: '엔터프라이즈 실전' },
-                { text: 'PoC, 보안, CI/CD, 모니터링', status: 'pass' }
+                { text: '엔터프라이즈 — PoC 2주, RBAC, CI/CD, Grafana' },
+                { text: '도입 계획서', status: 'pass' }
               ]
             },
             {
               cells: [
                 { text: 'Part 13', bold: true },
-                { text: '캡스톤 프로젝트' },
-                { text: '엔드투엔드 시스템 완성', status: 'pass' }
+                { text: '캡스톤 — Part 1~12 통합 E2E 시스템' },
+                { text: '프로덕션급 GraphRAG + 포트폴리오', status: 'pass' }
               ]
             }
           ]
         },
         callout: {
           type: 'key',
-          text: '이제 GraphRAG를 리드할 수 있다 — 깊이가 곧 가치. 실무에 적용하고, 커뮤니티에 기여하세요!'
+          text: '13 Parts, 23시간, 271 슬라이드 — 벡터 RAG의 한계부터 프로덕션급 멀티에이전트 GraphRAG까지 완주했습니다'
+        }
+      },
+      {
+        id: '13-19',
+        tag: 'theory',
+        title: '포트폴리오 완성 + 수료 — GraphRAG Expert',
+        script: '축하합니다! 여러분은 GraphRAG Expert 과정을 완주했습니다. 13 Parts, 23시간, 271 슬라이드. Part 1에서 "접착 박리 원인 설비의 정비 이력은?"이라는 질문을 처음 봤을 때를 기억하시나요? 그때는 벡터 RAG로 안 된다는 것만 알았습니다. 지금은 온톨로지를 설계하고, LLM으로 추출하고, Entity Resolution으로 정제하고, VLM으로 표를 변환하고, Text2Cypher로 검색하고, RAGAS로 평가하고, Leiden + PageRank로 알고리즘을 적용하고, 5개 Tool + Supervisor로 Agent를 구축하고, LangSmith로 디버깅하고, 비용을 최적화하고, RBAC과 CI/CD로 프로덕션에 배포할 수 있습니다. 포트폴리오 GitHub에 이 모든 것을 정리하세요. README에 8개 레이어 아키텍처 다이어그램과 벤치마크 결과를 넣으세요. 면접에서 "GraphRAG 해보셨나요?"라는 질문에 자신 있게 답할 수 있습니다.',
+        diagram: {
+          nodes: [
+            { text: 'Part 1: 동기부여', type: 'entity' },
+            { text: '→', type: 'relation' },
+            { text: 'Part 2~5: KG 구축', type: 'entity' },
+            { text: '→', type: 'relation' },
+            { text: 'Part 6~7: 검색 + 평가', type: 'entity' },
+            { text: '→', type: 'relation' },
+            { text: 'Part 8~12: 고급 + 운영', type: 'entity' },
+            { text: '→', type: 'relation' },
+            { text: 'Part 13: E2E 캡스톤', type: 'entity' },
+            { text: 'GraphRAG Expert', type: 'dim' }
+          ]
+        },
+        callout: {
+          type: 'key',
+          text: 'GraphRAG Expert — 13 Parts, 23시간, 271 슬라이드 완주. 깊이가 곧 가치입니다.'
+        }
+      },
+      {
+        id: '13-20',
+        tag: 'theory',
+        title: '다음 단계 + 커뮤니티',
+        script: '과정을 마쳤지만, GraphRAG는 빠르게 발전하는 분야입니다. 다음 단계를 제안합니다. 첫째, 실무 프로젝트 적용. 회사나 개인 프로젝트에서 GraphRAG를 도입해보세요. Part 12의 2주 PoC 템플릿을 활용하세요. 둘째, 커뮤니티 참여. Neo4j 포럼, LangChain Discord, LlamaIndex Discord에서 다른 사람들과 교류하세요. 셋째, 최신 연구 추적. GraphRAG는 2024년부터 폭발적으로 성장하고 있습니다. arXiv에서 "GraphRAG", "Knowledge Graph + LLM" 논문을 주기적으로 확인하세요. 넷째, 오픈소스 기여. 여러분이 만든 도구, 프롬프트 템플릿, 평가 데이터셋을 공유하세요. GitHub Star가 쌓이면 그것 자체가 포트폴리오입니다. 다섯째, 새로운 도메인 도전. 제조 외에 법률, 의료, 금융 도메인에도 GraphRAG를 적용해보세요. 도메인이 바뀌어도 8개 레이어 아키텍처는 동일합니다.',
+        table: {
+          headers: ['다음 단계', '행동', '리소스'],
+          rows: [
+            {
+              cells: [
+                { text: '1. 실무 적용', bold: true },
+                { text: '회사/개인 프로젝트에 GraphRAG 도입' },
+                { text: 'Part 12 PoC 템플릿' }
+              ]
+            },
+            {
+              cells: [
+                { text: '2. 커뮤니티', bold: true },
+                { text: 'Neo4j 포럼, LangChain/LlamaIndex Discord' },
+                { text: 'community.neo4j.com' }
+              ]
+            },
+            {
+              cells: [
+                { text: '3. 연구 추적', bold: true },
+                { text: 'arXiv "GraphRAG", "KG + LLM" 논문' },
+                { text: 'arxiv.org, paperswithcode.com' }
+              ]
+            },
+            {
+              cells: [
+                { text: '4. 오픈소스 기여', bold: true },
+                { text: '도구, 프롬프트 템플릿, 데이터셋 공유' },
+                { text: 'GitHub' }
+              ]
+            },
+            {
+              cells: [
+                { text: '5. 새 도메인 도전', bold: true },
+                { text: '법률, 의료, 금융에 동일 아키텍처 적용' },
+                { text: '8 레이어 프레임워크 재사용' }
+              ]
+            }
+          ]
+        },
+        callout: {
+          type: 'key',
+          text: '깊이가 곧 가치 — 실무에 적용하고, 커뮤니티에 기여하고, 새로운 도메인에 도전하세요!'
         }
       }
     ]
