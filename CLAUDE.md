@@ -125,6 +125,8 @@ notebooks/
 | Jupyter Notebooks | Part 1-13 구조 complete |
 | Notebook: Part 2 (수작업 KG) | Runnable (제조 도메인, Run All 가능) |
 | Notebook: Part 6 (Text2Cypher RAG) | Runnable (커리큘럼 표준, Run All 가능) |
+| Notebook: Benchmark 20 (벤치마크) | Ready (Vector RAG vs GraphRAG, RAGAS 평가) |
+| 평가 데이터셋 (eval_questions.json) | 20문항 (Easy 7 / Medium 7 / Hard 6), 커리큘럼 표준 |
 | YouTube EP1 (노트북 + 대본) | Ready |
 
 ## Important Notes
