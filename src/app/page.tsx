@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { curriculumMeta } from '@/data/curriculum-meta';
 import { domainsMeta } from '@/data/domain-meta';
 import DifficultyCurve from '@/components/ui/DifficultyCurve';
-import { Search, Puzzle, Zap, Database, Code, Link as LinkIcon, Bot, BarChart3, Factory, ArrowRight, Signal, Clock } from 'lucide-react';
+import { Search, Puzzle, Zap, Database, Code, Link as LinkIcon, Bot, BarChart3, Factory, ArrowRight, Signal, Clock, Play } from 'lucide-react';
 
 const stageColors = ['bg-sky-500', 'bg-blue-500', 'bg-violet-500', 'bg-amber-500'];
 
@@ -100,10 +100,268 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Global KG Use Cases */}
+      <section className="py-16 px-6 border-t border-slate-200">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold mb-2 text-center text-slate-900" style={{ fontFamily: 'var(--font-title)' }}>
+            글로벌 KG 활용 사례
+          </h2>
+          <p className="text-center mb-12 text-lg text-slate-600">
+            세계 최고 기업들이 지식그래프로 만드는 가치
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                company: 'Google',
+                stat: '540억 엔티티',
+                desc: 'Knowledge Graph로 검색 품질 혁신. Knowledge Panel, AI Overview, E-E-A-T 시그널을 구동하는 세계 최대 지식그래프.',
+                color: '#4285F4',
+                svg: (
+                  <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="M21 21l-4.35-4.35" />
+                    <circle cx="11" cy="8" r="1" fill="currentColor" />
+                    <circle cx="8" cy="13" r="1" fill="currentColor" />
+                    <circle cx="14" cy="12" r="1" fill="currentColor" />
+                    <path d="M11 8l-3 5M11 8l3 4M8 13l6-1" strokeWidth="0.8" />
+                  </svg>
+                ),
+              },
+              {
+                company: 'Amazon',
+                stat: 'COSMO · 18개 도메인',
+                desc: '상식 지식그래프(COSMO)로 "인간처럼 쇼핑하는" 추천 시스템 구현. 제품-기능-사용자 맥락 관계 모델링.',
+                color: '#FF9900',
+                svg: (
+                  <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                    <path d="M10 6.5h4M6.5 10v4M17.5 10v4M10 17.5h4" strokeDasharray="2 1" />
+                  </svg>
+                ),
+              },
+              {
+                company: 'LinkedIn',
+                stat: '39,000+ 스킬',
+                desc: 'Skills Graph로 8.75억 회원의 직무-기술-회사 관계를 매핑. GNN 기반 링크 예측으로 추천 정확도 향상.',
+                color: '#0A66C2',
+                svg: (
+                  <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="12" cy="5" r="2.5" />
+                    <circle cx="5" cy="14" r="2.5" />
+                    <circle cx="19" cy="14" r="2.5" />
+                    <circle cx="9" cy="20" r="1.5" />
+                    <circle cx="15" cy="20" r="1.5" />
+                    <path d="M12 7.5v2M10 10l-3.5 2.5M14 10l3.5 2.5M6.5 16l2 3M17.5 16l-2 3" />
+                  </svg>
+                ),
+              },
+              {
+                company: 'Netflix',
+                stat: '엔터테인먼트 KG',
+                desc: 'RDF 기반 온톨로지로 영화-배우-장르-콘셉트를 그래프 임베딩으로 표현. 콜드스타트 문제 해결 및 콘텐츠 가치 평가.',
+                color: '#E50914',
+                svg: (
+                  <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="4" y="2" width="16" height="14" rx="2" />
+                    <polygon points="10,5 10,13 16,9" fill="currentColor" opacity="0.3" stroke="currentColor" />
+                    <circle cx="6" cy="20" r="1.5" />
+                    <circle cx="12" cy="20" r="1.5" />
+                    <circle cx="18" cy="20" r="1.5" />
+                    <path d="M6 18.5v-2M12 16v2.5M18 18.5v-2" />
+                  </svg>
+                ),
+              },
+              {
+                company: 'Samsung',
+                stat: 'Galaxy AI · 온디바이스',
+                desc: '2024년 Oxford Semantic Technologies 인수. Galaxy 기기에 개인 지식그래프 탑재, SmartThings 라이프스타일 분석.',
+                color: '#1428A0',
+                svg: (
+                  <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="6" y="2" width="12" height="20" rx="2" />
+                    <circle cx="12" cy="12" r="3" />
+                    <circle cx="12" cy="12" r="1" fill="currentColor" />
+                    <path d="M9.5 10l-1-2M14.5 10l1-2M9.5 14l-1 2M14.5 14l1 2" strokeWidth="1" />
+                  </svg>
+                ),
+              },
+              {
+                company: 'Naver',
+                stat: 'HyperCLOVA X + KG',
+                desc: '한국 특화 지식그래프로 지역 축제, 인물, 문화 맥락을 반영. Cue AI 검색에서 엔티티 기반 팩트 그라운딩 제공.',
+                color: '#03C75A',
+                svg: (
+                  <svg viewBox="0 0 24 24" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="3" y="3" width="18" height="18" rx="3" />
+                    <path d="M8 8v8l4-5 4 5V8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ),
+              },
+            ].map((item) => (
+              <div
+                key={item.company}
+                className="group p-6 rounded-xl ring-card ring-card-hover bg-white transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div
+                    className="p-2 rounded-lg"
+                    style={{ backgroundColor: `${item.color}10`, color: item.color }}
+                  >
+                    {item.svg}
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900">{item.company}</h3>
+                    <span className="text-sm font-medium" style={{ color: item.color }}>{item.stat}</span>
+                  </div>
+                </div>
+                <p className="text-base text-slate-700 leading-relaxed">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Difficulty Curve */}
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <DifficultyCurve />
+        </div>
+      </section>
+
+      {/* 2025-2026 KG Trends */}
+      <section className="py-16 px-6 border-t border-slate-200">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold mb-2 text-center text-slate-900" style={{ fontFamily: 'var(--font-title)' }}>
+            2025–2026 트렌드
+          </h2>
+          <p className="text-center mb-12 text-lg text-slate-600">
+            지식그래프 생태계의 핵심 변화와 시장 전망
+          </p>
+
+          {/* Trend Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            {[
+              {
+                icon: (
+                  <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="16" cy="16" r="12" strokeDasharray="4 2" />
+                    <circle cx="10" cy="12" r="2.5" fill="rgba(14,165,233,0.2)" stroke="currentColor" />
+                    <circle cx="22" cy="12" r="2.5" fill="rgba(14,165,233,0.2)" stroke="currentColor" />
+                    <circle cx="16" cy="22" r="2.5" fill="rgba(14,165,233,0.2)" stroke="currentColor" />
+                    <path d="M12 13l3 7M20 13l-3 7M12 12h8" strokeWidth="1" />
+                  </svg>
+                ),
+                title: '경량 GraphRAG',
+                badge: 'LazyGraphRAG · LightRAG',
+                desc: '인덱싱 비용 99.9% 절감, 쿼리 레이턴시 30% 감소. 중소기업도 도입 가능한 GraphRAG 시대.',
+                color: '#0ea5e9',
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="4" y="8" width="10" height="10" rx="2" />
+                    <rect x="18" y="4" width="10" height="10" rx="2" />
+                    <rect x="18" y="18" width="10" height="10" rx="2" />
+                    <path d="M14 13h4M14 17l4 4" strokeWidth="1.2" />
+                    <circle cx="23" cy="9" r="1.5" fill="currentColor" opacity="0.3" />
+                    <circle cx="23" cy="23" r="1.5" fill="currentColor" opacity="0.3" />
+                  </svg>
+                ),
+                title: 'Agentic KG',
+                badge: 'Graphiti · KARMA',
+                desc: 'AI 에이전트의 장기 기억 장치로 KG 활용. Bi-temporal 모델로 시간에 따른 지식 변화를 추적.',
+                color: '#8b5cf6',
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <circle cx="16" cy="16" r="12" />
+                    <path d="M10 14c2-4 10-4 12 0" strokeWidth="1.2" />
+                    <path d="M10 18c2 4 10 4 12 0" strokeWidth="1.2" />
+                    <line x1="16" y1="4" x2="16" y2="28" strokeWidth="0.8" strokeDasharray="2 2" />
+                    <circle cx="16" cy="11" r="1.5" fill="currentColor" opacity="0.3" />
+                    <circle cx="16" cy="21" r="1.5" fill="currentColor" opacity="0.3" />
+                  </svg>
+                ),
+                title: 'KG + LLM 융합',
+                badge: '하이브리드 RAG',
+                desc: '2026년까지 기업 85%가 벡터+그래프 하이브리드 RAG 도입 전망. KG로 LLM 환각을 교정.',
+                color: '#3b82f6',
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <rect x="4" y="10" width="8" height="12" rx="1" />
+                    <rect x="16" y="6" width="12" height="8" rx="1" />
+                    <path d="M20 14v4h-4" strokeWidth="1.2" />
+                    <circle cx="8" cy="16" r="2" strokeDasharray="1.5 1" />
+                    <path d="M22 8l2 2-2 2" strokeWidth="1" />
+                    <rect x="16" y="20" width="12" height="6" rx="1" />
+                    <path d="M19 23h6" strokeWidth="1" />
+                  </svg>
+                ),
+                title: '멀티모달 KG',
+                badge: 'GNN · R-GAT',
+                desc: '텍스트+이미지+음성을 통합하는 멀티모달 KG. MLPerf v5.0에 최초 GNN 벤치마크 등록.',
+                color: '#f59e0b',
+              },
+            ].map((trend) => (
+              <div
+                key={trend.title}
+                className="flex gap-4 p-6 rounded-xl ring-card bg-white"
+              >
+                <div
+                  className="flex-shrink-0 p-2 rounded-lg h-fit"
+                  style={{ backgroundColor: `${trend.color}10`, color: trend.color }}
+                >
+                  {trend.icon}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-lg font-bold text-slate-900">{trend.title}</h3>
+                    <span
+                      className="text-xs px-2 py-0.5 rounded-full font-medium"
+                      style={{ backgroundColor: `${trend.color}10`, color: trend.color }}
+                    >
+                      {trend.badge}
+                    </span>
+                  </div>
+                  <p className="text-base text-slate-700">{trend.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Market Growth Bar */}
+          <div className="p-6 rounded-xl ring-card bg-gradient-to-r from-sky-50 to-violet-50">
+            <h3 className="text-lg font-bold mb-4 text-center text-slate-900">KG 시장 성장 전망</h3>
+            <div className="flex items-end justify-center gap-8">
+              {[
+                { year: '2024', value: '$1.1B', height: '40px', color: '#e2e8f0' },
+                { year: '2025', value: '$1.5B', height: '55px', color: '#0ea5e9' },
+                { year: '2027', value: '$2.8B', height: '100px', color: '#3b82f6' },
+                { year: '2030', value: '$6.9B', height: '160px', color: '#8b5cf6' },
+              ].map((bar) => (
+                <div key={bar.year} className="flex flex-col items-center gap-2">
+                  <span className="text-sm font-bold text-slate-700">{bar.value}</span>
+                  <div
+                    className="w-16 rounded-t-lg transition-all duration-500"
+                    style={{ height: bar.height, backgroundColor: bar.color }}
+                  />
+                  <span className="text-xs font-medium text-slate-500">{bar.year}</span>
+                </div>
+              ))}
+            </div>
+            <p className="text-center mt-4 text-sm text-slate-500">
+              CAGR 36.6% · 아시아 태평양 최고 성장률 22.4% · 클라우드 KG 58.7%
+            </p>
+          </div>
         </div>
       </section>
 
@@ -236,6 +494,80 @@ export default function HomePage() {
               </div>
             );
           })()}
+        </div>
+      </section>
+
+      {/* YouTube 시리즈 */}
+      <section className="py-16 px-6 border-t border-slate-200">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold mb-2 text-center text-slate-900" style={{ fontFamily: 'var(--font-title)' }}>
+            YouTube 시리즈
+          </h2>
+          <p className="text-center mb-12 text-lg text-slate-600">
+            영상으로 배우는 GraphRAG — 실습과 함께
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                ep: 'EP1',
+                title: '지식그래프 처음 만들기',
+                desc: 'Neo4j에 첫 그래프를 만들고, 노드와 관계의 힘을 직접 체험합니다. Cypher 기초부터 시작.',
+                duration: '약 30분',
+                parts: 'Part 1~2 연계',
+                status: 'ready' as const,
+              },
+              {
+                ep: 'EP2',
+                title: 'LLM으로 KG 자동 구축',
+                desc: 'GPT로 텍스트에서 엔티티와 관계를 자동 추출하여 지식그래프를 생성하는 파이프라인.',
+                duration: '약 35분',
+                parts: 'Part 3~4 연계',
+                status: 'coming' as const,
+              },
+              {
+                ep: 'EP3',
+                title: 'GraphRAG 질의 시스템',
+                desc: 'Text2Cypher Agent로 자연어 질문을 그래프 쿼리로 변환하는 RAG 시스템 구축.',
+                duration: '약 40분',
+                parts: 'Part 5~6 연계',
+                status: 'coming' as const,
+              },
+            ].map((video) => (
+              <div
+                key={video.ep}
+                className={`p-6 rounded-xl ring-card bg-white transition-all duration-300 ${video.status === 'ready' ? 'ring-card-hover hover:-translate-y-1' : 'opacity-75'}`}
+              >
+                {/* Thumbnail placeholder */}
+                <div className="relative mb-4 rounded-lg overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 aspect-video flex items-center justify-center">
+                  <div className="absolute top-2 left-2">
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${video.status === 'ready' ? 'bg-red-500 text-white' : 'bg-slate-600 text-slate-300'}`}>
+                      {video.ep}
+                    </span>
+                  </div>
+                  <Play className={`w-12 h-12 ${video.status === 'ready' ? 'text-red-400' : 'text-slate-500'}`} />
+                  {video.status === 'coming' && (
+                    <span className="absolute bottom-2 right-2 text-xs px-2 py-0.5 rounded bg-slate-700 text-slate-300">
+                      Coming Soon
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="text-lg font-bold mb-2 text-slate-900">{video.title}</h3>
+                <p className="text-sm mb-3 text-slate-600">{video.desc}</p>
+                <div className="flex items-center gap-3 text-xs text-slate-500">
+                  <span className="inline-flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    {video.duration}
+                  </span>
+                  <span className="inline-flex items-center gap-1">
+                    <Signal className="w-3 h-3" />
+                    {video.parts}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

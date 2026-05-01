@@ -13,9 +13,15 @@ Knowledge Graph + GraphRAG 실무 가이드 — 벡터 RAG의 한계를 넘어, 
 
 벡터 RAG의 한계를 인식하고, 구조화된 지식을 활용하는 GraphRAG로의 전환을 가이드합니다.
 
+### 랜딩페이지 하이라이트
+
+- **글로벌 KG 활용 사례** — Google(540억 엔티티), Amazon(COSMO), LinkedIn, Netflix, Samsung, Naver
+- **2025-2026 트렌드** — 경량 GraphRAG, Agentic KG, KG+LLM 융합, 멀티모달 KG + 시장 전망 ($1.5B→$6.9B)
+- **YouTube 시리즈** — 영상으로 배우는 GraphRAG 실습 시리즈
+
 ## 주요 기능
 
-### 7개 Part 커리큘럼 (11시간)
+### 13개 Part 커리큘럼 (23시간)
 
 | Part | 제목 | 시간 | 난이도 | 개요 |
 |------|------|------|--------|------|
@@ -30,9 +36,9 @@ Knowledge Graph + GraphRAG 실무 가이드 — 벡터 RAG의 한계를 넘어, 
 ### 4개 도메인 유스케이스
 
 - **제조** (활성) - Stage 0~3 인터랙티브 데모 (7 nodes → 5K+ nodes)
-- **금융** (개발 예정)
-- **법률** (개발 예정)
-- **IT/통신** (개발 예정)
+- **금융** (Coming Soon) - 이상 거래 탐지 및 자금 세탁 추적 (10→50→2K→10K+ 노드)
+- **법률** (Coming Soon) - 판례 인용 관계 분석 및 법률 추론 (8→40→1.5K→8K+ 노드)
+- **IT/통신** (Coming Soon) - 네트워크 장애 전파 경로 분석 (8→30→1K→5K+ 노드)
 
 ### 5개 실전 가이드
 
@@ -103,7 +109,7 @@ npm run build
 npm start
 ```
 
-21개의 페이지가 포함된 정적 사이트로 빌드됩니다.
+28개의 페이지가 포함된 정적 사이트로 빌드됩니다.
 
 ### PPTX 슬라이드 생성
 
@@ -132,7 +138,7 @@ npm run lint
 ```
 flux-graphrag-guide/
 ├── src/
-│   ├── app/                          # Next.js App Router (21개 페이지)
+│   ├── app/                          # Next.js App Router (28개 페이지)
 │   │   ├── layout.tsx                # Root 레이아웃 (Navbar + Footer)
 │   │   ├── page.tsx                  # 랜딩 페이지
 │   │   ├── curriculum/
@@ -169,7 +175,7 @@ flux-graphrag-guide/
 │   │   └── guides/                   # 가이드 콘텐츠 컴포넌트
 │   │
 │   ├── data/
-│   │   ├── curriculum-meta.ts        # 7개 Part 메타데이터
+│   │   ├── curriculum-meta.ts        # 13개 Part 메타데이터
 │   │   ├── domain-meta.ts            # 4개 도메인 메타데이터
 │   │   ├── part1-content.ts
 │   │   ├── part2-content.ts
@@ -282,11 +288,18 @@ const contentMap: Record<number, SectionContent[]> = {
 
 | 섹션 | 상태 |
 |------|------|
-| 커리큘럼 Part 1-7 | 완료 |
+| 커리큘럼 Part 1-7 (Foundation) | 완료 |
+| 커리큘럼 Part 8-13 (Advanced) | 완료 |
+| 파이프라인 개요 (/overview) | 완료 |
 | 제조 Stage 0-3 | 완료 |
-| 금융 / 법률 / IT-통신 | 개발 예정 (메타데이터 포함) |
+| 금융 / 법률 / IT-통신 | Coming Soon (전체 메타데이터 + 4단계 + 그래프 구조) |
 | 5개 실전 가이드 | 완료 |
-| PPTX 슬라이드 생성 | Part 1 완료 |
+| 랜딩: 글로벌 KG 활용 사례 | 완료 (6개 기업) |
+| 랜딩: 2025-2026 트렌드 | 완료 (4개 트렌드 + 시장 전망) |
+| 랜딩: YouTube 시리즈 | 완료 (EP1 ready, EP2-3 coming soon) |
+| Part 13 미래 전망 (sec6) | 완료 (4 슬라이드) |
+| PPTX 슬라이드 생성 | Part 1-7 완료 |
+| Jupyter 노트북 | Part 1-13 구조 완료 |
 
 ## 빌드 및 배포
 
@@ -296,7 +309,7 @@ const contentMap: Record<number, SectionContent[]> = {
 npm run build
 ```
 
-21개의 페이지가 포함된 `out/` 디렉토리가 생성됩니다 (모두 HTML, CSS, JavaScript).
+28개의 페이지가 포함된 빌드가 생성됩니다 (모두 HTML, CSS, JavaScript).
 
 ### Vercel 배포
 

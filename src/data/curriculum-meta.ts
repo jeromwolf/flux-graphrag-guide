@@ -297,7 +297,7 @@ export const curriculumMeta: PartMeta[] = [
     subtitle: '처음부터 끝까지',
     duration: '2.5시간',
     difficulty: 5,
-    totalSlides: 20,
+    totalSlides: 24,
     milestone: '프로덕션급 GraphRAG — Part 1~12 통합 E2E 시스템 + 벤치마크 리포트 + 포트폴리오',
     description: 'Part 1-12 전체를 통합하여 프로덕션급 GraphRAG를 구축한다.',
     track: 'advanced',
@@ -307,6 +307,7 @@ export const curriculumMeta: PartMeta[] = [
       { id: 'sec3', title: 'E2E 완성 코드', time: '20min', colorIndex: 2 },
       { id: 'sec4', title: '평가 + 벤치마크', time: '20min', colorIndex: 3 },
       { id: 'sec5', title: '발표 + 회고 + 수료', time: '25min', colorIndex: 4 },
+      { id: 'sec6', title: '지식그래프의 미래 — 2025~2030 전망', time: '15min', colorIndex: 5 },
     ],
   },
 ];

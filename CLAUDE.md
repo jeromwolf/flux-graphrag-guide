@@ -3,7 +3,7 @@
 ## Overview
 
 Korean-language interactive educational platform for Knowledge Graph + GraphRAG.
-Covers ontology design through production deployment across 13 curriculum parts (Foundation 1-7 + Advanced 8-13), 1 active domain case (manufacturing), and a companion YouTube series.
+Covers ontology design through production deployment across 13 curriculum parts (Foundation 1-7 + Advanced 8-13), 4 domain cases (1 active manufacturing + 3 coming-soon), and a companion YouTube series.
 
 ## Tech Stack
 
@@ -18,7 +18,7 @@ Covers ontology design through production deployment across 13 curriculum parts 
 
 ```bash
 npm run dev          # Dev server (default port 3000)
-npm run build        # Production build (25 pages)
+npm run build        # Production build (28 pages)
 npm run lint         # ESLint
 node scripts/build-pptx.js  # Generate PPTX slides
 ```
@@ -29,7 +29,7 @@ node scripts/build-pptx.js  # Generate PPTX slides
 src/
 ├── app/                          # Next.js App Router
 │   ├── layout.tsx                # Root layout (Navbar + Footer)
-│   ├── page.tsx                  # Landing page
+│   ├── page.tsx                  # Landing page (글로벌 사례 + 트렌드 + YouTube 섹션 포함)
 │   ├── overview/page.tsx         # GraphRAG 파이프라인 6단계 인포그래픽
 │   ├── curriculum/
 │   │   ├── page.tsx              # 13-part overview + difficulty curve
@@ -56,7 +56,7 @@ src/
 │
 ├── data/
 │   ├── curriculum-meta.ts    # 13 Part metadata (sections, duration, difficulty)
-│   ├── domain-meta.ts        # 1 active domain (manufacturing), 3 coming-soon
+│   ├── domain-meta.ts        # 4 domains (1 active manufacturing + 3 coming-soon with full metadata)
 │   ├── part1-content.ts ~ part13-content.ts  # Slide content per part
 │   └── theme.ts              # Design token constants
 │
@@ -119,7 +119,7 @@ notebooks/
 | Curriculum Part 8-13 (Advanced) | Complete |
 | Pipeline Overview (/overview) | Complete |
 | Manufacturing Stage 0-3 | Complete |
-| Finance / Legal / IT-Telecom | Coming Soon (metadata only) |
+| Finance / Legal / IT-Telecom | Coming Soon (full metadata + stages + graph structure) |
 | Guides (5 articles) | Complete |
 | PPT Generation | Part 1-7 complete |
 | Jupyter Notebooks | Part 1-13 구조 complete |
@@ -128,10 +128,14 @@ notebooks/
 | Notebook: Benchmark 20 (벤치마크) | Ready (Vector RAG vs GraphRAG, RAGAS 평가) |
 | 평가 데이터셋 (eval_questions.json) | 20문항 (Easy 7 / Medium 7 / Hard 6), 커리큘럼 표준 |
 | YouTube EP1 (노트북 + 대본) | Ready |
+| Landing: 글로벌 KG 활용 사례 섹션 | Complete (Google, Amazon, LinkedIn, Netflix, Samsung, Naver) |
+| Landing: 2025-2026 트렌드 섹션 | Complete (경량GraphRAG, Agentic KG, KG+LLM, 멀티모달 + 시장 전망) |
+| Landing: YouTube 시리즈 섹션 | Complete (EP1 ready, EP2-3 coming soon) |
+| Part 13 미래 전망 슬라이드 (sec6) | Complete (4 slides: GraphRAG 진화, Agentic KG, 멀티모달, 시장) |
 
 ## Important Notes
 
 - No `.env` required (static content, no external APIs)
 - Korean language throughout (UI, content, comments)
-- Build must produce 25/25 pages with zero errors
+- Build must produce 28/28 pages with zero errors
 - When changing theme colors: grep for hardcoded `rgba()` and hex values across all `src/` files

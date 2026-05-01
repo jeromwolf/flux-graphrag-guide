@@ -103,42 +103,83 @@ export default async function DomainPage({ params }: { params: Promise<{ domain:
       {/* Stages Grid */}
       <div className="mb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {domain.stages.map((stage, idx) => (
-            <Link
-              key={stage.stage}
-              href={`/cases/${domain.id}/stage-${stage.stage}`}
-              className={`group p-6 rounded-xl transition-all hover:-translate-y-1 ring-card ring-card-hover bg-white border-l-4 ${stageBorderColors[idx]}`}
-            >
-              <div className="flex items-start justify-between mb-4">
-                <span className={`text-xs font-mono px-2 py-1 rounded ${stageBgColors[idx]} ${stageTextColors[idx]}`}>
-                  Stage {stage.stage}
-                </span>
-                <span className="text-sm text-slate-500">노드 {stage.nodes}</span>
+          {domain.stages.map((stage, idx) => {
+            const stageContent = (
+              <>
+                <div className="flex items-start justify-between mb-4">
+                  <span className={`text-xs font-mono px-2 py-1 rounded ${stageBgColors[idx]} ${stageTextColors[idx]}`}>
+                    Stage {stage.stage}
+                  </span>
+                  <span className="text-sm text-slate-500">노드 {stage.nodes}</span>
+                </div>
+                <h3 className={`text-xl font-bold mb-2 ${stageTextColors[idx]}`}>{stage.name}</h3>
+                <p className="text-sm mb-3 text-slate-700">{stage.curriculumParts}</p>
+                <div className="p-3 rounded-lg text-sm bg-slate-50 ring-card mb-3">
+                  <span className="text-xs text-violet-500">마일스톤</span>
+                  <p className="mt-1 text-sm">{stage.milestone}</p>
+                </div>
+                <div className="flex items-center justify-end">
+                  {domain.status === 'active' ? (
+                    <span className="text-xs text-sky-500 font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                      실습하기 <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  ) : (
+                    <span className="text-xs text-slate-400 font-medium inline-flex items-center gap-1">
+                      Coming Soon
+                    </span>
+                  )}
+                </div>
+              </>
+            );
+
+            return domain.status === 'active' ? (
+              <Link
+                key={stage.stage}
+                href={`/cases/${domain.id}/stage-${stage.stage}`}
+                className={`group p-6 rounded-xl transition-all hover:-translate-y-1 ring-card ring-card-hover bg-white border-l-4 ${stageBorderColors[idx]}`}
+              >
+                {stageContent}
+              </Link>
+            ) : (
+              <div
+                key={stage.stage}
+                className={`group p-6 rounded-xl ring-card bg-white border-l-4 ${stageBorderColors[idx]} opacity-70`}
+              >
+                {stageContent}
               </div>
-              <h3 className={`text-xl font-bold mb-2 ${stageTextColors[idx]}`}>{stage.name}</h3>
-              <p className="text-sm mb-3 text-slate-700">{stage.curriculumParts}</p>
-              <div className="p-3 rounded-lg text-sm bg-slate-50 ring-card mb-3">
-                <span className="text-xs text-violet-500">마일스톤</span>
-                <p className="mt-1 text-sm">{stage.milestone}</p>
-              </div>
-              <div className="flex items-center justify-end">
-                <span className="text-xs text-sky-500 font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
-                  실습하기 <ArrowRight className="w-3.5 h-3.5" />
-                </span>
-              </div>
-            </Link>
-          ))}
+            );
+          })}
         </div>
       </div>
 
-      {/* Graph Structure - Manufacturing only */}
+      {/* Graph Structure */}
       <div className="p-6 rounded-xl ring-card bg-white">
         <h2 className="text-xl font-bold mb-4">그래프 구조 개요</h2>
         <div className="p-4 rounded-lg bg-slate-50 text-sm font-mono text-slate-600">
-          <div>
-            <p className="mb-2">엔티티 타입: Process(공정), Equipment(설비), Defect(결함), Inspection(검사), Component(부품)</p>
-            <p>관계 타입: NEXT(순차), USES_EQUIPMENT(장비사용), USES_MATERIAL(자재사용), CAUSED_BY_PROCESS(공정유발), CAUSED_BY_EQUIPMENT(장비유발), DETECTED_AT(검출위치), INSPECTS(검사대상)</p>
-          </div>
+          {domain.id === 'manufacturing' && (
+            <div>
+              <p className="mb-2">엔티티 타입: Process(공정), Equipment(설비), Defect(결함), Inspection(검사), Component(부품)</p>
+              <p>관계 타입: NEXT(순차), USES_EQUIPMENT(장비사용), USES_MATERIAL(자재사용), CAUSED_BY_PROCESS(공정유발), CAUSED_BY_EQUIPMENT(장비유발), DETECTED_AT(검출위치), INSPECTS(검사대상)</p>
+            </div>
+          )}
+          {domain.id === 'finance' && (
+            <div>
+              <p className="mb-2">엔티티 타입: Account(계좌), Transaction(거래), Person(인물), Company(기업), Alert(경보)</p>
+              <p>관계 타입: TRANSFERS_TO(송금), OWNED_BY(소유), LINKED_TO(연결), FLAGGED_AS(경보발생), RELATED_TO(관련)</p>
+            </div>
+          )}
+          {domain.id === 'legal' && (
+            <div>
+              <p className="mb-2">엔티티 타입: Case(판례), Statute(법조문), Court(법원), Judge(판사), LegalPrinciple(법리)</p>
+              <p>관계 타입: CITES(인용), APPLIES(적용), DECIDED_BY(판결), OVERRULES(폐기), INTERPRETS(해석)</p>
+            </div>
+          )}
+          {domain.id === 'it-telecom' && (
+            <div>
+              <p className="mb-2">엔티티 타입: Server(서버), Service(서비스), Network(네트워크), Incident(장애), Cluster(클러스터)</p>
+              <p>관계 타입: DEPENDS_ON(의존), HOSTS(호스팅), CONNECTS_TO(연결), PROPAGATES_TO(전파), MONITORED_BY(모니터링)</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

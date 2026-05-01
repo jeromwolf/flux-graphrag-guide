@@ -1403,5 +1403,74 @@ for diff in ["easy", "medium", "hard"]:
         }
       }
     ]
-  }
+  },
+  // ═══════════════════════════════════════════════════════════════
+  // Section 6: 지식그래프의 미래 — 2025~2030 전망 (15min) — 4 slides
+  // ═══════════════════════════════════════════════════════════════
+  {
+    sectionId: 'sec6',
+    slides: [
+      {
+        id: '13-21',
+        tag: 'theory',
+        title: 'GraphRAG 진화 — 가볍고, 빠르고, 저렴하게',
+        script: 'Microsoft GraphRAG가 2024년 문을 열었다면, 2025년은 경량화의 해입니다. LazyGraphRAG는 기존 GraphRAG 대비 인덱싱 비용을 99.9% 절감하면서도 동등한 품질을 달성합니다. LightRAG(HKUST)는 Dual-level 검색으로 쿼리 레이턴시를 30% 줄였습니다. nano-graphrag는 1,100줄 Python으로 핵심 로직을 재구현해 학습 진입장벽을 낮췄습니다. 핵심 트렌드는 "비용 대비 품질 최적화"입니다. 프로덕션에서 GraphRAG를 쓸 때 가장 큰 장벽이었던 인덱싱 비용 문제가 해결되면서, 중소기업도 GraphRAG를 도입할 수 있는 시대가 열리고 있습니다.',
+        table: {
+          headers: ['프레임워크', '특징', '인덱싱 비용', '쿼리 품질', 'GitHub Stars'],
+          rows: [
+            { cells: [{ text: 'MS GraphRAG', bold: true }, { text: '커뮤니티 탐지 + 글로벌 서치' }, { text: '높음 (Full LLM)' }, { text: '⭐⭐⭐⭐⭐' }, { text: '30K+' }] },
+            { cells: [{ text: 'LazyGraphRAG', bold: true }, { text: '제로 사전 요약' }, { text: '0.1% (극저)', status: 'pass' }, { text: '⭐⭐⭐⭐⭐' }, { text: '-' }] },
+            { cells: [{ text: 'LightRAG', bold: true }, { text: 'Dual-level 검색' }, { text: '중간' }, { text: '⭐⭐⭐⭐' }, { text: '10K+' }] },
+            { cells: [{ text: 'nano-graphrag', bold: true }, { text: '1,100줄 미니멀' }, { text: '낮음' }, { text: '⭐⭐⭐⭐' }, { text: '5K+' }] },
+          ],
+        },
+      },
+      {
+        id: '13-22',
+        tag: 'theory',
+        title: 'Agentic KG — AI 에이전트의 기억 장치',
+        script: 'AI 에이전트가 복잡한 작업을 수행하려면 "기억"이 필요합니다. 2025년 가장 주목받는 패턴은 지식그래프를 에이전트의 장기 기억으로 사용하는 것입니다. Graphiti(Zep)는 Bi-temporal 모델로 "언제 일어났는지"와 "언제 기록됐는지"를 모두 추적합니다. KARMA 프레임워크는 스키마 정렬, 충돌 해결, 품질 평가를 각각 전담하는 멀티 에이전트 시스템입니다. 에이전트가 도구를 호출하고, KG에서 맥락을 검색하고, 결과를 다시 KG에 기록하는 순환 구조가 핵심입니다. 우리 커리큘럼의 Part 10(LangGraph + Tool Agents)과 Part 11(Agentic RAG)이 바로 이 패턴의 기초입니다.',
+        diagram: {
+          nodes: [
+            { text: '사용자 질의', type: 'entity' },
+            { text: '→', type: 'relation' },
+            { text: 'LLM Agent', type: 'entity' },
+            { text: '↓ Tool 호출 / KG 검색 / KG 기록', type: 'relation' },
+            { text: 'Temporal KG (Graphiti)', type: 'entity' },
+            { text: 'Bi-temporal: 발생 시간 + 기록 시간 동시 추적', type: 'dim' },
+          ],
+        },
+      },
+      {
+        id: '13-23',
+        tag: 'theory',
+        title: '멀티모달 KG + GNN — 텍스트를 넘어',
+        script: '지식그래프는 더 이상 텍스트만의 영역이 아닙니다. ICCV 2025에서 비전-언어 정렬 기반 멀티모달 KG 구축 논문이 발표되었고, CVPR 2025에서는 멀티모달 그래프 학습 벤치마크가 공개되었습니다. 의료 분야에서는 심혈관 영상 데이터와 생물학 DB를 통합한 CardioKG가 Nature에 게재되었습니다. Graph Neural Network도 빠르게 성숙하고 있습니다. 2025년 4월 MLPerf v5.0에 R-GAT(Relational Graph Attention Network)가 최초의 GNN 벤치마크로 추가되었습니다. Google, Uber, Alibaba, Pinterest가 이미 GNN 기반 추천/검색을 프로덕션에 배포하고 있습니다.',
+        table: {
+          headers: ['영역', '대표 기술', '2025 이정표', '실무 연결'],
+          rows: [
+            { cells: [{ text: '멀티모달 KG', bold: true }, { text: '비전+언어+KG 통합' }, { text: 'ICCV/CVPR 2025 논문' }, { text: 'Part 5 VLM 확장' }] },
+            { cells: [{ text: 'GNN + KG', bold: true }, { text: 'R-GAT, GAT, STGNN' }, { text: 'MLPerf v5.0 최초 GNN', status: 'pass' }, { text: 'Part 9 그래프 알고리즘' }] },
+            { cells: [{ text: 'Temporal KG', bold: true }, { text: 'Graphiti Bi-temporal' }, { text: '에이전트 메모리 표준화' }, { text: 'Part 10~11 Agentic' }] },
+            { cells: [{ text: '경량 GraphRAG', bold: true }, { text: 'LazyGraphRAG, LightRAG' }, { text: '인덱싱 비용 99.9% 절감' }, { text: 'Part 8 프레임워크 비교' }] },
+          ],
+        },
+      },
+      {
+        id: '13-24',
+        tag: 'discussion',
+        title: 'KG 시장 전망 — $1.5B에서 $6.9B으로',
+        script: '지식그래프 시장은 2025년 약 $1.5B에서 2030년 $6.9B으로 연평균 36.6% 성장이 예측됩니다. 클라우드 기반 KG가 전체의 58.7%를 차지하며, 아시아 태평양 지역이 가장 빠른 성장세(CAGR 22.4%)를 보입니다. 국내에서는 삼성전자가 2024년 영국 KG 스타트업 Oxford Semantic Technologies를 인수하며 Galaxy AI에 개인 지식그래프를 탑재하고 있습니다. 네이버는 HyperCLOVA X와 결합한 로컬라이즈드 KG로 Cue AI 검색을 구동합니다. 핵심 메시지: 2026년까지 기업의 85%가 하이브리드 RAG(벡터+그래프)를 도입할 것으로 전망됩니다. 이 커리큘럼을 수료한 여러분은 이미 그 준비가 되어 있습니다.',
+        table: {
+          headers: ['지표', '2025', '2030 전망', '비고'],
+          rows: [
+            { cells: [{ text: 'KG 시장 규모', bold: true }, { text: '$1.5B' }, { text: '$6.9B', status: 'pass' }, { text: 'CAGR 36.6%' }] },
+            { cells: [{ text: '클라우드 KG 비중', bold: true }, { text: '58.7%' }, { text: '70%+' }, { text: '온프레미스 감소 추세' }] },
+            { cells: [{ text: '하이브리드 RAG 도입률', bold: true }, { text: '~40%' }, { text: '85%', status: 'pass' }, { text: '벡터+그래프 결합' }] },
+            { cells: [{ text: '아시아 태평양 성장률', bold: true }, { text: 'CAGR 22.4%' }, { text: '가장 빠른 성장' }, { text: '한국/일본/인도 주도' }] },
+          ],
+        },
+      },
+    ],
+  },
 ];
